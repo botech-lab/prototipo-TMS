@@ -173,13 +173,15 @@
                 }
               }
               <span class="scheduled-services__route-stop" style="left: 100%" [style.--stop-color]="cityColor(srv.destinationCity)"></span>
-              <span class="scheduled-services__route-bus">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="4" y="3" width="16" height="15" rx="3" />
-                  <path d="M4 11h16M8 18v2M16 18v2" />
-                  <circle cx="8" cy="14.5" r=".8" fill="currentColor" />
-                  <circle cx="16" cy="14.5" r=".8" fill="currentColor" />
-                </svg>
+              <span class="scheduled-services__route-bus-track">
+                <span class="scheduled-services__route-bus">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="3" width="16" height="15" rx="3" />
+                    <path d="M4 11h16M8 18v2M16 18v2" />
+                    <circle cx="8" cy="14.5" r=".8" fill="currentColor" />
+                    <circle cx="16" cy="14.5" r=".8" fill="currentColor" />
+                  </svg>
+                </span>
               </span>
             </div>
             @if (ticketStops().length > 0) {
