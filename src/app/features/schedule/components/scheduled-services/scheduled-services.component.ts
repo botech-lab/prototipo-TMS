@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, DestroyRef, ElementRef, HostListener, inject, computed, effect, signal, viewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, DestroyRef, ElementRef, HostListener, inject, computed, effect, input, signal, untracked, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScheduleService } from '../../services/schedule.service';
@@ -110,6 +110,36 @@ export class ScheduledServicesComponent {
   private readonly densityService = inject(SidebarDensityService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly toast = inject(ToastService);
+
+  /**
+   * Enlace profundo desde Rutas maestras ("Servicios creados"):
+   * /operaciones?origen=La Paz&destino=Cochabamba abre ese servicio ya
+   * seleccionado. Llegan por withComponentInputBinding (query params → inputs).
+   */
+  readonly origen = input<string | undefined>();
+  readonly destino = input<string | undefined>();
+  private lastDeepLink = '';
+
+  private readonly deepLinkEffect = effect(() => {
+    const origin = this.origen()?.trim();
+    const destination = this.destino()?.trim();
+    if (!origin || !destination) return;
+    const key = `${origin}→${destination}`;
+    if (key === this.lastDeepLink) return;
+    this.lastDeepLink = key;
+
+    const fold = (value: string) => value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+    const match = untracked(() => this.opsService.allServices()).find(srv =>
+      fold(srv.originCity) === fold(origin) && fold(srv.destinationCity) === fold(destination)
+    );
+    untracked(() => {
+      if (match) {
+        this.selectService(match);
+      } else {
+        this.toast.show(`Aún no hay un servicio programado ${origin} → ${destination}.`);
+      }
+    });
+  });
 
   readonly allWeekDays: WeekDay[] = this.opsService.allWeekDays;
   

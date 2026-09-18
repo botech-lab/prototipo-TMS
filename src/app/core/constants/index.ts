@@ -7,3 +7,4 @@ export * from './vehicle-capacity-rules';
 export * from './driver-license-rules';
 export * from './user-privilege-rules';
 export * from './seat-layout-rules';
+export * from './department-codes';

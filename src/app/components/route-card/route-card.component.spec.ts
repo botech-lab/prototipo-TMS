@@ -142,4 +142,21 @@ describe('RouteCardComponent (TDD Suite - Exact Visual Symmetry & Fixed Heights)
   it('sin ciudades intermedias no se muestra la línea "vía"', () => {
     expect(fixture.debugElement.query(By.css('[data-testid="route-via"]'))).toBeNull();
   });
+
+  it('cada servicio creado es un botón que emite origen y destino para abrir Servicios programados', () => {
+    const emitted: { origin: string; destination: string }[] = [];
+    component.openService.subscribe(link => emitted.push(link));
+    const chip = fixture.debugElement.query(By.css('[data-testid="avoided-duplicate-chip"]'));
+    expect(chip.nativeElement.tagName).toBe('BUTTON');
+    chip.triggerEventHandler('click', null);
+    expect(emitted).toEqual([{ origin: 'La Paz', destination: 'Cochabamba' }]);
+  });
+
+  it('resalta la búsqueda y explica la parada que coincide aunque no esté en el título', () => {
+    fixture.componentRef.setInput('highlight', 'sacaba');
+    fixture.detectChanges();
+    const matched = fixture.debugElement.query(By.css('[data-testid="route-matched-stop"]'));
+    expect(matched.nativeElement.textContent).toContain('Sacaba');
+    expect(matched.query(By.css('mark')).nativeElement.textContent).toBe('Sacaba');
+  });
 });

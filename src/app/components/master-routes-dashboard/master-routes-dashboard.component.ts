@@ -9,16 +9,45 @@ import {
   computed,
   viewChild
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { RoutesService } from '../../services/routes.service';
 import { OriginSummary, OriginSummaryEngine } from './origin-summary-engine';
-import { RouteCardComponent } from '../route-card/route-card.component';
+import { RouteCardComponent, CreatedServiceLink } from '../route-card/route-card.component';
 import { NavIconComponent } from '../app-shell/nav-icon.component';
+import { ToastService } from '../toast/toast.service';
+import { departmentCode } from '../../core/constants/department-codes';
 import { MasterRoute, RouteStatusFilter } from '../../models/route.model';
 
 export interface DepartmentItem {
   name: string;
   rawName: string;
   routesCount: number;
+  /** Código corto del origen para la cabecera tipo boleto ("LPZ"). */
+  code: string;
+}
+
+/** ¿La ruta pertenece al filtro de estado? */
+function matchesStatus(route: MasterRoute, status: RouteStatusFilter): boolean {
+  switch (status) {
+    case 'ACTIVAS': return route.status === 'ACTIVO';
+    case 'BORRADORES': return route.status === 'BORRADOR';
+    case 'ARCHIVADAS': return route.status === 'INACTIVO' || route.status === 'ARCHIVADA';
+    default: return true;
+  }
+}
+
+/** Compara sin tildes ni mayúsculas ("potosi" encuentra "Potosí"). */
+function fold(value: string): string {
+  return value.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+}
+
+/** ¿Coincide con la búsqueda por código, nombre o alguna parada? */
+function matchesQuery(route: MasterRoute, query: string): boolean {
+  const q = fold(query.trim());
+  if (!q) return true;
+  return fold(route.code).includes(q)
+    || fold(route.name).includes(q)
+    || route.stops.some(stop => fold(stop.name).includes(q));
 }
 
 @Component({
@@ -30,8 +59,13 @@ export interface DepartmentItem {
 })
 export class MasterRoutesDashboardComponent {
   readonly routesService = inject(RoutesService);
+  private readonly toast = inject(ToastService);
+  private readonly router = inject(Router);
 
   readonly isModalOpen = signal<boolean>(false);
+
+  /** Origen preseleccionado en el modal (p. ej. "+ Nueva ruta desde Oruro"). */
+  readonly modalOrigin = signal<string | null>(null);
 
   private readonly injector = inject(Injector);
   private readonly createBtn = viewChild<ElementRef<HTMLButtonElement>>('createBtn');
@@ -52,13 +86,43 @@ export class MasterRoutesDashboardComponent {
     return this.routesService.departmentGroups().map(group => ({
       name: this.formatDepartmentName(group.department),
       rawName: group.department,
-      routesCount: group.totalRoutes
+      routesCount: group.totalRoutes,
+      code: departmentCode(group.department)
     }));
   });
 
   // Catálogo completo de rutas
   readonly allRoutes = computed<MasterRoute[]>(() => {
     return this.routesService.getAllRoutes();
+  });
+
+  /** Hay texto en el buscador: los orígenes con resultados se abren solos. */
+  readonly searchActive = computed(() => this.searchQuery().trim().length > 0);
+
+  /** Cuántas rutas hay en cada filtro de estado (respetando la búsqueda). */
+  readonly statusCounts = computed<Record<RouteStatusFilter, number>>(() => {
+    const query = this.searchQuery();
+    const found = this.allRoutes().filter(route => matchesQuery(route, query));
+    const counts = {} as Record<RouteStatusFilter, number>;
+    for (const option of this.statusOptions) {
+      counts[option] = found.filter(route => matchesStatus(route, option)).length;
+    }
+    return counts;
+  });
+
+  /** Resultado de la búsqueda: rutas encontradas y en cuántos orígenes. */
+  readonly searchSummary = computed(() => {
+    const matches = this.allRoutes().filter(route =>
+      matchesStatus(route, this.statusFilter()) && matchesQuery(route, this.searchQuery())
+    );
+    const origins = new Set(matches.map(route => route.originDepartment.toUpperCase()));
+    return { routes: matches.length, origins: origins.size };
+  });
+
+  /** Orígenes visibles: durante una búsqueda solo los que tienen resultados. */
+  readonly visibleDepartments = computed<DepartmentItem[]>(() => {
+    if (!this.searchActive()) return this.departments();
+    return this.departments().filter(dept => this.getFilteredRoutesForDepartment(dept.name).length > 0);
   });
 
   /**
@@ -121,11 +185,22 @@ export class MasterRoutesDashboardComponent {
   }
 
   isDepartmentExpanded(deptName: string): boolean {
+    // Buscando: se abren solos los orígenes que tienen coincidencias.
+    if (this.searchActive()) {
+      return this.getFilteredRoutesForDepartment(deptName).length > 0;
+    }
     const current = this.selectedDepartment();
     return !!current && current.toUpperCase() === deptName.toUpperCase();
   }
 
   toggleDepartment(deptName: string): void {
+    // Pulsar un origen durante la búsqueda la limpia y deja abierto solo ese.
+    if (this.searchActive()) {
+      this.searchQuery.set('');
+      this.selectedDepartment.set(deptName);
+      this.routesService.selectDepartment(deptName);
+      return;
+    }
     const current = this.selectedDepartment();
     if (current && current.toUpperCase() === deptName.toUpperCase()) {
       this.selectedDepartment.set(null);
@@ -137,29 +212,28 @@ export class MasterRoutesDashboardComponent {
 
   getFilteredRoutesForDepartment(deptName: string): MasterRoute[] {
     const status = this.statusFilter();
-    const query = this.searchQuery().toLowerCase().trim();
+    const query = this.searchQuery();
 
-    return this.allRoutes().filter(route => {
-      // 1. Filtro por Departamento de Origen
-      const matchesDept = route.originDepartment.toUpperCase() === deptName.toUpperCase();
-      if (!matchesDept) return false;
+    // Origen + estado + búsqueda (código, nombre o paradas, sin tildes).
+    return this.allRoutes().filter(route =>
+      route.originDepartment.toUpperCase() === deptName.toUpperCase()
+      && matchesStatus(route, status)
+      && matchesQuery(route, query)
+    );
+  }
 
-      // 2. Filtro por Estado
-      const matchesStatus =
-        status === 'TODAS' ? true :
-        status === 'ACTIVAS' ? route.status === 'ACTIVO' :
-        status === 'BORRADORES' ? route.status === 'BORRADOR' :
-        status === 'ARCHIVADAS' ? (route.status === 'INACTIVO' || route.status === 'ARCHIVADA') : true;
-      if (!matchesStatus) return false;
+  /** El origen no tiene ninguna ruta (no es que los filtros las oculten). */
+  hasNoRoutes(dept: DepartmentItem): boolean {
+    return this.getOriginSummary(dept.rawName).routesCount === 0;
+  }
 
-      // 3. Filtro por Búsqueda (Código, Nombre de Ruta o Nombres de Paradas)
-      if (!query) return true;
-      const matchesCode = route.code.toLowerCase().includes(query);
-      const matchesName = route.name.toLowerCase().includes(query);
-      const matchesStop = route.stops.some(stop => stop.name.toLowerCase().includes(query));
+  clearSearch(): void {
+    this.searchQuery.set('');
+  }
 
-      return matchesCode || matchesName || matchesStop;
-    });
+  clearFilters(): void {
+    this.searchQuery.set('');
+    this.statusFilter.set('TODAS');
   }
 
   private formatDepartmentName(name: string): string {
@@ -177,7 +251,8 @@ export class MasterRoutesDashboardComponent {
     this.searchQuery.set(input ? input.value : '');
   }
 
-  onCreateRoute(): void {
+  onCreateRoute(origin?: string): void {
+    this.modalOrigin.set(origin ?? this.selectedDepartment());
     this.isModalOpen.set(true);
     // Accesibilidad: el foco entra al diálogo en cuanto se pinta.
     afterNextRender(() => {
@@ -230,8 +305,30 @@ export class MasterRoutesDashboardComponent {
     );
   }
 
+  /**
+   * Alterna el estado y avisa con "Deshacer". Deshacer restaura el estado
+   * exacto anterior (incluido BORRADOR) con setRouteStatus.
+   */
   onRouteStatusToggle(routeId: string): void {
+    const before = this.allRoutes().find(route => route.id === routeId);
+    if (!before) return;
     this.routesService.toggleRouteStatus(routeId);
+
+    const nowActive = this.allRoutes().find(route => route.id === routeId)?.status === 'ACTIVO';
+    const services = (before.derivedServices || before.avoidedDuplicates || []).length;
+    const affected = services === 0 ? ''
+      : ` · ${services} ${services === 1 ? 'servicio afectado' : 'servicios afectados'}`;
+    this.toast.show(`${before.code} ${nowActive ? 'activada' : 'desactivada'}${affected}`, {
+      actionLabel: 'Deshacer',
+      onAction: () => this.routesService.setRouteStatus(routeId, before.status)
+    });
+  }
+
+  /** Abre Servicios programados con ese servicio ya seleccionado. */
+  onOpenService(link: CreatedServiceLink): void {
+    this.router.navigate(['/operaciones'], {
+      queryParams: { origen: link.origin, destino: link.destination }
+    });
   }
 
   onRouteExpandToggle(routeId: string): void {
