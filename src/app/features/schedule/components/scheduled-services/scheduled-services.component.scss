@@ -799,7 +799,7 @@
 
   /* Movimiento con transform (GPU, subpíxel): sin temblor aunque vaya lento. */
   @media (prefers-reduced-motion: no-preference) {
-    will-change: transform, opacity, filter;
+    will-change: transform;
     animation: ss-ride 30s linear infinite;
   }
 
@@ -820,12 +820,19 @@
   background-color: var(--color-terracota-500);
   box-shadow: var(--shadow-cta);
   color: var(--color-neutral-0);
-  transform: translate(-50%, -50%);
+  /* Centrado con márgenes (no con transform) para que al encogerse no se desplace. */
+  margin: -17px 0 0 -17px;
   backface-visibility: hidden;
 
   svg {
     height: 18px;
     width: 18px;
+  }
+
+  /* Aparece y se desvanece mientras sigue avanzando (misma duración que el recorrido). */
+  @media (prefers-reduced-motion: no-preference) {
+    will-change: opacity, scale, filter;
+    animation: ss-ride-fade 30s linear infinite;
   }
 }
 
@@ -845,33 +852,35 @@
   z-index: 1;
 }
 
+/* Recorrido continuo a velocidad constante, de las letras del origen a las del destino. */
 @keyframes ss-ride {
+  from {
+    transform: translateX(calc(0% - var(--bus-to-letters)));
+  }
+
+  to {
+    transform: translateX(calc(100% + var(--bus-to-letters)));
+  }
+}
+
+@keyframes ss-ride-fade {
   0% {
     opacity: 0;
+    scale: 0.4;
     filter: blur(4px);
-    transform: translateX(calc(0% - var(--bus-to-letters))) scale(0.4);
-    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  14% {
+  9%,
+  91% {
     opacity: 1;
+    scale: 1;
     filter: blur(0);
-    transform: translateX(2%) scale(1);
-    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
 
-  78% {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateX(98%) scale(1);
-    animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
-  }
-
-  92%,
   100% {
     opacity: 0;
+    scale: 0.4;
     filter: blur(4px);
-    transform: translateX(calc(100% + var(--bus-to-letters))) scale(0.4);
   }
 }
 
