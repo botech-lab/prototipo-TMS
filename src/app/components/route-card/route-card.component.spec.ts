@@ -128,4 +128,18 @@ describe('RouteCardComponent (TDD Suite - Exact Visual Symmetry & Fixed Heights)
     const toggleElement = fixture.nativeElement.querySelector('input[type="checkbox"]');
     expect(toggleElement).toBeTruthy();
   });
+
+  it('el título muestra solo origen → destino y las ciudades intermedias van en la línea "vía"', () => {
+    fixture.componentRef.setInput('route', { ...mockRouteRM01, name: 'La Paz → Oruro → Potosí → Tarija' });
+    fixture.detectChanges();
+    const title = fixture.debugElement.query(By.css('[data-testid="route-title"]')).nativeElement as HTMLElement;
+    const via = fixture.debugElement.query(By.css('[data-testid="route-via"]')).nativeElement as HTMLElement;
+    expect(title.textContent!.replace(/\s+/g, ' ').trim()).toBe('La Paz → Tarija');
+    expect(via.textContent!.trim()).toBe('vía Oruro, Potosí');
+    expect(title.getAttribute('title')).toBe('La Paz → Oruro → Potosí → Tarija');
+  });
+
+  it('sin ciudades intermedias no se muestra la línea "vía"', () => {
+    expect(fixture.debugElement.query(By.css('[data-testid="route-via"]'))).toBeNull();
+  });
 });

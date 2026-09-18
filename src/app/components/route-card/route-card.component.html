@@ -38,14 +38,20 @@
 
     <!-- Fila Inferior: Título de la Ruta + Botón Ocultar/Ver Detalle -->
     <div class="route-card__title-row">
-      <h3
-        data-testid="route-title"
-        class="route-card__title"
-        [title]="route().name">
-        @for (part of nameParts(); track $index) {
-          @if ($index > 0) {<span class="route-card__arrow">→</span>}{{ part }}
+      <div class="route-card__titles">
+        <h3
+          data-testid="route-title"
+          class="route-card__title"
+          [title]="route().name">
+          {{ origin() }}@if (destination()) {<span class="route-card__arrow">{{ ' → ' }}</span>{{ destination() }}}
+        </h3>
+        @if (via()) {
+          <span
+            data-testid="route-via"
+            class="route-card__via"
+            [title]="route().name">vía {{ via() }}</span>
         }
-      </h3>
+      </div>
 
       <!-- Botón Desplegar Estandarizado -->
       <button

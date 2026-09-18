@@ -39,7 +39,17 @@ export class RouteCardComponent {
   readonly isExpanded = computed(() => this.route().isExpanded);
 
   /** Tramos del nombre separados por "→": la flecha se pinta en cobre aparte. */
-  readonly nameParts = computed(() => this.route().name.split('→'));
+  readonly nameParts = computed(() => this.route().name.split('→').map(part => part.trim()).filter(Boolean));
+
+  /** Título: solo origen → destino final, que abarcan todo el recorrido. */
+  readonly origin = computed(() => this.nameParts()[0] ?? '');
+  readonly destination = computed(() => {
+    const parts = this.nameParts();
+    return parts.length > 1 ? parts[parts.length - 1] : '';
+  });
+
+  /** Ciudades intermedias del nombre, en una línea secundaria ("vía Oruro, Potosí"). */
+  readonly via = computed(() => this.nameParts().slice(1, -1).join(', '));
 
   readonly services = computed(() => {
     const r = this.route();

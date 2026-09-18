@@ -5,7 +5,11 @@ import {
   computed,
   signal,
   HostListener,
-  OnInit
+  OnInit,
+  ElementRef,
+  DestroyRef,
+  afterNextRender,
+  inject
 } from '@angular/core';
 
 import { StopNode } from '../../models/route.model';
@@ -32,6 +36,28 @@ export class RouteGraphSvgComponent implements OnInit {
   }
   readonly currentBreakpoint = signal<DeviceBreakpoint>('desktop');
 
+  /**
+   * Ancho del lienzo en unidades del viewBox, derivado del tamaño real de la caja
+   * (alto fijo CANVAS.HEIGHT). null = aún sin medir: el motor usa su ancho por defecto (460).
+   */
+  private readonly canvasWidth = signal<number | null>(null);
+
+  constructor() {
+    const host = inject(ElementRef<HTMLElement>).nativeElement as HTMLElement;
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      if (typeof ResizeObserver === 'undefined') return;
+      const observer = new ResizeObserver(entries => {
+        const box = entries[0]?.contentRect;
+        if (!box || box.width <= 0 || box.height <= 0) return;
+        const width = Math.round(ROUTE_GRAPH_RULES.CANVAS.HEIGHT * box.width / box.height);
+        if (width !== this.canvasWidth()) this.canvasWidth.set(width);
+      });
+      observer.observe(host);
+      destroyRef.onDestroy(() => observer.disconnect());
+    });
+  }
+
   ngOnInit() {
     this.updateBreakpoint();
   }
@@ -48,9 +74,13 @@ export class RouteGraphSvgComponent implements OnInit {
     }
   }
 
-  // Geometría vectorial calculada dinámicamente según paradas y breakpoint detectado
+  // Geometría vectorial calculada según paradas, breakpoint y ancho real de la caja
   readonly geometry = computed<GraphEngineOutput>(() => {
-    return RouteGraphEngine.calculate(this.stops(), this.currentBreakpoint());
+    return RouteGraphEngine.calculate(
+      this.stops(),
+      this.currentBreakpoint(),
+      this.canvasWidth() ?? undefined
+    );
   });
 
   readonly graph = computed<GraphEngineOutput>(() => this.geometry());

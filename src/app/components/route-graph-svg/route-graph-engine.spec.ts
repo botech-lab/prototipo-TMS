@@ -80,4 +80,47 @@ describe('RouteGraphEngine - Validación de las 5 Reglas de Oro Matemáticas', (
     expect(minY).toBeGreaterThanOrEqual(ROUTE_GRAPH_RULES.CANVAS.MIN_OFFSET_Y);
     expect(result.viewBox).toBe(`0 0 ${ROUTE_GRAPH_RULES.CANVAS.WIDTH} ${ROUTE_GRAPH_RULES.CANVAS.HEIGHT}`);
   });
+
+  describe('Lienzo adaptable al ancho de la caja', () => {
+    const labelW = (name: string, font: number) => name.length * font * ROUTE_GRAPH_RULES.LABELS.AVG_CHAR_WIDTH_RATIO;
+
+    it('sin ancho explícito el resultado es idéntico al de 460px (compatibilidad total)', () => {
+      const byDefault = RouteGraphEngine.calculate(mockRM01_13Stops);
+      const explicit = RouteGraphEngine.calculate(mockRM01_13Stops, 'desktop', ROUTE_GRAPH_RULES.CANVAS.WIDTH);
+      expect(explicit).toEqual(byDefault);
+      expect(byDefault.canvasWidth).toBe(ROUTE_GRAPH_RULES.CANVAS.WIDTH);
+      expect(byDefault.canvasHeight).toBe(ROUTE_GRAPH_RULES.CANVAS.HEIGHT);
+    });
+
+    it('en una caja ancha usa todo el ancho y mantiene las 5 reglas (5-5-3, sin desbordes)', () => {
+      const wide = RouteGraphEngine.calculate(mockRM01_13Stops, 'desktop', 660);
+      expect(wide.viewBox).toBe('0 0 660 200');
+      expect(new Set(wide.nodes.map(n => Math.round(n.y))).size).toBe(3);
+      expect(wide.maxCurveExtentX).toBeLessThanOrEqual(660);
+      expect(wide.minCurveExtentX).toBeGreaterThanOrEqual(0);
+      const step460 = Math.abs(RouteGraphEngine.calculate(mockRM01_13Stops).nodes[1].x - RouteGraphEngine.calculate(mockRM01_13Stops).nodes[0].x);
+      expect(Math.abs(wide.nodes[1].x - wide.nodes[0].x)).toBeGreaterThan(step460);
+    });
+
+    it('en una caja estrecha reduce columnas hasta que las etiquetas vecinas no se tocan', () => {
+      const narrow = RouteGraphEngine.calculate(mockRM01_13Stops, 'desktop', 320);
+      const perRow = narrow.config.stopsPerRow;
+      expect(perRow).toBeLessThan(ROUTE_GRAPH_RULES.GRID.MAX_COLUMNS_DENSE);
+      expect(perRow).toBeGreaterThanOrEqual(ROUTE_GRAPH_RULES.GRID.MIN_COLUMNS);
+      for (let i = 1; i < narrow.nodes.length; i++) {
+        if (Math.floor(i / perRow) !== Math.floor((i - 1) / perRow)) continue;
+        const gap = Math.abs(narrow.nodes[i].x - narrow.nodes[i - 1].x);
+        const needed = (labelW(narrow.nodes[i].name, narrow.fontSizeCity) + labelW(narrow.nodes[i - 1].name, narrow.fontSizeCity)) / 2;
+        expect(gap).toBeGreaterThanOrEqual(needed);
+      }
+      expect(narrow.maxCurveExtentX).toBeLessThanOrEqual(narrow.canvasWidth);
+      const bottom = Math.max(...narrow.nodes.map(n => n.y + n.r + 13));
+      expect(bottom).toBeLessThanOrEqual(narrow.canvasHeight);
+    });
+
+    it('en móvil nunca pone más de 4 paradas por fila (ARCHITECTURE_RULES §4)', () => {
+      const mobile = RouteGraphEngine.calculate(mockRM01_13Stops, 'mobile');
+      expect(mobile.config.stopsPerRow).toBeLessThanOrEqual(ROUTE_GRAPH_RULES.GRID.MAX_COLUMNS_MOBILE);
+    });
+  });
 });
