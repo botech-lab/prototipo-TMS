@@ -202,6 +202,23 @@
     width: 100%;
   }
 
+  /* Título (origen → destino) + línea "vía" con las ciudades intermedias */
+  &__titles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  &__via {
+    @include truncate;
+    font-size: var(--text-xs);
+    line-height: var(--leading-tight);
+    font-weight: 500;
+    color: var(--color-neutral-500);
+  }
+
   &__title {
     @include truncate;
     flex: 1 1 0%;

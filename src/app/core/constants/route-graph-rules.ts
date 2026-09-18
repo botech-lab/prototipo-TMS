@@ -15,6 +15,13 @@ export const ROUTE_GRAPH_RULES = deepFreeze({
     MARGIN_X_DEFAULT: 52,
     MARGIN_X_DENSE: 42,
     MIN_OFFSET_Y: 24,
+    /**
+     * Ancho mínimo del lienzo adaptable. WIDTH (460) sigue siendo el valor por
+     * defecto: solo cambia si el contenedor informa su ancho real.
+     */
+    MIN_WIDTH: 300,
+    /** Espacio bajo la última etiqueta cuando el lienzo crece en alto. */
+    BOTTOM_PADDING: 8,
   },
   NODES: {
     RADIUS_LARGE: 18,   // <= 5 paradas
@@ -35,6 +42,9 @@ export const ROUTE_GRAPH_RULES = deepFreeze({
   GRID: {
     MAX_COLUMNS_NORMAL: 4, // Para rutas de hasta 8 paradas
     MAX_COLUMNS_DENSE: 5,  // Para rutas de 9 a 13 paradas (RM-01 queda en 5-5-3)
+    MAX_COLUMNS_MOBILE: 4, // Móvil (< 640px): nunca más de 4 paradas por fila
+    MIN_COLUMNS: 3,        // Mínimo al reducir columnas para que quepan las etiquetas
+    LABEL_GAP: 8,          // Separación mínima entre etiquetas vecinas de una fila
     ROW_HEIGHT_LARGE: 85,
     ROW_HEIGHT_MEDIUM: 72,
     ROW_HEIGHT_DENSE: 58,

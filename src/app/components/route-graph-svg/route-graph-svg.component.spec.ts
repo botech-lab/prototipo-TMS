@@ -84,4 +84,29 @@ describe('RouteGraphSvgComponent (TDD Suite - Responsive SVG Math Engine)', () =
     const firstLabel = labels[0];
     expect(firstLabel.attributes['text-anchor']).toBe('middle');
   });
+
+  describe('Adaptación al tamaño real de la caja (ResizeObserver)', () => {
+    const settle = async () => {
+      await new Promise(resolve => setTimeout(resolve, 60));
+      fixture.detectChanges();
+    };
+    const viewBoxOf = () => fixture.debugElement.query(By.css('[data-testid="route-svg-graph"]')).attributes['viewBox'];
+
+    it('en una caja ancha (660x200) el lienzo usa todo el ancho: viewBox 0 0 660 200', async () => {
+      const host = fixture.nativeElement as HTMLElement;
+      host.style.width = '660px';
+      host.style.height = '200px';
+      await settle();
+      expect(viewBoxOf()).toBe('0 0 660 200');
+    });
+
+    it('en una caja estrecha (320x200) baja a menos columnas para que los nombres no se pisen', async () => {
+      const host = fixture.nativeElement as HTMLElement;
+      host.style.width = '320px';
+      host.style.height = '200px';
+      await settle();
+      expect(component.geometry().config.stopsPerRow).toBeLessThan(5);
+      expect(viewBoxOf()).toMatch(/^0 0 320 \d+$/);
+    });
+  });
 });

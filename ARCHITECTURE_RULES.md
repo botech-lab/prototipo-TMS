@@ -37,7 +37,8 @@ Todas las tarjetas de rutas maestras deben respetar estrictamente las siguientes
 ┌─────────────────────────────────────────────────────────────┐
 │ 1. BLOQUE HEADER: HEADER_HEIGHT = 76px                      │
 │    [RM-01]  [● ACTIVO]                                 [O ] │ <- Fila 1: Badges + Switch
-│    La Paz → Santa Cruz                     [Ver Detalle ⌄]  │ <- Fila 2: Nombre + Botón
+│    La Paz → Tarija                         [Ver Detalle ⌄]  │ <- Fila 2: Origen → Destino + Botón
+│    vía Oruro, Potosí                                        │    (línea "vía" solo si hay ciudades intermedias)
 ├─────────────────────────────────────────────────────────────┤
 │ 2. BLOQUE EXPANDIBLE                                        │
 │    ┌───────────────────────────────────────────────────────┐│
@@ -77,11 +78,19 @@ Total Expandido: CARD_EXPANDED_HEIGHT = 520px (min-height) | Total Colapsado: CA
 3. **Symmetric Density (Distribución 5-5-3)**:
    Rutas de hasta 13 paradas se organizan en máximo 3 filas (5 en fila 1, 5 en fila 2, 3 en fila 3) evitando nodos huérfanos.
 4. **Strict Canvas Containment (Sin Desbordes)**:
-   $$0 \le \text{minCurveExtentX} \quad \text{y} \quad \text{maxCurveExtentX} \le 460\text{px}$$
+   $$0 \le \text{minCurveExtentX} \quad \text{y} \quad \text{maxCurveExtentX} \le W$$
+   (W = 460 por defecto, o el ancho adaptado; ver §3.1).
 5. **Balanced Vertical Centering (ViewBox 460x200)**:
    $$\text{offsetY} = \max(24, \frac{200 - \text{totalContentHeight}}{2})$$
 
 ---
+
+### 3.1 Lienzo adaptable (autorizado el 2026-09-18)
+* `RouteGraphEngine.calculate(stops, breakpoint?, canvasWidth?)`. **Sin `canvasWidth` el resultado es idéntico al de siempre** (viewBox 460x200): hay un test que lo garantiza.
+* `RouteGraphSvgComponent` mide su caja con `ResizeObserver` y pasa `canvasWidth = 200 × ancho / alto` (mínimo `CANVAS.MIN_WIDTH` = 300). El alto del lienzo sigue siendo 200, así los textos no se deforman ni se encogen en tarjetas anchas.
+* Si `W < 460` y dos etiquetas vecinas de una fila se tocarían (`paso < (anchoA + anchoB)/2 + GRID.LABEL_GAP`), se quita una columna hasta `GRID.MIN_COLUMNS` (3). Con `W ≥ 460` nunca se reducen columnas.
+* Si al reducir columnas hay más filas, el alto del viewBox crece lo justo (`CANVAS.BOTTOM_PADDING`) y el SVG escala dentro de los 210px de la caja.
+* `breakpoint = 'mobile'` (< 640px) limita a `GRID.MAX_COLUMNS_MOBILE` (4) paradas por fila, como exige §4.
 
 ## 📱 4. Reglas Responsivas y Soporte iPad (Tablet)
 
