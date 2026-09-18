@@ -808,17 +808,37 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: ss-ride 5.5s var(--ease-out) infinite alternate;
+    animation: ss-ride 6s linear infinite;
   }
 }
 
+/* Solo ida: aparece en el origen, recorre la ruta, se desvanece al llegar
+   y vuelve a salir desde el origen (el salto ocurre ya invisible). */
 @keyframes ss-ride {
-  from {
+  0% {
     left: 4%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
   }
 
-  to {
+  8% {
+    left: 4%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  }
+
+  82% {
     left: 96%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  92%,
+  100% {
+    left: 96%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
   }
 }
 
