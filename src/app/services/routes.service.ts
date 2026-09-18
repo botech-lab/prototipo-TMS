@@ -379,6 +379,22 @@ export class RoutesService {
     );
   }
 
+  /**
+   * Fija el estado de una ruta. Lo usa "Deshacer" tras alternar el interruptor:
+   * devuelve la ruta a su estado exacto anterior (p. ej. BORRADOR), cosa que un
+   * segundo toggleRouteStatus no garantiza.
+   */
+  setRouteStatus(routeId: string, status: MasterRoute['status']): void {
+    this.departmentGroups.update((groups) =>
+      groups.map((group) => ({
+        ...group,
+        routes: group.routes.map((route) =>
+          route.id === routeId ? { ...route, status } : route
+        )
+      }))
+    );
+  }
+
   toggleRouteExpand(routeId: string): void {
     this.departmentGroups.update((groups) =>
       groups.map((group) => ({

@@ -25,6 +25,15 @@ describe('ScheduledServicesComponent (Diseño Exacto de Referencia media_1788212
     expect(component).toBeTruthy();
   });
 
+  it('enlace profundo desde Rutas maestras: ?origen=La Paz&destino=Cochabamba selecciona ese servicio', () => {
+    fixture.componentRef.setInput('origen', 'La Paz');
+    fixture.componentRef.setInput('destino', 'Cochabamba');
+    fixture.detectChanges();
+    const selected = scheduleService.selectedService();
+    expect(selected?.originCity).toBe('La Paz');
+    expect(selected?.destinationCity).toBe('Cochabamba');
+  });
+
   it('debe renderizar la tarjeta compacta del sidebar: turno, ruta, hora de salida con duración y una línea de metadatos', () => {
     scheduleService.openOriginCity.set('LA PAZ');
     fixture.detectChanges();

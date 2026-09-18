@@ -9,9 +9,7 @@
       <div class="route-card__badges">
         <span
           data-testid="route-code"
-          class="route-card__code">
-          {{ route().code }}
-        </span>
+          class="route-card__code">@for (seg of codeSegments(); track $index) {@if (seg.match) {<mark class="route-card__mark">{{ seg.text }}</mark>} @else {{{ seg.text }}}}</span>
         <span
           data-testid="route-status-badge"
           class="route-card__status"
@@ -43,13 +41,13 @@
           data-testid="route-title"
           class="route-card__title"
           [title]="route().name">
-          {{ origin() }}@if (destination()) {<span class="route-card__arrow">{{ ' → ' }}</span>{{ destination() }}}
+          @for (seg of originSegments(); track $index) {@if (seg.match) {<mark class="route-card__mark">{{ seg.text }}</mark>} @else {{{ seg.text }}}}@if (destination()) {<span class="route-card__arrow">{{ ' → ' }}</span>@for (seg of destinationSegments(); track $index) {@if (seg.match) {<mark class="route-card__mark">{{ seg.text }}</mark>} @else {{{ seg.text }}}}}
         </h3>
         @if (via()) {
           <span
             data-testid="route-via"
             class="route-card__via"
-            [title]="route().name">vía {{ via() }}</span>
+            [title]="route().name">vía @for (seg of viaSegments(); track $index) {@if (seg.match) {<mark class="route-card__mark">{{ seg.text }}</mark>} @else {{{ seg.text }}}}</span>
         }
       </div>
 
@@ -90,11 +88,17 @@
       </div>
       <div class="route-card__chips">
         @for (service of services(); track service) {
-          <span
+          <button
+            type="button"
             data-testid="avoided-duplicate-chip"
-            class="route-card__chip">
+            class="route-card__chip"
+            [disabled]="!serviceLink(service)"
+            (click)="onOpenService(service)"
+            [attr.aria-label]="'Ver ' + service + ' en Servicios programados'">
             {{ service }}
-          </span>
+          </button>
+        } @empty {
+          <span class="route-card__chips-empty">Aún no hay servicios creados desde esta ruta.</span>
         }
       </div>
     </div>
@@ -105,10 +109,22 @@
     data-testid="route-footer"
     class="route-card__footer">
     <div class="route-card__stops">
-      <app-nav-icon name="route" class="route-card__glyph" />
-      <span data-testid="route-footer-stops-count" class="route-card__stops-count">
-        {{ route().stops.length || route().stopsCount }} paradas conectadas
+      <!-- Mini línea de recorrido: origen y destino con el color de su departamento -->
+      <span class="route-card__mini-line" aria-hidden="true">
+        <i class="route-card__mini-dot route-card__mini-dot--end" [style.--dot]="originColor()"></i>
+        <i class="route-card__mini-dash"></i>
+        <i class="route-card__mini-dot"></i>
+        <i class="route-card__mini-dash"></i>
+        <i class="route-card__mini-dot route-card__mini-dot--end" [style.--dot]="destinationColor()"></i>
       </span>
+      <span data-testid="route-footer-stops-count" class="route-card__stops-count">
+        {{ route().stops.length || route().stopsCount }} {{ matchedStop() ? 'paradas' : 'paradas conectadas' }}
+      </span>
+      @if (matchedStop()) {
+        <span data-testid="route-matched-stop" class="route-card__matched">
+          · incluye @for (seg of matchedStopSegments(); track $index) {@if (seg.match) {<mark class="route-card__mark">{{ seg.text }}</mark>} @else {{{ seg.text }}}}
+        </span>
+      }
     </div>
     <button
       type="button"

@@ -46,7 +46,11 @@
           [class.master-routes-dashboard__tab--active]="statusFilter() === option"
           [attr.aria-pressed]="statusFilter() === option"
           class="master-routes-dashboard__tab">
-          {{ option }}
+          <span data-testid="status-filter-label">{{ option }}</span>
+          <span
+            data-testid="status-filter-count"
+            class="master-routes-dashboard__tab-count"
+            [attr.aria-label]="statusCounts()[option] + ' rutas'">{{ statusCounts()[option] }}</span>
         </button>
       }
     </div>
@@ -58,37 +62,63 @@
         data-testid="global-search-input"
         [value]="searchQuery()"
         (input)="onSearchInput($event)"
+        (keydown.escape)="clearSearch()"
         aria-label="Buscar ruta, parada o código"
         placeholder="Buscar ruta, parada o código..."
         class="master-routes-dashboard__search-input" />
 
-      <!-- Icono de lupa (línea, mismo trazo que el menú) -->
-      <svg class="master-routes-dashboard__search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <circle cx="11" cy="11" r="6.5" />
-        <path d="m20 20-4.4-4.4" />
-      </svg>
+      @if (searchActive()) {
+        <button
+          type="button"
+          data-testid="search-clear"
+          (click)="clearSearch()"
+          aria-label="Limpiar búsqueda"
+          class="master-routes-dashboard__search-clear">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+      } @else {
+        <!-- Icono de lupa (línea, mismo trazo que el menú) -->
+        <svg class="master-routes-dashboard__search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="m20 20-4.4-4.4" />
+        </svg>
+      }
     </div>
 
   </div>
 
+  <!-- Resultado de la búsqueda (anunciado a lectores de pantalla) -->
+  <div class="master-routes-dashboard__results" role="status" aria-live="polite" [hidden]="!searchActive()">
+    @if (searchActive()) {
+      <span data-testid="search-summary">
+        @if (searchSummary().routes === 0) {
+          No hay rutas con «{{ searchQuery().trim() }}».
+        } @else {
+          <b>{{ searchSummary().routes }}</b> {{ searchSummary().routes === 1 ? 'ruta encontrada' : 'rutas encontradas' }}
+          en {{ searchSummary().origins }} {{ searchSummary().origins === 1 ? 'origen' : 'orígenes' }}
+        }
+      </span>
+      <button type="button" class="master-routes-dashboard__results-clear" (click)="clearSearch()">Limpiar búsqueda</button>
+    }
+  </div>
+
   <!-- ======================================================== -->
-  <!-- 3. LISTA VERTICAL DE ACORDEONES POR DEPARTAMENTO         -->
+  <!-- 3. ORÍGENES: abierto = cabecera tipo boleto a todo el ancho;     -->
+  <!--    cerrado = boleto compacto en la retícula                       -->
   <!-- ======================================================== -->
-  <!-- Dos columnas desde laptop: los orígenes colapsados se emparejan en vez
-       de dejar barras de 1600px con el 69% del ancho vacío. El origen
-       DESPLEGADO ocupa las dos columnas, de modo que su retícula interna
-       conserva sus 3 columnas de tarjetas intactas. -->
   <div class="master-routes-dashboard__departments">
-    @for (dept of departments(); track dept.name) {
+    @for (dept of visibleDepartments(); track dept.name) {
       <div
         data-testid="department-accordion-item"
         class="master-routes-dashboard__department"
-        [class.master-routes-dashboard__department--expanded]="isDepartmentExpanded(dept.name)">
+        [class.master-routes-dashboard__department--expanded]="isDepartmentExpanded(dept.name)"
+        [class.master-routes-dashboard__department--empty]="hasNoRoutes(dept)">
 
-        <!-- Barra de Encabezado del Departamento (Siempre Visible).
-             Accesible: el h2 envuelve un botón real que controla la región;
-             su clic sube a la cabecera, que conserva el manejador. -->
+        <!-- Cabecera. Accesible: el h2 envuelve un botón real que controla la
+             región; su clic sube a la cabecera, que conserva el manejador. -->
         <header
           [attr.data-testid]="'department-header-' + dept.name"
           (click)="toggleDepartment(dept.name)"
@@ -101,85 +131,71 @@
             [attr.aria-expanded]="isDepartmentExpanded(dept.name)"
             [attr.aria-controls]="isDepartmentExpanded(dept.name) ? 'dept-region-' + $index : null">
 
-          <!-- Lado Izquierdo: Pin + Título + Badge + Destinos + Métricas.
-               Ocupa el ancho libre de la barra, que antes quedaba vacío al 69%
-               entre el título y el botón de desplegado. -->
-          <span class="master-routes-dashboard__dept-info">
-            <svg class="master-routes-dashboard__dept-pin" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                 stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-              <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" />
-              <circle cx="12" cy="10" r="2.5" />
-            </svg>
-            <!-- En media columna (xl) baja un punto para que los nombres
-                 largos como COCHABAMBA quepan junto a su contador. -->
-            <span class="master-routes-dashboard__dept-name">
-              ORIGEN: {{ dept.name }}
-            </span>
-            <span
-              class="master-routes-dashboard__dept-count">
-              ({{ dept.routesCount }} Rutas Maestras)
+            <!-- Origen: código grande + nombre -->
+            <span class="master-routes-dashboard__origin">
+              <span class="master-routes-dashboard__origin-code" aria-hidden="true">{{ dept.code }}</span>
+              <span class="master-routes-dashboard__origin-name">
+                <small>Origen</small>
+                <span class="master-routes-dashboard__dept-name">{{ dept.name }}</span>
+              </span>
             </span>
 
-            <!-- En media columna no caben chips sin cortarlos: se resume en
-                 texto compacto. Los chips aparecen al desplegar, que es cuando
-                 el origen ocupa el ancho completo y hay sitio de sobra. -->
             @if (isDepartmentExpanded(dept.rawName)) {
+              <!-- Destinos (solo abierto, con el ancho completo) -->
               @if (getOriginSummary(dept.rawName).destinations.length) {
                 <span
                   data-testid="origin-destinations"
                   class="master-routes-dashboard__destinations">
-                  <span class="master-routes-dashboard__destinations-arrow">→</span>
-                  @for (destination of getOriginSummary(dept.rawName).destinations; track destination) {
-                    <span
-                      class="master-routes-dashboard__destination">
-                      {{ destination }}
-                    </span>
+                  <span class="master-routes-dashboard__destinations-arrow" aria-hidden="true">→</span>
+                  @for (destination of getOriginSummary(dept.rawName).destinations; track destination; let last = $last) {
+                    <span class="master-routes-dashboard__destination">{{ destination }}</span>
+                    @if (!last) {<span class="master-routes-dashboard__destination-sep" aria-hidden="true">/</span>}
                   }
                 </span>
               }
 
+              <!-- Métricas del origen -->
               <span
                 data-testid="origin-metrics"
                 class="master-routes-dashboard__metrics">
-                <span class="master-routes-dashboard__metrics-dot">·</span>
-                <span>{{ getOriginSummary(dept.rawName).uniqueStops }} paradas</span>
-                <span class="master-routes-dashboard__metrics-dot">·</span>
-                <span>{{ getOriginSummary(dept.rawName).servicesCount }} servicios</span>
-                <span class="master-routes-dashboard__metrics-dot">·</span>
-                <span class="master-routes-dashboard__metrics-active">{{ getOriginSummary(dept.rawName).activeCount }} activas</span>
+                <span class="master-routes-dashboard__metric"><small>Rutas</small><b>{{ dept.routesCount }}</b></span>
+                <span class="master-routes-dashboard__metric"><small>Paradas</small><b>{{ getOriginSummary(dept.rawName).uniqueStops }}</b></span>
+                <span class="master-routes-dashboard__metric"><small>Servicios</small><b>{{ getOriginSummary(dept.rawName).servicesCount }}</b></span>
+                <span class="master-routes-dashboard__metric master-routes-dashboard__metric--ok"><small>Activas</small><b>{{ getOriginSummary(dept.rawName).activeCount }}</b></span>
               </span>
-            } @else if (getOriginSummary(dept.rawName).destinations.length) {
+            } @else {
+              <!-- Cerrado: resumen compacto del boleto -->
               <span
                 data-testid="origin-summary-compact"
-                class="master-routes-dashboard__summary-compact">
-                <span class="master-routes-dashboard__summary-arrow">→</span>
-                {{ getOriginSummary(dept.rawName).destinations.length }}
-                {{ getOriginSummary(dept.rawName).destinations.length === 1 ? 'destino' : 'destinos' }}
+                class="master-routes-dashboard__dept-count">
+                @if (hasNoRoutes(dept)) {
+                  Sin rutas
+                } @else {
+                  {{ dept.routesCount }} {{ dept.routesCount === 1 ? 'ruta' : 'rutas' }}
+                }
               </span>
             }
-          </span>
 
-          <!-- Lado Derecho: Texto de Acción + Chevron Animado -->
-          <span class="master-routes-dashboard__dept-action">
-            <span class="master-routes-dashboard__dept-action-label">
-              {{ isDepartmentExpanded(dept.name) ? 'Ocultar Rutas' : 'Ver Rutas' }}
+            <span class="master-routes-dashboard__dept-action">
+              <span class="master-routes-dashboard__sr-only">
+                {{ isDepartmentExpanded(dept.name) ? 'Ocultar rutas' : 'Ver rutas' }}
+              </span>
+              <svg
+                class="master-routes-dashboard__dept-chevron"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
+                aria-hidden="true"
+                focusable="false">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
             </span>
-            <svg
-              class="master-routes-dashboard__dept-chevron"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2.5"
-              aria-hidden="true"
-              focusable="false">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </span>
           </button>
           </h2>
         </header>
 
-        <!-- Cuerpo del Departamento Expandido (Grid de 2 Columnas Amplias en iPad) -->
+        <!-- Cuerpo del origen abierto -->
         @if (isDepartmentExpanded(dept.name)) {
           <div
             [attr.data-testid]="'department-content-' + dept.name"
@@ -193,19 +209,41 @@
                 <div data-testid="route-card-item" class="master-routes-dashboard__route">
                   <app-route-card
                     [route]="route"
+                    [highlight]="searchQuery()"
                     (statusToggle)="onRouteStatusToggle($event)"
                     (expandToggle)="onRouteExpandToggle($event)"
-                    (editRoute)="onEditRoute($event)">
+                    (editRoute)="onEditRoute($event)"
+                    (openService)="onOpenService($event)">
                   </app-route-card>
                 </div>
               } @empty {
-                <div class="master-routes-dashboard__empty">
-                  <app-nav-icon name="bus" class="master-routes-dashboard__empty-icon" />
-                  <h3 class="master-routes-dashboard__empty-title">No se encontraron rutas maestras</h3>
-                  <p class="master-routes-dashboard__empty-text">
-                    No hay rutas configuradas desde {{ dept.name }} que coincidan con los filtros de estado o búsqueda actuales.
-                  </p>
-                </div>
+                @if (hasNoRoutes(dept)) {
+                  <!-- Origen sin rutas: invitación a crear la primera -->
+                  <div data-testid="department-empty-invite" class="master-routes-dashboard__empty">
+                    <app-nav-icon name="bus" class="master-routes-dashboard__empty-icon" />
+                    <h3 class="master-routes-dashboard__empty-title">Aún no hay rutas desde {{ dept.name }}</h3>
+                    <p class="master-routes-dashboard__empty-text">
+                      Crea la primera ruta maestra con origen en {{ dept.name }} para poder programar sus servicios.
+                    </p>
+                    <button
+                      type="button"
+                      data-testid="btn-create-route-from-origin"
+                      class="master-routes-dashboard__empty-cta"
+                      (click)="onCreateRoute(dept.name)">
+                      + Nueva ruta desde {{ dept.name }}
+                    </button>
+                  </div>
+                } @else {
+                  <!-- Hay rutas, pero los filtros las ocultan -->
+                  <div class="master-routes-dashboard__empty">
+                    <app-nav-icon name="bus" class="master-routes-dashboard__empty-icon" />
+                    <h3 class="master-routes-dashboard__empty-title">Ninguna ruta coincide</h3>
+                    <p class="master-routes-dashboard__empty-text">
+                      {{ dept.name }} tiene {{ dept.routesCount }} {{ dept.routesCount === 1 ? 'ruta' : 'rutas' }}, pero ninguna con el filtro «{{ statusFilter() }}».
+                    </p>
+                    <button type="button" class="master-routes-dashboard__empty-link" (click)="clearFilters()">Ver todas las rutas</button>
+                  </div>
+                }
               }
             </div>
 
@@ -244,7 +282,7 @@
             <label class="master-routes-dashboard__label" for="rm-modal-origin">Ciudad de Origen</label>
             <select id="rm-modal-origin" class="master-routes-dashboard__select">
               @for (dept of departments(); track dept.name) {
-                <option [value]="dept.name">{{ dept.name }}</option>
+                <option [value]="dept.name" [selected]="modalOrigin() === dept.name">{{ dept.name }}</option>
               }
             </select>
           </div>

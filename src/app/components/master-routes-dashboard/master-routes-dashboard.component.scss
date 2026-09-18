@@ -207,10 +207,7 @@
 
     @include bp(sm) {
       gap: var(--space-4);
-    }
-
-    @include bp(xl) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     }
   }
 
@@ -241,9 +238,12 @@
     }
 
     &--expanded {
-      @include bp(xl) {
-        grid-column: span 2 / span 2;
-      }
+      grid-column: 1 / -1;
+    }
+
+    /* Origen sin rutas: boleto atenuado */
+    &--empty:not(&--expanded) {
+      opacity: 0.72;
     }
 
     @media (prefers-reduced-transparency: reduce) {
@@ -306,6 +306,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-4);
     padding: 0;
     border: 0;
     border-radius: var(--radius-field);
@@ -348,36 +349,55 @@
     }
   }
 
-  /* Rótulo de tablero: "ORIGEN: LA PAZ" */
-  &__dept-name {
+  /* Origen del boleto: código grande + "Origen / La Paz" */
+  &__origin {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     flex-shrink: 0;
-    white-space: nowrap;
-    font-size: var(--text-xs);
-    line-height: var(--leading-ui);
+    min-width: 0;
+  }
+
+  &__origin-code {
+    font-family: var(--font-family-data);
+    font-size: 1.75rem;
+    line-height: 1;
     font-weight: 800;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
     color: var(--color-neutral-950);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
 
-    @include bp(sm) {
-      font-size: var(--text-sm);
-    }
-
-    @include bp(md) {
-      font-size: var(--text-md);
-    }
-
-    @include bp(xl) {
-      font-size: var(--text-sm);
-    }
-
-    @include bp(2xl) {
-      font-size: var(--text-md);
+    .master-routes-dashboard__department--expanded & {
+      font-size: 2.125rem;
     }
   }
 
-  /* Contador: píldora suave DM Sans tabular */
+  &__origin-name {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    small {
+      font-size: var(--text-2xs);
+      line-height: var(--leading-ui);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-neutral-500);
+    }
+  }
+
+  &__dept-name {
+    @include truncate;
+    font-size: var(--text-sm);
+    line-height: var(--leading-tight);
+    font-weight: 800;
+    color: var(--color-neutral-950);
+  }
+
+  /* Boleto cerrado: "4 rutas" alineado a la derecha */
   &__dept-count {
+    margin-left: auto;
     flex-shrink: 0;
     white-space: nowrap;
     padding: 0.125rem 0.625rem;
@@ -408,12 +428,13 @@
 
   &__destinations {
     display: none;
+    flex: 1 1 0%;
     min-width: 0;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.375rem;
-    overflow: hidden;
+    gap: 0.25rem 0.5rem;
 
-    @include bp(lg) {
+    @include bp(md) {
       display: flex;
     }
   }
@@ -427,32 +448,55 @@
     flex-shrink: 0;
   }
 
-  /* Chips de ciudad: píldoras suaves neutras */
+  /* Destinos como texto del boleto, separados por "/" */
   &__destination {
-    flex-shrink: 0;
-    border-radius: var(--radius-chip);
-    background-color: var(--card-bg);
-    box-shadow: inset 0 0 0 1px var(--card-border);
-    padding: 0.125rem 0.5625rem;
-    font-size: var(--text-2xs);
-    font-weight: 700;
-    color: var(--color-neutral-700);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-neutral-800);
     white-space: nowrap;
   }
 
+  &__destination-sep {
+    color: var(--color-neutral-300);
+  }
+
+  /* Métricas: etiqueta pequeña sobre valor, como los datos del boleto */
   &__metrics {
     display: none;
     flex-shrink: 0;
     align-items: center;
-    gap: var(--space-2);
-    font-size: var(--text-2xs);
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: var(--color-neutral-600);
+    gap: var(--space-5);
     white-space: nowrap;
 
-    @include bp(xl) {
+    @include bp(lg) {
       display: flex;
+    }
+  }
+
+  &__metric {
+    display: flex;
+    flex-direction: column;
+
+    small {
+      font-size: var(--text-2xs);
+      line-height: var(--leading-ui);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-neutral-500);
+    }
+
+    b {
+      font-family: var(--font-family-data);
+      font-size: var(--text-md);
+      line-height: var(--leading-tight);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-neutral-950);
+    }
+
+    &--ok b {
+      color: var(--color-success-600);
     }
   }
 
@@ -531,10 +575,25 @@
   }
 
   &__dept-body {
+    position: relative;
     padding: 0.625rem;
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--board-rule);
+    padding-top: var(--space-4);
     background-color: var(--board-zebra);
+
+    /* Perforado de boleto con muescas (color del lienzo de la página) */
+    &::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      height: 16px;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 8px 50%, var(--color-neutral-50) 7.5px, transparent 8px),
+        radial-gradient(circle at calc(100% - 8px) 50%, var(--color-neutral-50) 7.5px, transparent 8px),
+        repeating-linear-gradient(90deg, var(--color-neutral-300) 0 6px, transparent 6px 12px) center / calc(100% - 40px) 1.5px no-repeat;
+    }
 
     @include bp(sm) {
       padding: var(--space-4);
@@ -762,5 +821,95 @@
       transform: none;
       opacity: 0.8;
     }
+  }
+}
+
+/* ==========================================================================
+   BOLETO: contadores, búsqueda, resultados y estados vacíos
+   ========================================================================== */
+.master-routes-dashboard {
+  /* Contador del filtro: "Activas 12" */
+  &__tab-count {
+    margin-left: 0.375rem;
+    padding: 0 0.375rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-neutral-100);
+    font-family: var(--font-family-data);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--color-neutral-600);
+
+    .master-routes-dashboard__tab--active & {
+      background-color: rgb(255 255 255 / 0.18);
+      color: var(--color-neutral-0);
+    }
+  }
+
+  &__search-clear {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-neutral-600);
+    transform: translateY(-50%);
+    cursor: pointer;
+    @include focus-ring;
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+      color: var(--color-neutral-950);
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__results {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-neutral-700);
+
+    b {
+      font-family: var(--font-family-data);
+      color: var(--color-neutral-950);
+    }
+  }
+
+  &__results-clear,
+  &__empty-link {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-terracota-600);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    @include focus-ring;
+  }
+
+  &__empty-cta {
+    @include pill-button(primary);
+
+    & {
+      margin-top: var(--space-4);
+    }
+  }
+
+  &__sr-only {
+    @include sr-only;
   }
 }
