@@ -1,0 +1,73 @@
+/**
+ * Entity Card Grid Component Styles · Amanecer andino
+ * Retícula responsiva (`ENTITY_CARD_DIMENSIONS.GRID`): 1 columna en móvil,
+ * 2 desde `md` y 3 desde `xl`. Las tarjetas de una fila tienen la misma
+ * altura (stretch); ninguna crece al ver el detalle.
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.entity-card-grid {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    align-items: stretch;
+    gap: var(--space-4);
+
+    @include bp(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      gap: var(--space-5);
+    }
+
+    @include bp(xl) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Vacío: borde discontinuo, título, una línea y la acción principal. */
+  &__empty {
+    display: flex;
+    min-height: 280px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-8) var(--space-6);
+    border: 1px dashed var(--color-neutral-300);
+    border-radius: var(--radius-block);
+    background-color: var(--card-bg);
+    text-align: center;
+  }
+
+  &__empty-title {
+    font-size: var(--text-md);
+    line-height: var(--leading-tight);
+    font-weight: 800;
+    color: var(--color-neutral-900);
+  }
+
+  &__empty-message {
+    max-width: 380px;
+    font-size: var(--text-sm);
+    line-height: var(--leading-body);
+    font-weight: 500;
+    color: var(--color-neutral-600);
+  }
+
+  &__empty-action {
+    @include pill-button(primary);
+
+    & {
+      margin-top: var(--space-2);
+    }
+  }
+}

@@ -1,0 +1,9 @@
+allowBuilds:
+  esbuild: true
+  nice-napi: false
+  lmdb: false
+  msgpackr-extract: false
+  "@parcel/watcher": false
+
+# Solo instalar versiones publicadas hace al menos 3 días (mitiga paquetes comprometidos recién publicados)
+minimumReleaseAge: 4320

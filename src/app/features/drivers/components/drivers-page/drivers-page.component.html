@@ -1,0 +1,63 @@
+<section class="drivers-page">
+
+  <!-- 1. CABECERA DEL MÓDULO -->
+  <app-page-header
+    title="Conductores"
+    subtitle="Personal habilitado para conducir los servicios"
+    icon="drivers"
+    actionLabel="Nuevo conductor"
+    (actionClick)="onNewDriver()" />
+
+  <!-- 2. TOOLBAR: PESTAÑAS DE CATEGORÍA + BÚSQUEDA + CONMUTADOR DE VISTA -->
+  <div class="drivers-page__toolbar">
+    <div class="drivers-page__tabs">
+      <app-filter-tabs
+        [tabs]="driversService.categoryTabs()"
+        [(activeId)]="driversService.activeCategoryId" />
+    </div>
+
+    <div class="drivers-page__tools">
+      <div class="drivers-page__search">
+        <app-search-field
+          [(value)]="driversService.searchQuery"
+          placeholder="Buscar conductor o licencia"
+          shortPlaceholder="Conductor" />
+      </div>
+      <app-view-switcher [(mode)]="viewMode" />
+    </div>
+  </div>
+
+  <!-- 3. PADRÓN DE CONDUCTORES (TABLA O TARJETAS) -->
+  @if (viewMode() === 'table') {
+    <app-data-table
+      [columns]="columns"
+      [rows]="driversService.filteredDrivers()"
+      emptyTitle="Sin conductores"
+      emptyMessage="No hay personal habilitado en esta categoría. Cambia de pestaña o registra un conductor nuevo."
+      (rowAction)="onRowAction($event)" />
+  } @else {
+    <app-entity-card-grid
+      [rows]="driversService.filteredDrivers()"
+      [definition]="cardDefinition"
+      emptyTitle="Sin conductores"
+      emptyMessage="No hay personal habilitado en esta categoría. Cambia de pestaña o registra un conductor nuevo."
+      emptyActionLabel="Nuevo conductor"
+      (emptyAction)="onNewDriver()"
+      (rowAction)="onRowAction($event)"
+      (enabledToggle)="onToggleStatus($event)" />
+  }
+
+</section>
+
+<!-- ALTA / EDICIÓN DE CONDUCTOR (drawer compartido) -->
+@if (editor(); as editing) {
+  <app-record-drawer
+    [eyebrow]="editing.row ? 'Editar · Conductores' : 'Nuevo registro · Conductores'"
+    [title]="editing.row ? editing.row.fullName : 'Nuevo conductor'"
+    [code]="editing.row ? editing.row.licenseNumber : ''"
+    [fields]="formFields"
+    [values]="editing.values"
+    [submitLabel]="editing.row ? 'Guardar cambios' : 'Registrar'"
+    (save)="onSave($event)"
+    (close)="editor.set(null)" />
+}

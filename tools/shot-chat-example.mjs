@@ -1,0 +1,23 @@
+/** Captura del ejemplo real del asistente: 9 camas mixtas abajo, 36 semicama arriba. */
+import { chromium } from 'playwright';
+const OUT = new URL('screenshots/', import.meta.url);
+const P = (f) => decodeURIComponent(new URL(f, OUT).pathname);
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto('http://localhost:4200/vehiculos/veh-1234/plazas', { waitUntil: 'networkidle' });
+await page.waitForTimeout(700);
+await page.locator('[data-testid="rail-assistant"]').click(); await page.waitForTimeout(260);
+await page.locator('[data-testid="prompt-input"]').fill('Bus 2 pisos, abajo 9 camas individuales y compartidas, arriba 36 semicama.');
+await page.locator('[data-testid="chat-send"]').click(); await page.waitForTimeout(300);
+await page.screenshot({ path: P('example-turn1.png') });
+await page.locator('[data-testid="chat-opt-p1_orientation-2+1"]').click(); await page.waitForTimeout(250);
+await page.screenshot({ path: P('example-turn2.png') });
+await page.locator('[data-testid="chat-opt-p2_stairs_arrival-front-right"]').click(); await page.waitForTimeout(250);
+await page.locator('[data-testid="chat-opt-bathroom_setup-entry"]').click(); await page.waitForTimeout(300);
+await page.screenshot({ path: P('example-ready.png') });
+await page.locator('[data-testid="chat-apply"]').click(); await page.waitForTimeout(800);
+await page.screenshot({ path: P('example-p1.png') });
+await page.locator('[data-testid="deck-tab-2"]').click(); await page.waitForTimeout(600);
+await page.screenshot({ path: P('example-p2.png') });
+console.log((await page.locator('[data-testid="traffic-lights"]').textContent()).replace(/\s+/g, ' ').trim());
+await browser.close();

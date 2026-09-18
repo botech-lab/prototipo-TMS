@@ -1,0 +1,72 @@
+/**
+ * Search Field Component Styles · Tablero Espacial
+ */
+@use 'mixins' as *;
+
+.search-field {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+
+  &__input {
+    @include field;
+
+    & {
+      height: 2.75rem;
+      padding: 0 calc(var(--space-8) + var(--space-2)) 0 calc(var(--space-8) + var(--space-3));
+      font-size: var(--text-md);
+      font-weight: 500;
+    }
+
+    /* Foco de teclado inmediato (sin esperar la transición de sombra). */
+    &:focus-visible {
+      transition-property: background-color;
+    }
+
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
+
+  &__icon {
+    pointer-events: none;
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    height: 1rem;
+    width: 1rem;
+    transform: translateY(-50%);
+    color: var(--color-neutral-500);
+  }
+
+  &__clear {
+    position: absolute;
+    right: var(--space-2);
+    top: 50%;
+    display: grid;
+    place-items: center;
+    height: 1.75rem;
+    width: 1.75rem;
+    transform: translateY(-50%);
+    border-radius: var(--radius-pill);
+    color: var(--color-neutral-500);
+    transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+    @include focus-ring;
+
+    &:focus-visible {
+      transition-property: color;
+    }
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+      color: var(--color-neutral-900);
+    }
+
+    @include touch-target(expand);
+  }
+
+  &__clear-icon {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+}

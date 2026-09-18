@@ -1,0 +1,161 @@
+@for (item of items(); track $index) {
+  <div
+    class="block"
+    [class.block--animated]="animate()"
+    [class.block--grow]="item.block.kind === 'matrix' || item.block.kind === 'keyvalue' || item.block.kind === 'group'"
+    [style.--stagger]="item.delayIndex">
+
+    @switch (item.block.kind) {
+
+      <!-- ============================================================= -->
+      <!-- STAT: ancla tipográfica de la tarjeta                          -->
+      <!-- ============================================================= -->
+      @case ('stat') {
+        <div class="stat" data-testid="block-stat">
+          <span
+            class="stat__value"
+            [class]="'tone-' + (item.block.tone ?? 'neutral')"
+            [style.font-size.px]="statSize(item.block.emphasis)">
+            {{ item.block.value }}
+          </span>
+          <span class="stat__caption">{{ item.block.caption }}</span>
+        </div>
+      }
+
+      <!-- ============================================================= -->
+      <!-- CAPTION: línea de apoyo con valor opcional a la derecha        -->
+      <!-- ============================================================= -->
+      @case ('caption') {
+        <div class="caption" data-testid="block-caption">
+          <span class="caption__text">{{ item.block.text }}</span>
+          @if (item.block.endText) {
+            <span class="caption__end">{{ item.block.endText }}</span>
+          }
+        </div>
+      }
+
+      <!-- ============================================================= -->
+      <!-- KEYVALUE: pares etiqueta/valor de alto atómico                 -->
+      <!-- ============================================================= -->
+      @case ('keyvalue') {
+        <dl class="keyvalue" data-testid="block-keyvalue">
+          @for (row of item.block.rows; track row.label) {
+            <div class="keyvalue__row" [style.min-height.px]="rules.KEYVALUE_ROW_HEIGHT">
+              <dt class="keyvalue__label">{{ row.label }}</dt>
+              <dd class="keyvalue__value">
+                <app-table-cell [cell]="row.cell" />
+              </dd>
+            </div>
+          }
+        </dl>
+      }
+
+      <!-- ============================================================= -->
+      <!-- TAGS: colección de marcas                                      -->
+      <!-- ============================================================= -->
+      @case ('tags') {
+        <div class="tags" data-testid="block-tags">
+          @if (item.block.label) {
+            <span class="section-label">{{ item.block.label }}</span>
+          }
+          @if (item.block.items.length) {
+            <div class="tags__list">
+              @for (tag of item.block.items; track tag) {
+                <span class="tags__item">{{ tag }}</span>
+              }
+            </div>
+          } @else {
+            <span class="empty-dash">—</span>
+          }
+        </div>
+      }
+
+      <!-- ============================================================= -->
+      <!-- METER: proporción sobre un riel                                -->
+      <!-- ============================================================= -->
+      @case ('meter') {
+        <div class="meter" data-testid="block-meter">
+          @if (item.block.label || item.block.endCaption) {
+            <div class="meter__head">
+              <span class="section-label">{{ item.block.label }}</span>
+              @if (item.block.endCaption) {
+                <span class="meter__end">{{ item.block.endCaption }}</span>
+              }
+            </div>
+          }
+          <div class="meter__track" [style.height.px]="rules.METER.HEIGHT">
+            <div
+              class="meter__fill"
+              [class]="'tone-bg-' + (item.block.tone ?? 'neutral')"
+              [style.width.%]="clampRatio(item.block.ratio) * 100"></div>
+          </div>
+          @if (item.block.caption) {
+            <span class="meter__caption">{{ item.block.caption }}</span>
+          }
+        </div>
+      }
+
+      <!-- ============================================================= -->
+      <!-- MATRIX: el dato ES la geometría, resuelto por CSS Grid         -->
+      <!-- ============================================================= -->
+      @case ('matrix') {
+        <div class="matrix" data-testid="block-matrix">
+          @if (item.block.label || item.block.endLabel) {
+            <div class="matrix__head">
+              <span class="section-label">{{ item.block.label }}</span>
+              @if (item.block.endLabel) {
+                <span class="matrix__end">{{ item.block.endLabel }}</span>
+              }
+            </div>
+          }
+          <div
+            class="matrix__grid"
+            [class.matrix__grid--tile]="item.block.variant === 'tile'"
+            [style.grid-template-columns]="'repeat(' + matrixColumns(item.block) + ', minmax(0, ' + matrixMaxWidth(item.block) + '))'"
+            [style.--min-cell.px]="matrixMinHeight(item.block)"
+            [style.--max-cell-h.px]="matrixMaxHeight(item.block)">
+            @for (cell of item.block.cells; track $index) {
+              <span
+                class="matrix__cell"
+                [class]="'state-' + cell.state + ' tone-bg-' + (item.block.tone ?? 'primary')"
+                [attr.title]="cell.title ?? null">
+                @if (cell.label) {
+                  <span class="matrix__cell-label">{{ cell.label }}</span>
+                }
+              </span>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ============================================================= -->
+      <!-- GROUP: composición recursiva                                   -->
+      <!-- ============================================================= -->
+      @case ('group') {
+        <div class="group" [attr.data-direction]="groupDirection(item.block)">
+          @if (item.block.label) {
+            <span class="section-label">{{ item.block.label }}</span>
+          }
+          <div class="group__body" [attr.data-direction]="groupDirection(item.block)">
+            @for (child of item.block.blocks; track $index) {
+              <div class="group__cell" [style.flex-grow]="groupWeight(item.block, $index)">
+                <app-card-blocks
+                  [blocks]="[child]"
+                  [width]="childWidth(item.block, $index)"
+                  [tier]="tier()"
+                  [animate]="false" />
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ============================================================= -->
+      <!-- DIVIDER: filete de separación                                  -->
+      <!-- ============================================================= -->
+      @case ('divider') {
+        <hr class="divider" />
+      }
+    }
+  </div>
+}

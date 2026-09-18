@@ -1,0 +1,105 @@
+/**
+ * Toast Component Styles · Tablero Espacial
+ * Cápsula oscura flotante (--toast-bg), abajo al centro; texto --toast-text, énfasis en blanco y "Deshacer" en --toast-action.
+ */
+@use 'mixins' as *;
+
+.toast-host {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  z-index: 80;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.25rem;
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-5);
+  border-radius: var(--radius-pill);
+  background-color: var(--toast-bg);
+  color: var(--toast-text);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12), var(--shadow-lift);
+  pointer-events: auto;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: toast-in var(--dur-slow) var(--ease-out) both;
+  }
+
+  /* Movimiento reducido: aparece con un fundido corto, sin desplazarse. */
+  @media (prefers-reduced-motion: reduce) {
+    animation: ds-fade 150ms var(--ease-standard) both !important;
+  }
+
+  &__message {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: var(--leading-ui);
+
+    /* Texto enfatizado del aviso en blanco. */
+    strong,
+    b {
+      color: var(--color-neutral-0);
+      font-weight: 800;
+    }
+  }
+
+  &__action {
+    flex-shrink: 0;
+    height: 2.5rem;
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-pill);
+    background-color: rgb(255 255 255 / 0.1);
+    color: var(--toast-action);
+    font-size: var(--text-2xs);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    @include press;
+    @include focus-ring;
+
+    &:hover {
+      background-color: rgb(255 255 255 / 0.18);
+      color: var(--color-neutral-0);
+    }
+  }
+
+  &__close {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: var(--radius-pill);
+    color: rgb(255 255 255 / 0.7);
+    @include press;
+    @include focus-ring;
+
+    &:hover {
+      background-color: rgb(255 255 255 / 0.12);
+      color: var(--color-neutral-0);
+    }
+  }
+
+  &__close-icon {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

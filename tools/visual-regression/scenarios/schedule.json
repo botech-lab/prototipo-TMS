@@ -1,0 +1,3073 @@
+[
+ {
+  "name": "default-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": []
+ },
+ {
+  "name": "collapse-lapaz-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"LA PAZ\")"
+   }
+  ]
+ },
+ {
+  "name": "expand-elalto-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   }
+  ]
+ },
+ {
+  "name": "select-elalto-2-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "select-lapaz-3-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside h4 >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "select-santacruz-5-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=4"
+   }
+  ]
+ },
+ {
+  "name": "week-next-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ]
+ },
+ {
+  "name": "week-next2-prev-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "week-current-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Semana Actual"
+   }
+  ]
+ },
+ {
+  "name": "week-prev-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "toggle-confirm-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-deactivated-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivate-confirm-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivated-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   },
+   {
+    "clickText": "Aceptar (Activar)"
+   }
+  ]
+ },
+ {
+  "name": "modal-manifest-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-tags-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-edit-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Editar Salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-focus-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   },
+   {
+    "click": "app-scheduled-services input >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "close-detail-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+   }
+  ]
+ },
+ {
+  "name": "search-oru-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "oru"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-none-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "zzzz"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-focus-empty-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside input"
+   }
+  ]
+ },
+ {
+  "name": "scroll-list-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "scroll": [
+     "app-scheduled-services aside > div > div:nth-child(3)",
+     0,
+     2000
+    ]
+   }
+  ]
+ },
+ {
+  "name": "scroll-main-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "app-scheduled-services main",
+     0,
+     600
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-from-card-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-name-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=serviceName]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-fill-name-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-select-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer select[formcontrolname=status]"
+   },
+   {
+    "press": "Escape"
+   }
+  ]
+ },
+ {
+  "name": "drawer-toggle-day-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Vie\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-no-days-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ]
+ },
+ {
+  "name": "drawer-invalid-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=originCity]",
+     ""
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=distanceKm]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-saved-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "clickText": "Guardar Cambios"
+   }
+  ]
+ },
+ {
+  "name": "drawer-scroll-form-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "scroll": [
+     "app-edit-service-drawer form",
+     0,
+     500
+    ]
+   }
+  ]
+ },
+ {
+  "name": "hover-card-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=1"
+ },
+ {
+  "name": "hover-card-selected-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=0"
+ },
+ {
+  "name": "hover-group-header-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+ },
+ {
+  "name": "hover-card-edit-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=1"
+ },
+ {
+  "name": "hover-edit-config-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+ },
+ {
+  "name": "hover-close-detail-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+ },
+ {
+  "name": "hover-week-next-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Siguiente\")"
+ },
+ {
+  "name": "hover-week-current-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ],
+  "keepHover": "app-scheduled-services main button:has-text(\"Semana Actual\")"
+ },
+ {
+  "name": "hover-slot-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services main p:has-text(\"Hrs\") >> nth=0"
+ },
+ {
+  "name": "hover-quick-btn-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+ },
+ {
+  "name": "hover-search-clear-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "la"
+    ]
+   }
+  ],
+  "keepHover": "app-scheduled-services aside button:has-text(\"✕\")"
+ },
+ {
+  "name": "hover-modal-print-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Imprimir Manifiesto\")"
+ },
+ {
+  "name": "hover-modal-close-btn-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:has-text(\"Cerrar\")"
+ },
+ {
+  "name": "hover-modal-x-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-confirm-cancel-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-confirm-accept-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Desactivar)\")"
+ },
+ {
+  "name": "hover-reactivate-accept-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Activar)\")"
+ },
+ {
+  "name": "hover-drawer-x-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-drawer-cancel-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-drawer-save-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "hover-drawer-day-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Mar\")"
+ },
+ {
+  "name": "hover-drawer-save-disabled-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "default-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": []
+ },
+ {
+  "name": "collapse-lapaz-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"LA PAZ\")"
+   }
+  ]
+ },
+ {
+  "name": "expand-elalto-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   }
+  ]
+ },
+ {
+  "name": "select-elalto-2-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "select-lapaz-3-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside h4 >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "select-santacruz-5-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=4"
+   }
+  ]
+ },
+ {
+  "name": "week-next-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ]
+ },
+ {
+  "name": "week-next2-prev-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "week-current-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Semana Actual"
+   }
+  ]
+ },
+ {
+  "name": "week-prev-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "toggle-confirm-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-deactivated-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivate-confirm-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivated-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   },
+   {
+    "clickText": "Aceptar (Activar)"
+   }
+  ]
+ },
+ {
+  "name": "modal-manifest-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-tags-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-edit-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Editar Salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-focus-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   },
+   {
+    "click": "app-scheduled-services input >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "close-detail-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+   }
+  ]
+ },
+ {
+  "name": "search-oru-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "oru"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-none-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "zzzz"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-focus-empty-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside input"
+   }
+  ]
+ },
+ {
+  "name": "scroll-list-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "scroll": [
+     "app-scheduled-services aside > div > div:nth-child(3)",
+     0,
+     2000
+    ]
+   }
+  ]
+ },
+ {
+  "name": "scroll-main-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "scroll": [
+     "app-scheduled-services main",
+     0,
+     600
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-from-card-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-name-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=serviceName]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-fill-name-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-select-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer select[formcontrolname=status]"
+   },
+   {
+    "press": "Escape"
+   }
+  ]
+ },
+ {
+  "name": "drawer-toggle-day-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Vie\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-no-days-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ]
+ },
+ {
+  "name": "drawer-invalid-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=originCity]",
+     ""
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=distanceKm]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-saved-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "clickText": "Guardar Cambios"
+   }
+  ]
+ },
+ {
+  "name": "drawer-scroll-form-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "scroll": [
+     "app-edit-service-drawer form",
+     0,
+     500
+    ]
+   }
+  ]
+ },
+ {
+  "name": "hover-card-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=1"
+ },
+ {
+  "name": "hover-card-selected-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=0"
+ },
+ {
+  "name": "hover-group-header-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+ },
+ {
+  "name": "hover-card-edit-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=1"
+ },
+ {
+  "name": "hover-edit-config-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+ },
+ {
+  "name": "hover-close-detail-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+ },
+ {
+  "name": "hover-week-next-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Siguiente\")"
+ },
+ {
+  "name": "hover-week-current-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ],
+  "keepHover": "app-scheduled-services main button:has-text(\"Semana Actual\")"
+ },
+ {
+  "name": "hover-slot-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services main p:has-text(\"Hrs\") >> nth=0"
+ },
+ {
+  "name": "hover-quick-btn-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+ },
+ {
+  "name": "hover-search-clear-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "la"
+    ]
+   }
+  ],
+  "keepHover": "app-scheduled-services aside button:has-text(\"✕\")"
+ },
+ {
+  "name": "hover-modal-print-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Imprimir Manifiesto\")"
+ },
+ {
+  "name": "hover-modal-close-btn-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:has-text(\"Cerrar\")"
+ },
+ {
+  "name": "hover-modal-x-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-confirm-cancel-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-confirm-accept-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Desactivar)\")"
+ },
+ {
+  "name": "hover-reactivate-accept-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Activar)\")"
+ },
+ {
+  "name": "hover-drawer-x-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-drawer-cancel-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-drawer-save-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "hover-drawer-day-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Mar\")"
+ },
+ {
+  "name": "hover-drawer-save-disabled-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "default-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": []
+ },
+ {
+  "name": "collapse-lapaz-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"LA PAZ\")"
+   }
+  ]
+ },
+ {
+  "name": "expand-elalto-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   }
+  ]
+ },
+ {
+  "name": "select-elalto-2-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "select-lapaz-3-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside h4 >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "select-santacruz-5-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=4"
+   }
+  ]
+ },
+ {
+  "name": "week-next-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ]
+ },
+ {
+  "name": "week-next2-prev-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "week-current-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Semana Actual"
+   }
+  ]
+ },
+ {
+  "name": "week-prev-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "toggle-confirm-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-deactivated-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivate-confirm-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivated-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   },
+   {
+    "clickText": "Aceptar (Activar)"
+   }
+  ]
+ },
+ {
+  "name": "modal-manifest-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-tags-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-edit-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Editar Salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-focus-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   },
+   {
+    "click": "app-scheduled-services input >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "close-detail-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+   }
+  ]
+ },
+ {
+  "name": "search-oru-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "oru"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-none-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "zzzz"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-focus-empty-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside input"
+   }
+  ]
+ },
+ {
+  "name": "scroll-list-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "scroll": [
+     "app-scheduled-services aside > div > div:nth-child(3)",
+     0,
+     2000
+    ]
+   }
+  ]
+ },
+ {
+  "name": "scroll-main-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "scroll": [
+     "app-scheduled-services main",
+     0,
+     600
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-from-card-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-name-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=serviceName]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-fill-name-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-select-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer select[formcontrolname=status]"
+   },
+   {
+    "press": "Escape"
+   }
+  ]
+ },
+ {
+  "name": "drawer-toggle-day-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Vie\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-no-days-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ]
+ },
+ {
+  "name": "drawer-invalid-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=originCity]",
+     ""
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=distanceKm]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-saved-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "clickText": "Guardar Cambios"
+   }
+  ]
+ },
+ {
+  "name": "drawer-scroll-form-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "scroll": [
+     "app-edit-service-drawer form",
+     0,
+     500
+    ]
+   }
+  ]
+ },
+ {
+  "name": "hover-card-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=1"
+ },
+ {
+  "name": "hover-card-selected-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=0"
+ },
+ {
+  "name": "hover-group-header-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+ },
+ {
+  "name": "hover-card-edit-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=1"
+ },
+ {
+  "name": "hover-edit-config-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+ },
+ {
+  "name": "hover-close-detail-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+ },
+ {
+  "name": "hover-week-next-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Siguiente\")"
+ },
+ {
+  "name": "hover-week-current-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ],
+  "keepHover": "app-scheduled-services main button:has-text(\"Semana Actual\")"
+ },
+ {
+  "name": "hover-slot-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services main p:has-text(\"Hrs\") >> nth=0"
+ },
+ {
+  "name": "hover-quick-btn-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+ },
+ {
+  "name": "hover-search-clear-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "la"
+    ]
+   }
+  ],
+  "keepHover": "app-scheduled-services aside button:has-text(\"✕\")"
+ },
+ {
+  "name": "hover-modal-print-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Imprimir Manifiesto\")"
+ },
+ {
+  "name": "hover-modal-close-btn-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:has-text(\"Cerrar\")"
+ },
+ {
+  "name": "hover-modal-x-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-confirm-cancel-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-confirm-accept-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Desactivar)\")"
+ },
+ {
+  "name": "hover-reactivate-accept-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Activar)\")"
+ },
+ {
+  "name": "hover-drawer-x-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-drawer-cancel-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-drawer-save-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "hover-drawer-day-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Mar\")"
+ },
+ {
+  "name": "hover-drawer-save-disabled-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "default-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": []
+ },
+ {
+  "name": "collapse-lapaz-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"LA PAZ\")"
+   }
+  ]
+ },
+ {
+  "name": "expand-elalto-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   }
+  ]
+ },
+ {
+  "name": "select-elalto-2-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "select-lapaz-3-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside h4 >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "select-santacruz-5-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "click": "app-scheduled-services aside h4 >> nth=4"
+   }
+  ]
+ },
+ {
+  "name": "week-next-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ]
+ },
+ {
+  "name": "week-next2-prev-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "week-current-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   },
+   {
+    "clickText": "Semana Actual"
+   }
+  ]
+ },
+ {
+  "name": "week-prev-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "clickText": "← Anterior"
+   }
+  ]
+ },
+ {
+  "name": "toggle-confirm-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-deactivated-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivate-confirm-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "toggle-reactivated-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   },
+   {
+    "clickText": "Aceptar (Activar)"
+   }
+  ]
+ },
+ {
+  "name": "modal-manifest-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-tags-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-edit-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Editar Salida\"]"
+   }
+  ]
+ },
+ {
+  "name": "modal-vehicle-focus-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+   },
+   {
+    "click": "app-scheduled-services input >> nth=1"
+   }
+  ]
+ },
+ {
+  "name": "close-detail-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+   }
+  ]
+ },
+ {
+  "name": "search-oru-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "oru"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-none-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "zzzz"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "search-focus-empty-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside input"
+   }
+  ]
+ },
+ {
+  "name": "scroll-list-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button:has-text(\"SANTA CRUZ\")"
+   },
+   {
+    "scroll": [
+     "app-scheduled-services aside > div > div:nth-child(3)",
+     0,
+     2000
+    ]
+   }
+  ]
+ },
+ {
+  "name": "scroll-main-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "scroll": [
+     "app-scheduled-services main",
+     0,
+     600
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-from-card-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=2"
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-name-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=serviceName]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-fill-name-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "drawer-focus-select-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer select[formcontrolname=status]"
+   },
+   {
+    "press": "Escape"
+   }
+  ]
+ },
+ {
+  "name": "drawer-toggle-day-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Vie\")"
+   }
+  ]
+ },
+ {
+  "name": "drawer-no-days-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ]
+ },
+ {
+  "name": "drawer-invalid-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=originCity]",
+     ""
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer input[formcontrolname=distanceKm]"
+   }
+  ]
+ },
+ {
+  "name": "drawer-saved-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "fill": [
+     "app-edit-service-drawer input[formcontrolname=serviceName]",
+     "Expreso Test"
+    ]
+   },
+   {
+    "click": "app-edit-service-drawer button:has-text(\"Lun\")"
+   },
+   {
+    "clickText": "Guardar Cambios"
+   }
+  ]
+ },
+ {
+  "name": "drawer-scroll-form-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "scroll": [
+     "app-edit-service-drawer form",
+     0,
+     500
+    ]
+   }
+  ]
+ },
+ {
+  "name": "hover-card-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=1"
+ },
+ {
+  "name": "hover-card-selected-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside h4 >> nth=0"
+ },
+ {
+  "name": "hover-group-header-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button:has-text(\"EL ALTO\")"
+ },
+ {
+  "name": "hover-card-edit-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services aside button[title=\"Editar Configuración del Servicio\"] >> nth=1"
+ },
+ {
+  "name": "hover-edit-config-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+ },
+ {
+  "name": "hover-close-detail-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Cerrar detalle\"]"
+ },
+ {
+  "name": "hover-week-next-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button:has-text(\"Siguiente\")"
+ },
+ {
+  "name": "hover-week-current-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "clickText": "Siguiente →"
+   }
+  ],
+  "keepHover": "app-scheduled-services main button:has-text(\"Semana Actual\")"
+ },
+ {
+  "name": "hover-slot-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services main p:has-text(\"Hrs\") >> nth=0"
+ },
+ {
+  "name": "hover-quick-btn-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [],
+  "keepHover": "app-scheduled-services main button[title=\"Asignar Bus\"]"
+ },
+ {
+  "name": "hover-search-clear-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "app-scheduled-services aside input",
+     "la"
+    ]
+   }
+  ],
+  "keepHover": "app-scheduled-services aside button:has-text(\"✕\")"
+ },
+ {
+  "name": "hover-modal-print-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Imprimir Manifiesto\")"
+ },
+ {
+  "name": "hover-modal-close-btn-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Ver Manifiesto\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:has-text(\"Cerrar\")"
+ },
+ {
+  "name": "hover-modal-x-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Etiquetas\"]"
+   }
+  ],
+  "keepHover": "app-scheduled-services > div:last-child button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-confirm-cancel-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-confirm-accept-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Desactivar)\")"
+ },
+ {
+  "name": "hover-reactivate-accept-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para suspender / desactivar\"]"
+   },
+   {
+    "clickText": "Aceptar (Desactivar)"
+   },
+   {
+    "click": "app-scheduled-services main button[title=\"Haga clic para reactivar salida\"]"
+   }
+  ],
+  "keepHover": "button:has-text(\"Aceptar (Activar)\")"
+ },
+ {
+  "name": "hover-drawer-x-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:text-is(\"✕\")"
+ },
+ {
+  "name": "hover-drawer-cancel-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Cancelar\")"
+ },
+ {
+  "name": "hover-drawer-save-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "hover-drawer-day-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Mar\")"
+ },
+ {
+  "name": "hover-drawer-save-disabled-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=0"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=1"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=2"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=3"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=4"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=5"
+   },
+   {
+    "click": "app-edit-service-drawer form button >> nth=6"
+   }
+  ],
+  "keepHover": "app-edit-service-drawer button:has-text(\"Guardar Cambios\")"
+ },
+ {
+  "name": "route2-default-1440",
+  "path": "/servicios-programados",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "route2-default-390",
+  "path": "/servicios-programados",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "route2-drawer-768",
+  "path": "/servicios-programados",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "app-scheduled-services main button:has-text(\"Editar Configuración\")"
+   }
+  ]
+ }
+]

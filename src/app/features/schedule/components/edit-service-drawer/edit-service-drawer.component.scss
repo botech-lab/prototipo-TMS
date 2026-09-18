@@ -1,0 +1,359 @@
+@use 'mixins' as *;
+
+/**
+ * Edit Service Drawer Component Styles · Grafito y cobre
+ * Drawer flotante (overlay, radio 24px, separado del borde), campos del
+ * sistema, días como píldoras y acciones en píldora. El cobre queda solo en
+ * "Guardar cambios" y en el anillo de foco.
+ */
+
+/* Rótulo del tablero con el mínimo tipográfico del sistema (11px). */
+@mixin label-2xs {
+  @include board-label;
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+}
+
+.edit-service-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  font-family: var(--font-family-ui);
+  line-height: var(--leading-ui);
+}
+
+.edit-service-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--color-neutral-900) 32%, transparent);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  transition: opacity var(--dur-base) var(--ease-standard);
+}
+
+.edit-service-drawer__panel-wrap {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  max-width: 100%;
+  padding: var(--space-3);
+
+  @include bp(sm) {
+    padding-left: var(--space-8);
+  }
+}
+
+.edit-service-drawer__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100vw;
+  max-width: 28rem;
+  overflow: hidden;
+  transform: translate(0, 0);
+  transition: transform var(--dur-slow) var(--ease-out);
+  @include float-panel(overlay);
+  @include rise-in(0ms);
+}
+
+// Cabecera
+.edit-service-drawer__header {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--board-rule);
+  padding: var(--space-4);
+
+  @include bp(sm) {
+    padding: var(--space-6);
+  }
+}
+
+.edit-service-drawer__header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.edit-service-drawer__eyebrow {
+  @include label-2xs;
+}
+
+.edit-service-drawer__title {
+  margin-top: var(--space-1);
+  font-size: var(--text-lg);
+  line-height: var(--leading-tight);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-neutral-950);
+
+  /* Recibe el foco al abrir (programático): sin anillo, el contexto ya es visible. */
+  &:focus {
+    outline: none;
+  }
+}
+
+.edit-service-drawer__code {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  font-weight: 600;
+  color: var(--color-neutral-500);
+}
+
+/* Código del servicio: DM Sans tabular, sin ficha. */
+.edit-service-drawer__code-value {
+  margin-left: var(--space-1);
+  overflow-wrap: anywhere;
+  @include board-figure(var(--text-xs), 700);
+  line-height: var(--leading-ui);
+  letter-spacing: 0.02em;
+  color: var(--color-neutral-800);
+}
+
+.edit-service-drawer__close {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: var(--touch-min);
+  width: var(--touch-min);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  font-size: var(--text-xs);
+  line-height: var(--leading-tight);
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--board-hover);
+    color: var(--color-neutral-900);
+  }
+
+  @include bp(lg) {
+    height: 2rem;
+    width: 2rem;
+  }
+}
+
+// Formulario
+.edit-service-drawer__form {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow-y: auto;
+  padding: var(--space-4);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+
+  @include bp(sm) {
+    padding: var(--space-6);
+  }
+}
+
+.edit-service-drawer__label {
+  display: block;
+  margin-bottom: var(--space-2);
+  @include label-2xs;
+  color: var(--color-neutral-600);
+
+  &--days {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Marca visible de campo obligatorio; el lector oye "(obligatorio)". */
+.edit-service-drawer__required {
+  color: var(--color-error-600);
+}
+
+.edit-service-drawer__sr-only {
+  @include sr-only;
+}
+
+.edit-service-drawer__input {
+  @include field;
+
+  & {
+    height: var(--touch-min);
+    padding: 0 var(--space-3);
+    font-size: var(--text-md);
+    line-height: var(--leading-ui);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &--invalid,
+  &--invalid:hover {
+    box-shadow: inset 0 0 0 1.5px var(--color-error-500), var(--shadow-rest);
+  }
+
+  &--select {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.edit-service-drawer__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+// Días de operación
+.edit-service-drawer__days {
+  margin-top: var(--space-2);
+  border-top: 1px solid var(--board-rule);
+  padding-top: var(--space-4);
+}
+
+.edit-service-drawer__days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-1);
+}
+
+/* Día: contorno neutro; seleccionado en grafito (control seleccionado, no chip). */
+.edit-service-drawer__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: var(--touch-min);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-tight);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--board-hover);
+    color: var(--color-neutral-900);
+  }
+
+  &--selected,
+  &--selected:hover {
+    background-color: var(--color-neutral-900);
+    box-shadow: var(--shadow-ink);
+    font-weight: 800;
+    color: var(--color-neutral-0);
+  }
+}
+
+.edit-service-drawer__error {
+  margin-top: var(--space-2);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  color: var(--color-error-600);
+}
+
+// Footer
+.edit-service-drawer__footer {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  border-top: 1px solid var(--board-rule);
+  padding: var(--space-4);
+
+  @include bp(sm) {
+    padding: var(--space-5) var(--space-6);
+  }
+}
+
+// Confirmación en línea de descarte
+.edit-service-drawer__discard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.edit-service-drawer__discard-text {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.edit-service-drawer__discard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.edit-service-drawer__keep {
+  @include pill-button(secondary);
+}
+
+.edit-service-drawer__discard-btn {
+  @include pill-button(ink);
+}
+
+.edit-service-drawer__cancel {
+  @include pill-button(ghost);
+
+  &:hover {
+    background-color: var(--board-hover);
+  }
+}
+
+.edit-service-drawer__save {
+  @include pill-button(primary);
+
+  & {
+    gap: var(--space-2);
+  }
+}
+
+.edit-service-drawer__save-icon {
+  height: 1rem;
+  width: 1rem;
+  color: currentColor;
+}
+
+@keyframes esd-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Movimiento reducido: sin desplazamientos ni escalas, solo fundidos breves. */
+@media (prefers-reduced-motion: reduce) {
+  .edit-service-drawer * {
+    transition-property: opacity, color, background-color, box-shadow;
+    transition-duration: var(--dur-fast);
+  }
+
+  .edit-service-drawer__panel {
+    transform: none;
+    animation: esd-fade var(--dur-base) var(--ease-standard) both;
+  }
+
+  .edit-service-drawer button:active {
+    transform: none;
+  }
+}

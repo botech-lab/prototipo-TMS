@@ -1,0 +1,56 @@
+/**
+ * Catalog Shell Component Styles
+ * Maquetación del módulo: cabecera, toolbar y catálogo (tabla o tarjetas).
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.catalog-shell {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  width: 100%;
+  max-width: 1600px;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-4);
+
+  @include bp(sm) {
+    padding: var(--space-6);
+  }
+
+  &__toolbar {
+    display: flex;
+    min-height: 56px;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  &__search {
+    width: 100%;
+    max-width: 420px;
+    flex: 1 1 0%;
+  }
+
+  /* Recuento del tablero: texto neutro sin relleno, cifras tabulares. */
+  &__summary {
+    margin-left: auto;
+    display: none;
+    height: 2.25rem;
+    align-items: center;
+    white-space: nowrap;
+    @include board-figure(var(--text-xs), 700);
+    line-height: var(--leading-ui);
+    color: var(--color-neutral-600);
+
+    @include bp(lg) {
+      display: inline-flex;
+    }
+  }
+}

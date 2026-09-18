@@ -1,0 +1,77 @@
+/**
+ * Route Graph SVG Styles · Tablero Espacial
+ * Solo color y tipografía. La geometría (viewBox 460x200, radios, tamaños de
+ * fuente y despejes) pertenece a ROUTE_GRAPH_RULES y no se toca aquí.
+ * Paleta "Amanecer andino": cada nodo lleva el color de categoría de su
+ * departamento (ROUTE_GRAPH_RULES.PALETTE) y el trazo punteado va en neutro.
+ */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.rm-svg-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-neutral-300) transparent;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-neutral-300);
+    border-radius: var(--radius-pill);
+  }
+}
+
+.rm-stop-node-group {
+  circle {
+    transition: transform var(--dur-base) var(--ease-standard), stroke-width var(--dur-base) ease;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  &:hover circle {
+    transform: scale(1.12);
+  }
+
+  /* Movimiento reducido: sin escala; el nodo responde con un fundido. */
+  @media (prefers-reduced-motion: reduce) {
+    circle {
+      transition: opacity var(--dur-fast) linear;
+    }
+
+    &:hover circle {
+      transform: none;
+      opacity: 0.8;
+    }
+  }
+}
+
+.route-graph {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &__svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* Nombres de ciudad en neutro. El peso 500 y el tamaño del atributo se
+     conservan: el despeje de las curvas se calcula con ese ancho de texto. */
+  .city-label {
+    fill: var(--color-neutral-700);
+  }
+
+  /* Número y bandera sobre el nodo lleno. */
+  .node-label--inverse,
+  .node-flag {
+    fill: var(--color-neutral-0);
+  }
+}

@@ -1,0 +1,578 @@
+[
+ {
+  "name": "operaciones-1440",
+  "path": "/operaciones",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "rutas-maestras-1440",
+  "path": "/rutas-maestras",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "ventas-1440",
+  "path": "/ventas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "administracion-1440",
+  "path": "/administracion",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "vehiculos-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "vehiculos_veh-1234_plazas-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "conductores-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "usuarios-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "informes-1440",
+  "path": "/informes",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_ciudades-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_departamentos-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_personas-1440",
+  "path": "/parametric/personas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipo-cargas-1440",
+  "path": "/parametric/tipo-cargas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipo-vehiculos-1440",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipo-documentos-1440",
+  "path": "/parametric/tipo-documentos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipo-incidencias-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipo-licencias-1440",
+  "path": "/parametric/tipo-licencias",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipo-recargos-1440",
+  "path": "/parametric/tipo-recargos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_metodos-pago-1440",
+  "path": "/parametric/metodos-pago",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_monedas-1440",
+  "path": "/parametric/monedas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipos-uso-ruta-1440",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipos-categoria-tarifa-1440",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_tipos-asiento-1440",
+  "path": "/parametric/tipos-asiento",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "parametric_canales-venta-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "operaciones-1024",
+  "path": "/operaciones",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "rutas-maestras-1024",
+  "path": "/rutas-maestras",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "ventas-1024",
+  "path": "/ventas",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "administracion-1024",
+  "path": "/administracion",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "vehiculos-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "vehiculos_veh-1234_plazas-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "conductores-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "usuarios-1024",
+  "path": "/usuarios",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "informes-1024",
+  "path": "/informes",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_ciudades-1024",
+  "path": "/parametric/ciudades",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_departamentos-1024",
+  "path": "/parametric/departamentos",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_personas-1024",
+  "path": "/parametric/personas",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipo-cargas-1024",
+  "path": "/parametric/tipo-cargas",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipo-vehiculos-1024",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipo-documentos-1024",
+  "path": "/parametric/tipo-documentos",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipo-incidencias-1024",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipo-licencias-1024",
+  "path": "/parametric/tipo-licencias",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipo-recargos-1024",
+  "path": "/parametric/tipo-recargos",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_metodos-pago-1024",
+  "path": "/parametric/metodos-pago",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_monedas-1024",
+  "path": "/parametric/monedas",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipos-uso-ruta-1024",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipos-categoria-tarifa-1024",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_tipos-asiento-1024",
+  "path": "/parametric/tipos-asiento",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "parametric_canales-venta-1024",
+  "path": "/parametric/canales-venta",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "operaciones-768",
+  "path": "/operaciones",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "rutas-maestras-768",
+  "path": "/rutas-maestras",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "ventas-768",
+  "path": "/ventas",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "administracion-768",
+  "path": "/administracion",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "vehiculos-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "vehiculos_veh-1234_plazas-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "conductores-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "usuarios-768",
+  "path": "/usuarios",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "informes-768",
+  "path": "/informes",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_ciudades-768",
+  "path": "/parametric/ciudades",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_departamentos-768",
+  "path": "/parametric/departamentos",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_personas-768",
+  "path": "/parametric/personas",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipo-cargas-768",
+  "path": "/parametric/tipo-cargas",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipo-vehiculos-768",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipo-documentos-768",
+  "path": "/parametric/tipo-documentos",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipo-incidencias-768",
+  "path": "/parametric/tipo-incidencias",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipo-licencias-768",
+  "path": "/parametric/tipo-licencias",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipo-recargos-768",
+  "path": "/parametric/tipo-recargos",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_metodos-pago-768",
+  "path": "/parametric/metodos-pago",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_monedas-768",
+  "path": "/parametric/monedas",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipos-uso-ruta-768",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipos-categoria-tarifa-768",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_tipos-asiento-768",
+  "path": "/parametric/tipos-asiento",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "parametric_canales-venta-768",
+  "path": "/parametric/canales-venta",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "operaciones-390",
+  "path": "/operaciones",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "rutas-maestras-390",
+  "path": "/rutas-maestras",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "ventas-390",
+  "path": "/ventas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "administracion-390",
+  "path": "/administracion",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "vehiculos-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "vehiculos_veh-1234_plazas-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "conductores-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "usuarios-390",
+  "path": "/usuarios",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "informes-390",
+  "path": "/informes",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_ciudades-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_departamentos-390",
+  "path": "/parametric/departamentos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_personas-390",
+  "path": "/parametric/personas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipo-cargas-390",
+  "path": "/parametric/tipo-cargas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipo-vehiculos-390",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipo-documentos-390",
+  "path": "/parametric/tipo-documentos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipo-incidencias-390",
+  "path": "/parametric/tipo-incidencias",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipo-licencias-390",
+  "path": "/parametric/tipo-licencias",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipo-recargos-390",
+  "path": "/parametric/tipo-recargos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_metodos-pago-390",
+  "path": "/parametric/metodos-pago",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_monedas-390",
+  "path": "/parametric/monedas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipos-uso-ruta-390",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipos-categoria-tarifa-390",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_tipos-asiento-390",
+  "path": "/parametric/tipos-asiento",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "parametric_canales-venta-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844
+ }
+]

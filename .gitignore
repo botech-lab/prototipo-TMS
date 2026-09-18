@@ -1,0 +1,15 @@
+# Dependencias y builds
+node_modules/
+dist/
+.angular/
+
+# Sistema y editores
+.DS_Store
+*.log
+
+# Ajustes locales de Claude Code (los ajustes compartidos se versionan)
+.claude/settings.local.json
+
+# Configuración local de Impeccable
+.impeccable/config.local.json
+.claude/scheduled_tasks.lock

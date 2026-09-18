@@ -1,0 +1,213 @@
+/**
+ * Department Accordion Styles · Tablero Espacial (Amanecer andino)
+ * Estructura original: panel de vidrio por origen, rótulo de tablero,
+ * contador en píldora suave DM Sans tabular y banda cobre fina que agrupa
+ * sus rutas. Solo cambian colores y tokens.
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.department-accordion {
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-6);
+    margin-bottom: 0;
+  }
+
+  /* 1. Acordeón principal */
+  &__panel {
+    overflow: hidden;
+    transition: box-shadow var(--dur-base) var(--ease-standard);
+    border-radius: var(--radius-panel);
+    background-color: rgb(255 255 255 / 0.85);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+    @include rise-in;
+
+    & {
+      /* Banda cobre superior de 3px: agrupa los servicios del origen. */
+      box-shadow: inset 0 3px 0 var(--color-terracota-500), inset 0 0 0 1px rgb(255 255 255 / 0.7), var(--shadow-float);
+    }
+
+    &:hover {
+      box-shadow: inset 0 3px 0 var(--color-terracota-500), inset 0 0 0 1px rgb(255 255 255 / 0.7), var(--shadow-lift);
+    }
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-6);
+    cursor: pointer;
+    border-bottom: 1px solid var(--board-rule);
+    user-select: none;
+    transition: background-color var(--dur-base) var(--ease-standard);
+
+    &:hover {
+      background-color: var(--board-hover);
+    }
+
+    @include bp(sm) {
+      padding-left: var(--space-8);
+      padding-right: var(--space-8);
+    }
+  }
+
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  /* Pin del departamento en cobre (sustituye al emoji, mismo tamaño) */
+  &__pin {
+    width: var(--space-6);
+    height: var(--space-6);
+    color: var(--color-terracota-500);
+  }
+
+  &__name {
+    font-size: var(--text-lg);
+    line-height: var(--leading-body);
+    font-weight: 800;
+    color: var(--color-neutral-950);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__count {
+    padding: var(--space-1) 0.625rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-neutral-100);
+    box-shadow: inset 0 0 0 1px var(--board-rule);
+    font-family: var(--font-family-data);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    color: var(--color-neutral-700);
+  }
+
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2);
+    border-radius: var(--radius-pill);
+    color: var(--color-neutral-600);
+    @include press;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-neutral-950);
+      background-color: var(--color-neutral-100);
+    }
+  }
+
+  &__chevron {
+    width: var(--space-5);
+    height: var(--space-5);
+    transition: transform var(--dur-base) var(--ease-standard);
+
+    &--down {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__body {
+    padding: var(--space-6);
+    background-color: var(--board-zebra);
+
+    @include bp(sm) {
+      padding: var(--space-8);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--space-6);
+
+    @include bp(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__cell {
+    height: 100%;
+  }
+
+  &__empty {
+    grid-column: 1 / -1;
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+    text-align: center;
+    font-size: var(--text-sm);
+    line-height: var(--leading-body);
+    font-weight: 600;
+    color: var(--color-neutral-600);
+    border-radius: var(--radius-block);
+    border: 1px dashed var(--color-neutral-300);
+    background-color: var(--card-bg);
+  }
+
+  /* 2. Barra de departamentos cerrados: píldoras secondary */
+  &__secondary {
+    padding-top: var(--space-2);
+  }
+
+  &__bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  &__pill {
+    @include pill-button(secondary);
+
+    & {
+      gap: 0.625rem;
+      height: 2.5rem;
+      padding: 0 var(--space-4);
+    }
+  }
+
+  &__pill-pin {
+    width: var(--space-4);
+    height: var(--space-4);
+    color: var(--color-terracota-500);
+  }
+
+  &__pill-caret {
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    color: var(--color-neutral-400);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .department-accordion__chevron {
+    transition: none;
+  }
+
+  .department-accordion__toggle,
+  .department-accordion__pill {
+    transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear;
+
+    &:active {
+      transform: none;
+      opacity: 0.8;
+    }
+  }
+}

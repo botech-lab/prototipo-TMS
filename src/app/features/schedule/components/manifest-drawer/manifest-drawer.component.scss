@@ -1,0 +1,254 @@
+@use 'mixins' as *;
+
+/**
+ * Manifest Drawer · Boleto de viaje
+ * Drawer lateral flotante (mismo patrón que el de edición): lista de pasajeros
+ * con ficha de asiento, nombre y CI en cifras tabulares.
+ */
+
+@mixin label-2xs {
+  @include board-label;
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+}
+
+.manifest-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  font-family: var(--font-family-ui);
+  line-height: var(--leading-ui);
+}
+
+.manifest-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--color-neutral-900) 30%, transparent);
+}
+
+.manifest-drawer__panel-wrap {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  max-width: 100%;
+  padding: var(--space-3);
+
+  @include bp(sm) {
+    padding-left: var(--space-8);
+  }
+}
+
+.manifest-drawer__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  max-width: 26.25rem;
+  overflow: hidden;
+  @include float-panel(overlay);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: mf-slide var(--dur-base) var(--ease-out) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: mf-fade var(--dur-fast) var(--ease-standard) both;
+  }
+}
+
+@keyframes mf-slide {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+}
+
+@keyframes mf-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.manifest-drawer__header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.manifest-drawer__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.manifest-drawer__eyebrow {
+  @include label-2xs;
+  color: var(--color-terracota-500);
+}
+
+.manifest-drawer__title {
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-neutral-950);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.manifest-drawer__sub {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+}
+
+.manifest-drawer__figure {
+  @include board-figure(var(--text-sm), 700);
+  color: var(--color-neutral-900);
+}
+
+.manifest-drawer__arrow {
+  color: var(--color-terracota-500);
+}
+
+.manifest-drawer__meta {
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  color: var(--color-neutral-500);
+}
+
+.manifest-drawer__code {
+  @include board-figure(var(--text-xs), 600);
+}
+
+.manifest-drawer__close {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: var(--touch-min);
+  width: var(--touch-min);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  font-size: var(--text-xs);
+  line-height: var(--leading-tight);
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--board-hover);
+    color: var(--color-neutral-900);
+  }
+}
+
+.manifest-drawer__body {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-5);
+}
+
+.manifest-drawer__count {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  color: var(--color-neutral-600);
+
+  strong {
+    @include board-figure(var(--text-sm), 800);
+    color: var(--color-neutral-900);
+  }
+}
+
+.manifest-drawer__sample {
+  font-size: var(--text-xs);
+  color: var(--color-neutral-500);
+}
+
+.manifest-drawer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.manifest-drawer__pax {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--card-border);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+}
+
+/* Ficha de asiento: forma de respaldo con base cobre. */
+.manifest-drawer__seat {
+  display: grid;
+  place-items: center;
+  height: 1.875rem;
+  width: 2.125rem;
+  border-radius: var(--radius-field) var(--radius-field) var(--space-1) var(--space-1);
+  background-color: var(--color-terracota-50);
+  box-shadow: inset 0 -3px 0 var(--color-terracota-500);
+  @include board-figure(var(--text-xs), 800);
+  color: var(--color-terracota-500);
+}
+
+.manifest-drawer__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+  color: var(--color-neutral-900);
+}
+
+.manifest-drawer__ci {
+  white-space: nowrap;
+  @include board-figure(var(--text-xs), 500);
+  color: var(--color-neutral-500);
+}
+
+.manifest-drawer__empty {
+  font-size: var(--text-sm);
+  color: var(--color-neutral-500);
+}
+
+.manifest-drawer__footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--card-border);
+}
+
+.manifest-drawer__secondary {
+  @include pill-button(secondary);
+
+  & {
+    height: var(--touch-min);
+  }
+}
+
+.manifest-drawer__primary {
+  @include pill-button(primary);
+
+  & {
+    height: var(--touch-min);
+  }
+}

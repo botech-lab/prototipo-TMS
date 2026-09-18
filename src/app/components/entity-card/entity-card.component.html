@@ -1,0 +1,158 @@
+<article
+  data-testid="entity-card"
+  [attr.data-row-id]="row().id"
+  class="entity-card"
+  [class]="dimensions.SURFACE"
+  [class.entity-card--inactive]="inactive()"
+  [class.entity-card--attention]="attention() === 'warning'"
+  [class.entity-card--alert]="attention() === 'danger'">
+
+  <!-- 1. CABECERA: código · estado · switch -->
+  <header class="entity-card__header">
+    <span
+      data-testid="entity-card-badge"
+      class="entity-card__code"
+      [title]="badge()">
+      {{ badge() }}
+    </span>
+
+    <span
+      data-testid="entity-card-state"
+      class="entity-card__state"
+      [attr.data-tone]="tone()">
+      <span class="entity-card__state-dot" aria-hidden="true"></span>
+      {{ status().value }}
+    </span>
+
+    <!-- Switch de activación rápida (solo si la entidad lo admite) -->
+    @if (isEnabled() !== null) {
+      <label
+        data-testid="entity-card-switch"
+        class="entity-card__switch">
+        <input
+          type="checkbox"
+          [checked]="isEnabled()"
+          (change)="onToggleEnabled($event)"
+          class="entity-card__switch-input"
+          [attr.aria-label]="'Alternar estado de ' + badge()">
+        <span class="entity-card__switch-track" aria-hidden="true"></span>
+      </label>
+    }
+  </header>
+
+  <!-- 2. CUERPO: título, subtítulo y datos clave -->
+  <div class="entity-card__body">
+    <div class="entity-card__titles">
+      <h3
+        data-testid="entity-card-title"
+        class="entity-card__title"
+        [title]="title()">
+        {{ title() }}
+      </h3>
+      @if (subtitle()) {
+        <p class="entity-card__subtitle" [title]="subtitle()">{{ subtitle() }}</p>
+      }
+    </div>
+
+    @if (keyFacts().length) {
+      <dl class="entity-card__facts" [style.--facts]="keyFacts().length">
+        @for (fact of keyFacts(); track fact.label) {
+          <div class="entity-card__fact">
+            <dt class="entity-card__fact-label">{{ fact.label }}</dt>
+            <dd class="entity-card__fact-value" [title]="fact.value">{{ fact.value }}</dd>
+          </div>
+        }
+      </dl>
+    }
+
+    <p data-testid="entity-card-metric" class="entity-card__metric"><app-nav-icon class="entity-card__metric-icon" [name]="$any(metric().icon)" />{{ metric().value }}</p>
+  </div>
+
+  <!-- 3. PIE: acción principal · enlaces · menú "⋯" -->
+  <footer
+    data-testid="entity-card-footer"
+    class="entity-card__footer">
+
+    @if (primaryAction(); as primary) {
+      <button
+        type="button"
+        class="entity-card__primary"
+        [attr.data-testid]="primary.testId"
+        (click)="runAction(primary)"
+        [attr.aria-label]="primary.label + ' · ' + badge()">
+        <svg class="entity-card__action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="primary.iconPath" />
+        </svg>
+        <span>{{ primary.label }}</span>
+      </button>
+    }
+
+    <div class="entity-card__links">
+      @if (editLink()) {
+        <button
+          type="button"
+          data-testid="btn-edit-entity"
+          class="entity-card__link"
+          (click)="onEdit()"
+          [attr.aria-label]="'Editar · ' + badge()">
+          Editar
+        </button>
+      }
+
+      <button
+        type="button"
+        data-testid="btn-toggle-details"
+        class="entity-card__link"
+        (click)="onShowDetails()"
+        aria-haspopup="dialog"
+        [attr.aria-label]="'Ver detalle · ' + badge()">
+        Ver detalle
+      </button>
+    </div>
+
+    @if (menuActions().length) {
+      <div class="entity-card__more-wrap">
+        <button
+          #moreButton
+          type="button"
+          data-testid="btn-more-entity"
+          class="entity-card__more"
+          aria-label="Más acciones"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="menuOpen()"
+          [attr.aria-controls]="'more-' + row().id"
+          (click)="toggleMenu()">
+          <svg class="entity-card__more-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="5" cy="12" r="1.8" /><circle cx="12" cy="12" r="1.8" /><circle cx="19" cy="12" r="1.8" />
+          </svg>
+        </button>
+
+        @if (menuOpen()) {
+          <div
+            #menu
+            class="entity-card__menu"
+            role="menu"
+            [attr.id]="'more-' + row().id"
+            [attr.aria-label]="'Más acciones · ' + badge()"
+            (keydown)="onMenuKeydown($event)">
+            @for (action of menuActions(); track action.testId) {
+              <button
+                type="button"
+                role="menuitem"
+                tabindex="-1"
+                class="entity-card__menu-item"
+                [class.entity-card__menu-item--danger]="action.kind === 'delete'"
+                [attr.data-testid]="action.testId"
+                (click)="runAction(action)">
+                <svg class="entity-card__action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="action.iconPath" />
+                </svg>
+                {{ action.label }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+  </footer>
+</article>

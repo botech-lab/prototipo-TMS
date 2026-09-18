@@ -1,0 +1,570 @@
+@if (vehicle(); as v) {
+<section class="designer">
+
+  <!-- ===================================================================== -->
+  <!-- A. BARRA SUPERIOR: identidad · semáforos · historial · guardar         -->
+  <!-- ===================================================================== -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <button type="button" class="btn btn--icon" (click)="goBack()" title="Volver a Vehículos" data-testid="btn-back">
+        <svg class="topbar__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <h1 class="sr-only">Diseñar plazas · {{ v.plate }}</h1>
+      <span class="topbar__plate">{{ v.plate }}</span>
+      <span class="topbar__meta">{{ v.brand }} {{ v.model }} · {{ v.type }}</span>
+    </div>
+
+    @if (lights(); as tl) {
+      <div class="pills" role="status" aria-label="Coherencia del plano" data-testid="traffic-lights">
+        <button type="button" class="pill" [attr.data-light]="tl.capacity" (click)="onLightClick('capacity')" title="Capacidad frente al límite de la unidad">
+          <span class="pill__dot" aria-hidden="true"></span><span class="pill__text">{{ capacityLabel() }}</span>
+        </button>
+        <span class="pill__sep">·</span>
+        <div class="menu-anchor">
+          <button type="button" class="pill" [attr.data-light]="tl.exits" (click)="onLightClick('exits')" title="Al menos una puerta de acceso" data-testid="pill-exits">
+            <span class="pill__dot" aria-hidden="true"></span><span class="pill__text">{{ exitsLabel() }}</span>
+          </button>
+          @if (doorHintOpen()) {
+            <div class="hint" role="dialog" data-testid="door-hint">
+              <span class="hint__text">Un bus sin puerta no se puede guardar.</span>
+              <button type="button" class="btn btn--primary hint__go" (click)="placeFrontDoor()" data-testid="hint-place-door">Colocar puerta delantera</button>
+            </div>
+          }
+        </div>
+        <span class="pill__sep">·</span>
+        <button type="button" class="pill" [attr.data-light]="tl.numbering" (click)="onLightClick('numbering')" title="Secuencia continua, sin duplicados">
+          <span class="pill__dot" aria-hidden="true"></span><span class="pill__text">{{ numberingLabel() }}</span>
+        </button>
+      </div>
+    }
+
+    <div class="topbar__right">
+      @if (historySize() > 1) {
+        <label class="timeline topbar__wide" title="Recorre las versiones del plano">
+          <span class="timeline__label">v{{ historyIndex() + 1 }}/{{ historySize() }}</span>
+          <input type="range" min="0" [max]="historySize() - 1" [value]="historyIndex()" (input)="jumpTo($any($event.target).value)" data-testid="timeline" />
+        </label>
+      }
+      <button type="button" class="btn btn--icon" [class.btn--active]="preview()" (click)="togglePreview()" title="Vista de venta (P)" data-testid="btn-preview" aria-label="Vista de venta"><app-designer-icon name="eye" /></button>
+      <button type="button" class="btn btn--icon" [disabled]="!canUndo()" (click)="undo()" title="Deshacer (⌘Z)" aria-label="Deshacer" data-testid="btn-undo">
+        <svg class="topbar__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14L4 9l5-5M4 9h9a6 6 0 010 12h-3"/></svg>
+      </button>
+      <button type="button" class="btn btn--icon" [disabled]="!canRedo()" (click)="redo()" title="Rehacer (⌘⇧Z)" aria-label="Rehacer" data-testid="btn-redo">
+        <svg class="topbar__icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 14l5-5-5-5M20 9h-9a6 6 0 000 12h3"/></svg>
+      </button>
+      @if (isDirty()) { <button type="button" class="btn btn--ghost topbar__wide" (click)="revert()">Descartar</button> }
+      <button type="button" class="btn btn--primary" [class.btn--pulse]="isDirty() && lights()?.canSave" [class.btn--blocked]="lights() && !lights()!.canSave"
+        (click)="save()" [title]="lights() && !lights()!.canSave ? 'Corrige el rojo del semáforo para guardar' : 'Guardar y sincronizar'" data-testid="btn-save">
+        <span class="topbar__wide">{{ isDirty() ? 'Guardar configuración' : 'Guardado' }}</span>
+        <span class="topbar__narrow">{{ isDirty() ? 'Guardar' : 'Guardado' }}</span>
+      </button>
+    </div>
+  </header>
+
+  @if (layout(); as l) {
+  <div class="workspace">
+
+    <div class="canvas">
+
+      @if (zen() && !preview()) {
+        <button type="button" class="zen-tab" (click)="showPanel()" title="Mostrar panel" data-testid="zen-tab"><span><app-designer-icon name="panel-left" /></span><span class="zen-tab__label">Panel</span></button>
+      }
+
+      <!-- Cápsula flotante superior: piso · modo · capas -->
+      <div class="context" data-testid="context-bar">
+        <div class="seg" role="tablist" aria-label="Nivel">
+          @for (deck of l.decks; track deck.floor; let i = $index) {
+            <button type="button" role="tab" class="seg__item" [class.seg__item--active]="activeDeck() === i" [attr.aria-selected]="activeDeck() === i" (click)="setDeck(i)" [attr.data-testid]="'deck-tab-' + deck.floor">
+              {{ i === 0 ? 'P1' : i === 1 ? 'P2' : 'P' + deck.floor }}<span class="seg__count">{{ stats()?.byDeck?.[i] ?? 0 }}</span>
+            </button>
+          }
+        </div>
+
+        @if (!preview()) {
+          <span class="context__sep"></span>
+          <div class="menu-anchor">
+            <button type="button" class="context__btn" (click)="openMenu('column')" title="Esquema de columnas" data-testid="column-menu">
+              <span class="context__label">Modo</span><strong>{{ columnLabel() }}</strong><span class="context__caret">▾</span>
+            </button>
+            @if (columnMenuOpen()) {
+              <div class="menu menu--compact" role="menu">
+                @for (p of columnPresets; track p.id) {
+                  <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="activeColumnPreset() === p.id" (click)="setColumns(p.id); closeMenus()" [attr.data-testid]="'columns-' + p.id">{{ p.label }}</button>
+                }
+              </div>
+            }
+          </div>
+          <button type="button" class="context__btn context__swap" [class.context__swap--busy]="flipping()" (click)="swapSides()" [title]="'Invertir lados: ' + schemeLabel()" data-testid="swap-sides">
+            <strong>{{ schemeLabel() }}</strong><span class="context__arrows"><app-designer-icon name="swap" /></span>
+          </button>
+        }
+
+        <span class="context__sep"></span>
+        <div class="menu-anchor">
+          <button type="button" class="context__btn" (click)="openMenu('layer')" title="Capa de inspección" data-testid="layer-menu">
+            <span><app-designer-icon [name]="layerIcon()" /></span><strong>{{ layerLabel() }}</strong><span class="context__caret">▾</span>
+          </button>
+          @if (layerMenuOpen()) {
+            <div class="menu menu--compact" role="menu">
+              <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="layer() === 'passenger'" (click)="setLayer('passenger'); closeMenus()" data-testid="layer-passenger"><app-designer-icon name="ticket" /> Pasajero</button>
+              <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="layer() === 'fare'" (click)="setLayer('fare'); closeMenus()" data-testid="layer-fare"><app-designer-icon name="thermo" /> Tarifa</button>
+              <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="layer() === 'amenities'" (click)="setLayer('amenities'); closeMenus()" data-testid="layer-amenities"><app-designer-icon name="usb" /> Equipamiento</button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Leyenda siempre visible -->
+      <div class="legend" data-testid="seat-legend" role="note" aria-label="Leyenda del plano">
+        @if (layer() === 'fare') {
+          @for (f of fareLegend; track f.rank) {
+            <span class="legend__item"><span class="legend__swatch legend__swatch--heat" [style.--seat-stroke]="f.stroke"></span>{{ f.name }}</span>
+          }
+        } @else {
+          @for (t of seatTools(); track t.code) {
+            <span class="legend__item"><span class="legend__swatch" [style.--seat-fill]="t.appearance.fill" [style.--seat-stroke]="t.appearance.stroke"></span>{{ t.name }}</span>
+          }
+        }
+        <span class="legend__item"><span class="legend__swatch legend__swatch--selected"></span>Seleccionada</span>
+        <span class="legend__item"><span class="legend__swatch legend__swatch--fixed"></span>Conductor e instalaciones</span>
+      </div>
+
+      <!-- Escenario -->
+      <div #stage class="stage" (pointerleave)="onCellHover(null)">
+        <div class="bus" [attr.data-orientation]="orientation()">
+          <span class="bus__end bus__end--front">{{ rules.VESTIBULE.SIDE_LABELS.front }}</span>
+
+          <div class="bus__frame">
+          <span class="bus__side bus__side--doors" data-testid="side-doors">{{ rules.VESTIBULE.SIDE_LABELS.doors }}</span>
+          <div class="bus__body">
+            <div #grid class="seat-grid" [class.seat-grid--flip]="flipping()" role="grid" aria-label="Plano de butacas"
+              [style.grid-template-columns]="gridTemplate().columns" [style.grid-template-rows]="gridTemplate().rows" [style.gap.px]="rules.CELL.GAP" data-testid="seat-grid">
+
+              @for (r of renderedCells(); track r.key) {
+                @if (r.cell.kind === 'aisle') {
+                  <div class="cell cell--aisle" [style.grid-row]="r.gridRow" [style.grid-column]="r.gridCol" [attr.data-mampara]="r.mampara ? '' : null" aria-hidden="true"></div>
+                } @else {
+                  <button type="button" role="gridcell" class="cell"
+                    [class.cell--empty]="r.cell.kind === 'empty'"
+                    [class.cell--seat]="r.cell.kind === 'seat'"
+                    [class.cell--fixture]="!!r.fixture"
+                    [class.cell--selected]="isSelected(r)"
+                    [class.cell--in-selection]="inSelection(r)"
+                    [class.cell--in-snake]="inSnake(r) !== null"
+                    [class.cell--ghost]="ghostNumber(r) !== null"
+                    [class.cell--lifted]="isMoveSource(r)"
+                    [class.cell--drop]="isMoveTarget(r)"
+                    [class.cell--landed]="isLanded(r)"
+                    [class.cell--heat]="layer() === 'fare' && !!r.heat"
+                    [attr.data-exit]="r.exit" [attr.data-mampara]="r.mampara ? '' : null"
+                    [style.grid-row]="r.gridRow" [style.grid-column]="r.gridCol"
+                    [style.--seat-fill]="(layer() === 'fare' && r.heat) ? r.heat.fill : (r.appearance?.fill ?? null)"
+                    [style.--seat-stroke]="(layer() === 'fare' && r.heat) ? r.heat.stroke : (r.appearance?.stroke ?? null)"
+                    [style.--seat-text]="(layer() === 'fare' && r.heat) ? r.heat.text : (r.appearance?.text ?? null)"
+                    [style.--fixture-fill]="r.fixture ? rules.FIXTURES[r.fixture.kind].fill : null"
+                    [style.--fixture-stroke]="r.fixture ? rules.FIXTURES[r.fixture.kind].stroke : null"
+                    [attr.data-cell]="r.key" [attr.data-kind]="r.cell.kind"
+                    [attr.title]="preview() && r.fare ? r.appearance?.label + ' · ' + r.fare.name : null"
+                    [attr.aria-label]="r.cell.kind === 'seat' ? 'Butaca ' + r.cell.number + ' ' + r.appearance?.label : (r.fixture?.label ?? 'Vacío')"
+                    (pointerdown)="onCellPointerDown($event, r)" (pointerenter)="onCellHover(r)">
+
+                    @if (r.cell.kind === 'seat') {
+                      @switch (layer()) {
+                        @case ('fare') {
+                          <span class="cell__number">{{ seatLabelOf(r.cell) }}</span>
+                          <span class="cell__fare">{{ r.fare?.name }}@if (r.fare?.manual) {<span class="cell__pin" title="Fijada a mano"><app-designer-icon name="pin" /></span>}</span>
+                        }
+                        @case ('amenities') {
+                          <span class="cell__number">{{ seatLabelOf(r.cell) }}</span>
+                          <span class="cell__glyphs">
+                            @for (t of r.traits; track t) { <span [title]="traitLabel(t)"><app-designer-icon [name]="traitIcon(t)" /></span> }
+                            @for (a of r.cell.amenities ?? []; track a) { <span><app-designer-icon [name]="amenityIcon(a)" /></span> }
+                          </span>
+                        }
+                        @default {
+                          <span class="cell__number">{{ seatLabelOf(r.cell) }}</span>
+                          <span class="cell__icon"><app-designer-icon [name]="r.appearance?.icon" /></span>
+                        }
+                      }
+                      @if (inSnake(r); as order) { <span class="cell__snake-order">{{ order }}</span> }
+                    } @else if (r.fixture) {
+                      <span class="cell__icon cell__icon--fixture"><app-designer-icon [name]="r.fixture.icon" /></span>
+                      <span class="cell__fixture-label">{{ r.fixture.label }}</span>
+                    } @else if (ghostNumber(r) !== null) {
+                      <span class="cell__ghost">{{ ghostNumber(r) }}</span>
+                    }
+                    @if (r.cell.kind === 'seat' && ghostNumber(r) !== null) { <span class="cell__ghost cell__ghost--over">{{ ghostNumber(r) }}</span> }
+                  </button>
+                }
+              }
+
+              <!-- Puertas de embarque: franja delgada en el borde, no una celda -->
+              @for (d of renderedDoors(); track d.row + d.side) {
+                <div class="door" [attr.data-edge]="d.edge" [style.grid-row]="d.gridRow" [style.grid-column]="d.gridCol"
+                  data-kind="door" data-testid="door-marker" [attr.title]="'Puerta de embarque · fila ' + (d.row + 1)" (pointerdown)="onDoorPointerDown($event, d)">
+                  <span class="door__label"><app-designer-icon name="door" /> Puerta</span>
+                </div>
+              }
+              @if (lassoRect(); as lr) {
+                <div class="lasso" [style.left.px]="lr.x" [style.top.px]="lr.y" [style.width.px]="lr.w" [style.height.px]="lr.h" data-testid="lasso"></div>
+              }
+              @if (snakePoints().length > 1) {
+                <svg class="snake" aria-hidden="true">
+                  <polyline [attr.points]="snakePolyline()" fill="none" [attr.stroke]="rules.SNAKE.GLOW" [attr.stroke-width]="rules.SNAKE.WIDTH * 3" stroke-linecap="round" stroke-linejoin="round" />
+                  <polyline [attr.points]="snakePolyline()" fill="none" [attr.stroke]="rules.SNAKE.STROKE" [attr.stroke-width]="rules.SNAKE.WIDTH" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              }
+            </div>
+
+            @if (!preview()) {
+              <button type="button" class="stamp-handle" (pointerdown)="onStampPointerDown($event)" title="Arrastra para añadir o quitar filas" aria-label="Estirar chasis" data-testid="stamp-handle">
+                <span class="stamp-handle__grip"></span>
+              </button>
+            }
+          </div>
+
+          <span class="bus__side bus__side--driver" data-testid="side-driver">{{ rules.VESTIBULE.SIDE_LABELS.driver }}</span>
+          </div>
+          <span class="bus__end bus__end--rear">{{ rules.VESTIBULE.SIDE_LABELS.rear }}</span>
+        </div>
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- D. DOCK FLOTANTE INFERIOR                                        -->
+      <!-- =============================================================== -->
+      @if (!preview()) {
+        <div class="dock" role="toolbar" aria-label="Herramientas de dibujo" data-testid="dock">
+          <div class="dock__group">
+            <button type="button" class="dock__btn" [class.dock__btn--active]="isToolActive('select')" (click)="selectTool('select')" title="Seleccionar / lasso (V)" data-testid="tool-select"><span><app-designer-icon name="pointer" /></span><span class="dock__label">Lasso</span></button>
+            <button type="button" class="dock__btn" [class.dock__btn--active]="isToolActive('number')" (click)="selectTool('number')" title="Numerar dibujando (N)" data-testid="tool-number"><span><app-designer-icon name="snake" /></span><span class="dock__label">Serpiente</span></button>
+            <button type="button" class="dock__btn" [class.dock__btn--active]="isToolActive('seat') || isToolActive('fixture')" (click)="togglePanel('seats')" title="Pintar: elige una butaca en el panel" data-testid="tool-paint"><span><app-designer-icon name="brush" /></span><span class="dock__label">Pintar</span></button>
+            <button type="button" class="dock__btn" [class.dock__btn--active]="isToolActive('move')" (click)="selectTool('move')" title="Mover: arrastra una butaca a otro sitio (H)" data-testid="tool-move"><span><app-designer-icon name="hand" /></span><span class="dock__label">Mover</span></button>
+            <button type="button" class="dock__btn" [class.dock__btn--active]="isToolActive('erase')" (click)="selectTool('erase')" title="Borrar (E)" data-testid="tool-erase"><span><app-designer-icon name="eraser" /></span><span class="dock__label">Borrar</span></button>
+          </div>
+
+          <span class="dock__sep"></span>
+
+          <div class="dock__group">
+            <div class="menu-anchor">
+              <button type="button" class="dock__btn dock__btn--wide" (click)="openMenu('number')" title="Auto-numerar (A)" data-testid="op-autonumber">
+                <span>#</span><span class="dock__label">Auto-numerar</span><span class="context__caret">▾</span>
+              </button>
+              @if (numberMenuOpen()) {
+                <div class="menu menu--up" role="menu" data-testid="number-menu">
+                  <span class="menu__title">Recorrido</span>
+                  <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="strategy() === 'sides'" (click)="setStrategy('sides')" data-testid="strategy-sides">{{ rules.NUMBERING.LABELS.sides }}</button>
+                  <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="strategy() === 'aisleOdd'" (click)="setStrategy('aisleOdd')" data-testid="strategy-aisleodd">{{ rules.NUMBERING.LABELS.aisleOdd }}</button>
+                  <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="strategy() === 'rows'" (click)="setStrategy('rows')" data-testid="strategy-rows">{{ rules.NUMBERING.LABELS.rows }}</button>
+                  <span class="menu__title">Alcance</span>
+                  <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="scope() === 'continuous'" (click)="setScope('continuous')" data-testid="scope-continuous">Corrida · 1 a N entre pisos</button>
+                  <button type="button" role="menuitem" class="menu__row" [class.menu__row--active]="scope() === 'perDeck'" (click)="setScope('perDeck')" data-testid="scope-perdeck">Por piso · cada uno desde 1</button>
+                  <button type="button" role="menuitem" class="menu__apply" (click)="autoNumber(); closeMenus()">Aplicar {{ strategyLabel() }}</button>
+                </div>
+              }
+            </div>
+            <button type="button" class="dock__btn" (click)="duplicateRow()" title="Duplicar fila (⌘D)" data-testid="op-duplicate"><span><app-designer-icon name="duplicate" /></span><span class="dock__label">Duplicar</span></button>
+            <button type="button" class="dock__btn" (click)="mirror()" title="Reflejar (M)" data-testid="op-mirror"><span><app-designer-icon name="mirror" /></span><span class="dock__label">Reflejar</span></button>
+            <button type="button" class="dock__btn" (click)="swapSides()" title="Invertir lados (1+2 ⇄ 2+1)" data-testid="op-swap"><span><app-designer-icon name="swap" /></span><span class="dock__label">Invertir</span></button>
+          </div>
+
+          <span class="dock__sep"></span>
+
+          <div class="dock__group dock__group--zoom">
+            <button type="button" class="dock__btn dock__btn--tight" (click)="zoomBy(-rules.ZOOM.STEP)" [disabled]="zoom() <= rules.ZOOM.MIN" aria-label="Alejar">−</button>
+            <button type="button" class="dock__btn dock__btn--tight dock__zoom" (click)="fitToStage()" title="Ajustar al escenario">{{ (zoom() * 100).toFixed(0) }}%</button>
+            <button type="button" class="dock__btn dock__btn--tight" (click)="zoomBy(rules.ZOOM.STEP)" [disabled]="zoom() >= rules.ZOOM.MAX" aria-label="Acercar">+</button>
+          </div>
+        </div>
+      }
+
+      <!-- Barra flotante de selección -->
+      @if (selectionCount() > 0 && !preview()) {
+        <div class="selbar" role="toolbar" data-testid="selection-bar">
+          <span class="selbar__count">{{ selectionCount() }} seleccionadas</span>
+          <div class="selbar__group">
+            @for (t of seatTools(); track t.code) {
+              <button type="button" class="chip" [style.--tool-fill]="t.appearance.fill" [style.--tool-stroke]="t.appearance.stroke" (click)="selectionSetType(t.code)" [title]="'Convertir a ' + t.name"><app-designer-icon [name]="t.appearance.icon" /></button>
+            }
+          </div>
+          <div class="selbar__group">
+            @for (f of fareOptions(); track f.id) {
+              <button type="button" class="chip chip--fare" [attr.data-rank]="f.rank" (click)="selectionSetFare(f.id)" [title]="'Tarifa ' + f.name">{{ f.name }}</button>
+            }
+            <button type="button" class="chip" (click)="selectionSetFare(null)" title="Volver a la tarifa por reglas">auto</button>
+          </div>
+          <div class="selbar__group">
+            @for (a of amenityOptions; track a.id) {
+              <button type="button" class="chip" [class.chip--active]="selectionHasAmenity(a.id)" (click)="selectionToggleAmenity(a.id, !selectionHasAmenity(a.id))" [title]="a.label"><app-designer-icon [name]="a.icon" /></button>
+            }
+          </div>
+          <div class="selbar__group">
+            <button type="button" class="chip" (click)="selectionShift(-1)" title="Mover una fila adelante"><app-designer-icon name="arrow-up" /> fila</button>
+            <button type="button" class="chip" (click)="selectionShift(1)" title="Mover una fila atrás"><app-designer-icon name="arrow-down" /> fila</button>
+            <button type="button" class="chip chip--danger" (click)="selectionErase()" title="Quitar (Supr)" aria-label="Quitar"><app-designer-icon name="trash" /></button>
+            <button type="button" class="chip" (click)="clearSelection()" title="Deseleccionar (Esc)" aria-label="Deseleccionar"><app-designer-icon name="close" /></button>
+          </div>
+        </div>
+      }
+
+      <!-- Popover de butaca -->
+      @if (selectedCell(); as sc) { @if (sc.kind === 'seat') {
+        <div class="popover" role="dialog" aria-label="Editar butaca" data-testid="seat-popover">
+          <div class="panel__head"><span class="panel__title">Butaca {{ sc.number }}</span><button type="button" class="btn btn--icon" (click)="closePopover()" aria-label="Cerrar"><app-designer-icon name="close" /></button></div>
+          <label class="field"><span>Número</span><input type="number" min="1" [value]="sc.number" (change)="renumberSelected($any($event.target).value)" data-testid="popover-number" /></label>
+          <button type="button" class="btn btn--ghost" (click)="insertSelectedNumber($any(popNumber).value)" title="Esta butaca toma el número y las siguientes suben +1" data-testid="popover-insert"><app-designer-icon name="insert" /> Insertar y empujar +1</button>
+          <input type="hidden" #popNumber [value]="sc.number" />
+          <div class="field"><span>Tipo</span>
+            <div class="row-wrap">
+              @for (t of seatTools(); track t.code) {
+                <button type="button" class="chip" [class.chip--active]="t.code === sc.seatType" [style.--tool-fill]="t.appearance.fill" [style.--tool-stroke]="t.appearance.stroke" (click)="changeSelectedType(t.code)"><app-designer-icon [name]="t.appearance.icon" /> {{ t.name }}</button>
+              }
+            </div>
+          </div>
+          <button type="button" class="btn btn--danger" (click)="deleteSelected()" data-testid="popover-delete">Quitar butaca</button>
+        </div>
+      } }
+    </div>
+    <!-- =================================================================== -->
+    <!-- B. RIEL LATERAL: pestañas de 60px                                    -->
+    <!-- =================================================================== -->
+    @if (!preview() && !zen()) {
+      <nav class="rail" aria-label="Herramientas">
+        <button type="button" class="rail__tab" [class.rail__tab--active]="isPanel('assistant')" (click)="togglePanel('assistant')" title="Asistente" data-testid="rail-assistant">
+          <span class="rail__icon"><app-designer-icon name="sparkles" /></span><span class="rail__label">Asistente</span>
+        </button>
+        <button type="button" class="rail__tab" [class.rail__tab--active]="isPanel('seats')" (click)="togglePanel('seats')" title="Asientos" data-testid="rail-seats">
+          <span class="rail__icon"><app-designer-icon name="seat-recline" /></span><span class="rail__label">Asientos</span>
+        </button>
+        <button type="button" class="rail__tab" [class.rail__tab--active]="isPanel('fixtures')" (click)="togglePanel('fixtures')" title="Instalaciones" data-testid="rail-fixtures">
+          <span class="rail__icon"><app-designer-icon name="door" /></span><span class="rail__label">Instalaciones</span>
+        </button>
+        <button type="button" class="rail__tab" [class.rail__tab--active]="isPanel('templates')" (click)="togglePanel('templates')" title="Plantillas y grid" data-testid="rail-templates">
+          <span class="rail__icon"><app-designer-icon name="template" /></span><span class="rail__label">Plantillas</span>
+        </button>
+        <span class="rail__spacer"></span>
+        <button type="button" class="rail__tab rail__tab--util" [class.rail__tab--active]="fullscreen()" (click)="toggleFullscreen()" [title]="fullscreen() ? 'Salir de pantalla completa' : 'Expandir a pantalla completa'" [attr.aria-label]="fullscreen() ? 'Salir de pantalla completa' : 'Expandir a pantalla completa'" data-testid="rail-expand">
+          <span class="rail__icon"><app-designer-icon name="expand" /></span><span class="rail__label">{{ fullscreen() ? 'Salir' : 'Expandir' }}</span>
+        </button>
+        <button type="button" class="rail__tab rail__tab--util" (click)="hidePanel()" title="Ocultar panel (modo Zen)" aria-label="Ocultar panel (modo Zen)" data-testid="rail-hide">
+          <span class="rail__icon"><app-designer-icon name="panel-right" /></span><span class="rail__label">Ocultar</span>
+        </button>
+      </nav>
+
+      <!-- Panel desplegable del riel -->
+      @if (!isPanel('none')) {
+        <aside class="panel" data-testid="side-panel">
+
+          <!-- ASISTENTE CONVERSACIONAL -->
+          @if (isPanel('assistant')) {
+            <div class="panel__head">
+              <span class="panel__title">Asistente</span>
+              @if (chatLog().length) { <button type="button" class="btn btn--ghost panel__add" (click)="chatReset()" data-testid="chat-reset">Nuevo bus</button> }
+            </div>
+            <div class="chat" data-testid="chat">
+              <div #chatScroll class="chat__log">
+                @if (!chatLog().length) {
+                  <div class="msg msg--bot">
+                    <p class="msg__text">Cuéntame cómo es el bus y te pregunto solo lo que no pueda asumir.</p>
+                    <p class="msg__example">"2 pisos, abajo 10 camas, arriba 33 semicama. Ventana pares y pasillo impares."</p>
+                  </div>
+                }
+                @for (m of chatLog(); track $index) {
+                  <div class="msg" [class.msg--user]="m.role === 'user'" [class.msg--bot]="m.role === 'assistant'" [attr.data-status]="m.status ?? null">
+                    <p class="msg__text">{{ m.text }}</p>
+                    @if (m.questions?.length && $index === chatLog().length - 1) {
+                      @for (q of m.questions; track q.id) {
+                        <div class="qcard" [attr.data-testid]="'chat-q-' + q.id">
+                          <span class="qcard__text">{{ q.text }}</span>
+                          <div class="qcard__opts">
+                            @for (o of q.options; track o.value) {
+                              <button type="button" class="opt" [class.opt--picked]="chatPicked(q.id) === o.value" (click)="chatAnswer(q.id, o.value, o.label)" [attr.data-testid]="'chat-opt-' + q.id + '-' + o.value">{{ o.label }}</button>
+                            }
+                          </div>
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+                @if (chatResponse()?.status === 'ready') {
+                  <button type="button" class="btn btn--primary panel__cta" (click)="chatApply()" data-testid="chat-apply">Aplicar al chasis</button>
+                }
+              </div>
+              <div class="chat__compose">
+                <textarea class="panel__prompt chat__input" rows="2" placeholder="Describe el bus…" [value]="chatDraft()"
+                  (input)="chatDraft.set($any($event.target).value)" (keydown.enter)="$event.preventDefault(); chatSend()" data-testid="prompt-input"></textarea>
+                <button type="button" class="btn btn--primary chat__send" [disabled]="!chatDraft().trim()" (click)="chatSend()" aria-label="Enviar" data-testid="chat-send"><app-designer-icon name="send" /></button>
+              </div>
+            </div>
+          }
+
+          <!-- ASIENTOS -->
+          @if (isPanel('seats')) {
+            <div class="panel__head"><span class="panel__title">Asientos</span><button type="button" class="btn btn--ghost panel__add" (click)="openSpawner()" data-testid="tool-spawn">+ Crear tipo</button></div>
+            <div class="panel__list">
+              @for (t of seatTools(); track t.code) {
+                <button type="button" class="item" [class.item--active]="isSeatToolActive(t.code)" [style.--tool-fill]="t.appearance.fill" [style.--tool-stroke]="t.appearance.stroke"
+                  (click)="selectSeatTool(t.code)" [title]="t.name + (t.shortcut ? ' (' + t.shortcut + ')' : '')" [attr.data-testid]="'tool-seat-' + t.code">
+                  <span class="item__swatch"><app-designer-icon [name]="t.appearance.icon" /></span>
+                  <span class="item__name">{{ t.name }}</span>
+                  @if (typeCount(t.code); as n) { <span class="item__count">{{ n }}</span> }
+                  @if (t.shortcut) { <kbd class="item__key">{{ t.shortcut }}</kbd> }
+                </button>
+              }
+            </div>
+
+            @if (spawnerOpen()) {
+              <div class="spawner" data-testid="spawner">
+                <div class="panel__head"><span class="panel__title">Nuevo tipo</span><button type="button" class="btn btn--icon" (click)="spawnerOpen.set(false)" aria-label="Cerrar"><app-designer-icon name="close" /></button></div>
+                <label class="field"><span>Nombre</span><input type="text" placeholder="Cama Suite Plus" [value]="spawnName()" (input)="spawnName.set($any($event.target).value)" data-testid="spawn-name" /></label>
+                <label class="field"><span>Código</span><input type="text" maxlength="6" [value]="spawnCode()" (input)="spawnCode.set($any($event.target).value)" data-testid="spawn-code" /></label>
+                <div class="field"><span>Acento</span>
+                  <div class="accents">
+                    @for (a of accents; track a.id) {
+                      <button type="button" class="accent" [class.accent--active]="spawnAccent() === a.id" [style.--a-fill]="a.fill" [style.--a-stroke]="a.stroke" (click)="spawnAccent.set(a.id)" [title]="a.label" [attr.data-testid]="'accent-' + a.id"></button>
+                    }
+                  </div>
+                </div>
+                <div class="field"><span>Reclinación · {{ spawnRecline() }}° <app-designer-icon [name]="reclineIcon(spawnRecline())" /></span>
+                  <div class="row-wrap">@for (deg of reclineStops; track deg) { <button type="button" class="chip" [class.chip--active]="spawnRecline() === deg" (click)="spawnRecline.set(deg)">{{ deg }}°</button> }</div>
+                </div>
+                <button type="button" class="btn btn--primary" [disabled]="!spawnName().trim()" (click)="spawnSeatType()" data-testid="spawn-save">Crear y usar</button>
+              </div>
+            }
+          }
+
+          <!-- INSTALACIONES -->
+          @if (isPanel('fixtures')) {
+            <div class="panel__head"><span class="panel__title">Instalaciones</span></div>
+            <div class="panel__list">
+              @for (f of fixtureTools; track f.kind) {
+                <button type="button" class="item" [class.item--active]="isFixtureToolActive(f.kind)" (click)="selectFixtureTool(f.kind)" [title]="f.label" [attr.data-testid]="'tool-fixture-' + f.kind">
+                  <span class="item__swatch item__swatch--plain"><app-designer-icon [name]="f.icon" /></span><span class="item__name">{{ f.label }}</span>
+                </button>
+              }
+            </div>
+            <p class="panel__hint">Selecciona una y toca el plano. Arrastra para colocar varias.</p>
+          }
+
+          <!-- PLANTILLAS Y GRID -->
+          @if (isPanel('templates')) {
+            <div class="panel__head"><span class="panel__title">Plantillas y grid</span></div>
+
+            @if (builderSpec(); as bs) {
+              <div class="builder" data-testid="builder">
+                <div class="field"><span>Pisos</span>
+                  <div class="seg seg--mini">
+                    <button type="button" class="seg__item" [class.seg__item--active]="bs.decks.length === 1" (click)="builderFloors(1)">1 piso</button>
+                    <button type="button" class="seg__item" [class.seg__item--active]="bs.decks.length === 2" (click)="builderFloors(2)">2 pisos</button>
+                  </div>
+                </div>
+
+                @for (d of bs.decks; track $index) {
+                  <div class="builder__deck">
+                    <span class="builder__deck-title">{{ bs.decks.length === 1 ? 'Piso único' : ($index === 0 ? 'Planta baja' : 'Planta alta') }}</span>
+                    <div class="field field--row"><span>Filas</span>
+                      <div class="stepper"><button type="button" class="btn btn--icon" (click)="builderRows($index, -1)">−</button><span class="stepper__value">{{ d.length }}</span><button type="button" class="btn btn--icon" (click)="builderRows($index, 1)">+</button></div>
+                    </div>
+                    <div class="field"><span>Esquema</span>
+                      <div class="seg seg--mini seg--wrap">
+                        @for (p of columnPresets; track p.id) { <button type="button" class="seg__item" [class.seg__item--active]="d.left === p.left && d.right === p.right" (click)="builderScheme($index, p.id)">{{ p.label }}</button> }
+                      </div>
+                    </div>
+                    <div class="field"><span>Butaca</span>
+                      <div class="row-wrap">
+                        @for (t of seatTools(); track t.code) { <button type="button" class="chip" [class.chip--active]="d.seatType === t.code" [style.--tool-fill]="t.appearance.fill" [style.--tool-stroke]="t.appearance.stroke" (click)="patchBuilderDeck($index, { seatType: t.code })"><app-designer-icon [name]="t.appearance.icon" /> {{ t.name }}</button> }
+                      </div>
+                    </div>
+                  </div>
+                }
+
+                <label class="field field--row"><span>Baño</span>
+                  <select class="select" [value]="bs.bathroom" (change)="patchBuilder({ bathroom: $any($event.target).value })" data-testid="builder-bathroom">@for (o of bathroomOptions; track o.id) { <option [value]="o.id">{{ o.label }}</option> }</select></label>
+                <label class="field field--row"><span>Puertas</span>
+                  <select class="select" [value]="bs.doors" (change)="patchBuilder({ doors: $any($event.target).value })">@for (o of doorOptions; track o.id) { <option [value]="o.id">{{ o.label }}</option> }</select></label>
+                @if (bs.decks.length === 2) {
+                  <label class="field field--row"><span>Escalera</span>
+                    <select class="select" [value]="bs.stairs" (change)="patchBuilder({ stairs: $any($event.target).value })">@for (o of stairsOptions; track o.id) { <option [value]="o.id">{{ o.label }}</option> }</select></label>
+                }
+
+                @if (builderPreview(); as pv) {
+                  <div class="minis" data-testid="builder-preview">
+                    @for (deck of pv; track deck.floor) {
+                      <div class="mini" [style.grid-template-columns]="'repeat(' + deck.width + ', 1fr)'" [title]="'P' + deck.floor + ': ' + deck.seats + ' butacas'">
+                        @for (k of deck.cells; track $index) { <span class="mini__cell" [attr.data-mini]="k"></span> }
+                      </div>
+                    }
+                    <span class="minis__total">{{ builderSeats() }} butacas</span>
+                  </div>
+                }
+                <button type="button" class="btn btn--primary panel__cta" (click)="generateFromBuilder()" data-testid="builder-generate">Generar bus</button>
+              </div>
+            } @else {
+              <button type="button" class="btn btn--primary panel__cta" (click)="openBuilder()" data-testid="op-builder">Abrir Grid Builder</button>
+            }
+
+            <div class="panel__head panel__head--sub"><span class="panel__title">Chasis y carrocerías</span></div>
+            <div class="panel__list">
+              @for (p of chassisPresets; track p.id) {
+                <button type="button" class="item item--stack" (click)="applyPreset(p)" [attr.data-testid]="'preset-' + p.id">
+                  <span class="item__name">{{ p.label }}</span><span class="item__desc">{{ p.description }}</span>
+                </button>
+              }
+              @for (b of bodyTemplates; track b.id) {
+                <button type="button" class="item item--stack" (click)="applyBody(b)" [attr.data-testid]="'body-' + b.id">
+                  <span class="item__name">{{ b.brand }} {{ b.model }} <em class="item__tag">referencia</em></span><span class="item__desc">{{ b.reference }}</span>
+                </button>
+              }
+              @for (s of cloneSources(); track s.layout.vehicleId) {
+                <button type="button" class="item item--stack" (click)="cloneFrom(s.layout.vehicleId)">
+                  <span class="item__name">Clonar de {{ s.vehicle?.plate }}</span><span class="item__desc">{{ s.vehicle?.brand }} {{ s.vehicle?.model }} · {{ s.layout.decks.length }} piso{{ s.layout.decks.length === 1 ? '' : 's' }}</span>
+                </button>
+              }
+            </div>
+
+            <div class="panel__actions">
+              <button type="button" class="btn btn--ghost" (click)="fillTemplate()" data-testid="op-template"><app-designer-icon name="grid" /> Rellenar piso</button>
+              <button type="button" class="btn btn--ghost btn--danger" (click)="clearDeck()" data-testid="op-clear"><app-designer-icon name="trash" /> Vaciar piso</button>
+            </div>
+          }
+        </aside>
+      }
+    }
+
+    <!-- =================================================================== -->
+    <!-- C. LIENZO                                                            -->
+    <!-- =================================================================== -->
+  </div>
+
+  <!-- Smart Sync -->
+  @if (syncOpen() && syncBundle(); as sb) {
+    <div class="modal-backdrop" (click)="syncOpen.set(false)"></div>
+    <div class="popover popover--sync" role="dialog" aria-label="Sincronizado" data-testid="sync-panel">
+      <div class="panel__head"><span class="panel__title"><app-designer-icon name="check" /> Sincronizado en 4 canales</span><button type="button" class="btn btn--icon" (click)="syncOpen.set(false)" aria-label="Cerrar"><app-designer-icon name="close" /></button></div>
+      <div class="sync">
+        <div class="sync__card"><div class="sync__thumb" [innerHTML]="syncSvg()"></div><span class="sync__title">Ticket térmico</span><span class="sync__desc">micro-SVG vectorial · {{ bytes(sb.svg) }}</span><button type="button" class="btn btn--ghost" (click)="download('svg')">Descargar .svg</button></div>
+        <div class="sync__card"><span class="sync__big"><app-designer-icon name="id-card" /></span><span class="sync__title">Manifiesto del conductor</span><span class="sync__desc">{{ sb.manifest.length }} butacas · columna Pasajero lista</span><button type="button" class="btn btn--ghost" (click)="download('csv')">Descargar .csv</button></div>
+        <div class="sync__card"><span class="sync__big"><app-designer-icon name="monitor" /></span><span class="sync__title">Grilla del boletero</span><span class="sync__desc">{{ sb.salesGrid.decks.length }} piso{{ sb.salesGrid.decks.length === 1 ? '' : 's' }} · solo números</span><button type="button" class="btn btn--ghost" (click)="download('grid')">Descargar .json</button></div>
+        <div class="sync__card"><span class="sync__big"><app-designer-icon name="phone" /></span><span class="sync__title">App del pasajero</span><span class="sync__desc">{{ sb.mobileMap.seats.length }} butacas con tarifa y rasgos</span><button type="button" class="btn btn--ghost" (click)="download('mobile')">Descargar .json</button></div>
+      </div>
+    </div>
+  }
+  }
+
+  @if (ghost(); as g) {
+    @if (ghostCell(); as gc) {
+      <div class="drag-ghost" [style.left.px]="g.x" [style.top.px]="g.y"
+        [style.--seat-fill]="gc.appearance?.fill ?? rules.FIXTURES[gc.fixture?.kind ?? 'table'].fill" [style.--seat-stroke]="gc.appearance?.stroke ?? rules.FIXTURES[gc.fixture?.kind ?? 'table'].stroke" [style.--seat-text]="gc.appearance?.text ?? 'var(--color-neutral-900)'"
+        [style.width.px]="cellSize()" [style.height.px]="cellSize()" aria-hidden="true" data-testid="drag-ghost">
+        @if (gc.cell.kind === 'seat') { <span class="cell__number">{{ seatLabelOf(gc.cell) }}</span><span class="cell__icon"><app-designer-icon [name]="gc.appearance?.icon" /></span> }
+        @else { <span class="cell__icon cell__icon--fixture"><app-designer-icon [name]="gc.fixture?.icon" /></span> }
+      </div>
+    }
+  }
+  @if (toast(); as t) { <div class="toast" role="status">{{ t }}</div> }
+</section>
+} @else {
+<section class="designer designer--empty">
+  <p class="designer__empty-text">No existe la unidad solicitada.</p>
+  <button type="button" class="btn btn--primary" (click)="goBack()">Volver a Vehículos</button>
+</section>
+}

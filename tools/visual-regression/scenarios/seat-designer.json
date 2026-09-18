@@ -1,0 +1,1833 @@
+[
+ {
+  "name": "initial-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "filled-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   }
+  ]
+ },
+ {
+  "name": "filled-close-panel-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-assistant-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-fixtures-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-fixtures\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-templates-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "builder-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-builder\"]"
+   }
+  ]
+ },
+ {
+  "name": "zen-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-hide\"]"
+   }
+  ]
+ },
+ {
+  "name": "preview-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"btn-preview\"]"
+   }
+  ]
+ },
+ {
+  "name": "seat-selected-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "v"
+   },
+   {
+    "click": "[data-kind=\"seat\"]"
+   }
+  ]
+ },
+ {
+  "name": "column-menu-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"column-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "layer-menu-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "fare-layer-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-fare\"]"
+   }
+  ]
+ },
+ {
+  "name": "amenities-layer-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-amenities\"]"
+   }
+  ]
+ },
+ {
+  "name": "number-menu-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-autonumber\"]"
+   }
+  ]
+ },
+ {
+  "name": "empty-vehicle-1440",
+  "path": "/vehiculos/does-not-exist/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "initial-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "filled-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   }
+  ]
+ },
+ {
+  "name": "filled-close-panel-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-assistant-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-fixtures-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-fixtures\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-templates-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "builder-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-builder\"]"
+   }
+  ]
+ },
+ {
+  "name": "zen-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-hide\"]"
+   }
+  ]
+ },
+ {
+  "name": "preview-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"btn-preview\"]"
+   }
+  ]
+ },
+ {
+  "name": "seat-selected-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "v"
+   },
+   {
+    "click": "[data-kind=\"seat\"]"
+   }
+  ]
+ },
+ {
+  "name": "column-menu-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"column-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "layer-menu-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "fare-layer-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-fare\"]"
+   }
+  ]
+ },
+ {
+  "name": "amenities-layer-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-amenities\"]"
+   }
+  ]
+ },
+ {
+  "name": "number-menu-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-autonumber\"]"
+   }
+  ]
+ },
+ {
+  "name": "empty-vehicle-1024",
+  "path": "/vehiculos/does-not-exist/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "initial-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "filled-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   }
+  ]
+ },
+ {
+  "name": "filled-close-panel-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-assistant-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-fixtures-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-fixtures\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-templates-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "builder-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-builder\"]"
+   }
+  ]
+ },
+ {
+  "name": "zen-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-hide\"]"
+   }
+  ]
+ },
+ {
+  "name": "preview-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"btn-preview\"]"
+   }
+  ]
+ },
+ {
+  "name": "seat-selected-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "v"
+   },
+   {
+    "click": "[data-kind=\"seat\"]"
+   }
+  ]
+ },
+ {
+  "name": "column-menu-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"column-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "layer-menu-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "fare-layer-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-fare\"]"
+   }
+  ]
+ },
+ {
+  "name": "amenities-layer-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-amenities\"]"
+   }
+  ]
+ },
+ {
+  "name": "number-menu-768",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-autonumber\"]"
+   }
+  ]
+ },
+ {
+  "name": "empty-vehicle-768",
+  "path": "/vehiculos/does-not-exist/plazas",
+  "width": 768,
+  "height": 1024,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "initial-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "filled-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   }
+  ]
+ },
+ {
+  "name": "filled-close-panel-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-assistant-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-fixtures-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-fixtures\"]"
+   }
+  ]
+ },
+ {
+  "name": "panel-templates-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ]
+ },
+ {
+  "name": "builder-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-builder\"]"
+   }
+  ]
+ },
+ {
+  "name": "zen-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-hide\"]"
+   }
+  ]
+ },
+ {
+  "name": "preview-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"btn-preview\"]"
+   }
+  ]
+ },
+ {
+  "name": "seat-selected-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "v"
+   },
+   {
+    "click": "[data-kind=\"seat\"]"
+   }
+  ]
+ },
+ {
+  "name": "column-menu-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"column-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "layer-menu-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   }
+  ]
+ },
+ {
+  "name": "fare-layer-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-fare\"]"
+   }
+  ]
+ },
+ {
+  "name": "amenities-layer-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-menu\"]"
+   },
+   {
+    "click": "[data-testid=\"layer-amenities\"]"
+   }
+  ]
+ },
+ {
+  "name": "number-menu-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-autonumber\"]"
+   }
+  ]
+ },
+ {
+  "name": "empty-vehicle-390",
+  "path": "/vehiculos/does-not-exist/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": []
+ },
+ {
+  "name": "tool-move-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"tool-move\"]"
+   }
+  ]
+ },
+ {
+  "name": "tool-number-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"tool-number\"]"
+   }
+  ]
+ },
+ {
+  "name": "tool-erase-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"tool-erase\"]"
+   }
+  ]
+ },
+ {
+  "name": "swap-sides-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"swap-sides\"]"
+   },
+   {
+    "wait": 800
+   }
+  ]
+ },
+ {
+  "name": "deck-2-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"deck-tab-2\"]"
+   }
+  ]
+ },
+ {
+  "name": "spawner-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"tool-spawn\"]"
+   },
+   {
+    "fill": [
+     "[data-testid=\"spawn-name\"]",
+     "Cama X"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "chat-typed-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   },
+   {
+    "fill": [
+     "[data-testid=\"prompt-input\"]",
+     "2 pisos, abajo 10 camas, arriba 33 semicama"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "chat-sent-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   },
+   {
+    "fill": [
+     "[data-testid=\"prompt-input\"]",
+     "2 pisos, abajo 10 camas, arriba 33 semicama. Ventana pares y pasillo impares."
+    ]
+   },
+   {
+    "click": "[data-testid=\"chat-send\"]"
+   },
+   {
+    "wait": 800
+   }
+  ]
+ },
+ {
+  "name": "dirty-undo-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-mirror\"]"
+   }
+  ]
+ },
+ {
+  "name": "save-sync-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"btn-save\"]"
+   },
+   {
+    "wait": 600
+   }
+  ]
+ },
+ {
+  "name": "paint-seat-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"tool-seat-CAM\"]"
+   },
+   {
+    "click": "[data-kind=\"empty\"]"
+   }
+  ]
+ },
+ {
+  "name": "fixture-tool-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-fixtures\"]"
+   },
+   {
+    "click": "[data-testid^=\"tool-fixture-\"]"
+   }
+  ]
+ },
+ {
+  "name": "hover-dock-select-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-seats\"]"
+   }
+  ],
+  "keepHover": "[data-testid=\"tool-select\"]"
+ },
+ {
+  "name": "hover-save-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   }
+  ],
+  "keepHover": "[data-testid=\"btn-save\"]"
+ },
+ {
+  "name": "hover-rail-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [],
+  "keepHover": "[data-testid=\"rail-assistant\"]"
+ },
+ {
+  "name": "hover-seat-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ],
+  "keepHover": "[data-kind=\"seat\"]"
+ },
+ {
+  "name": "expand-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-expand\"]"
+   },
+   {
+    "wait": 400
+   }
+  ]
+ },
+ {
+  "name": "tool-move-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "h"
+   }
+  ]
+ },
+ {
+  "name": "tool-number-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "n"
+   }
+  ]
+ },
+ {
+  "name": "tool-erase-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "press": "e"
+   }
+  ]
+ },
+ {
+  "name": "swap-sides-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"swap-sides\"]"
+   },
+   {
+    "wait": 800
+   }
+  ]
+ },
+ {
+  "name": "deck-2-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"deck-tab-2\"]"
+   }
+  ]
+ },
+ {
+  "name": "spawner-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"tool-spawn\"]"
+   },
+   {
+    "fill": [
+     "[data-testid=\"spawn-name\"]",
+     "Cama X"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "chat-typed-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   },
+   {
+    "fill": [
+     "[data-testid=\"prompt-input\"]",
+     "2 pisos, abajo 10 camas, arriba 33 semicama"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "chat-sent-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-assistant\"]"
+   },
+   {
+    "fill": [
+     "[data-testid=\"prompt-input\"]",
+     "2 pisos, abajo 10 camas, arriba 33 semicama. Ventana pares y pasillo impares."
+    ]
+   },
+   {
+    "click": "[data-testid=\"chat-send\"]"
+   },
+   {
+    "wait": 800
+   }
+  ]
+ },
+ {
+  "name": "dirty-undo-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-mirror\"]"
+   }
+  ]
+ },
+ {
+  "name": "save-sync-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"btn-save\"]"
+   },
+   {
+    "wait": 600
+   }
+  ]
+ },
+ {
+  "name": "paint-seat-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"tool-seat-CAM\"]"
+   },
+   {
+    "click": "[data-kind=\"empty\"]"
+   }
+  ]
+ },
+ {
+  "name": "fixture-tool-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-fixtures\"]"
+   },
+   {
+    "click": "[data-testid^=\"tool-fixture-\"]"
+   }
+  ]
+ },
+ {
+  "name": "hover-save-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   }
+  ],
+  "keepHover": "[data-testid=\"btn-save\"]"
+ },
+ {
+  "name": "hover-rail-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [],
+  "keepHover": "[data-testid=\"rail-assistant\"]"
+ },
+ {
+  "name": "hover-seat-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-template\"]"
+   },
+   {
+    "wait": 300
+   },
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   }
+  ],
+  "keepHover": "[data-kind=\"seat\"]"
+ },
+ {
+  "name": "expand-390",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 390,
+  "height": 844,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-expand\"]"
+   },
+   {
+    "wait": 400
+   }
+  ]
+ },
+ {
+  "name": "door-hint-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"tool-erase\"]"
+   },
+   {
+    "click": ".door"
+   },
+   {
+    "click": "[data-testid=\"pill-exits\"]"
+   }
+  ]
+ },
+ {
+  "name": "door-hint-1024",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1024,
+  "height": 768,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"tool-erase\"]"
+   },
+   {
+    "click": ".door"
+   },
+   {
+    "click": "[data-testid=\"pill-exits\"]"
+   }
+  ]
+ },
+ {
+  "name": "zen-tab-return-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-hide\"]"
+   },
+   {
+    "click": "[data-testid=\"zen-tab\"]"
+   }
+  ]
+ },
+ {
+  "name": "builder-2floors-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-builder\"]"
+   },
+   {
+    "clickText": "2 pisos"
+   }
+  ]
+ },
+ {
+  "name": "builder-scroll-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "click": "[data-testid=\"op-builder\"]"
+   },
+   {
+    "scroll": [
+     "[data-testid=\"side-panel\"]",
+     0,
+     2000
+    ]
+   }
+  ]
+ },
+ {
+  "name": "templates-scroll-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": false,
+  "actions": [
+   {
+    "click": "[data-testid=\"rail-templates\"]"
+   },
+   {
+    "scroll": [
+     "[data-testid=\"side-panel\"]",
+     0,
+     2000
+    ]
+   }
+  ]
+ },
+ {
+  "name": "initial-full-1440",
+  "path": "/vehiculos/veh-1234/plazas",
+  "width": 1440,
+  "height": 900,
+  "fullPage": true,
+  "actions": []
+ }
+]

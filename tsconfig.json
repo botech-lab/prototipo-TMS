@@ -1,0 +1,61 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "paths": {
+      "@core": [
+        "./src/app/core/index.ts"
+      ],
+      "@core/*": [
+        "./src/app/core/*"
+      ],
+      "@models": [
+        "./src/app/models/index.ts"
+      ],
+      "@models/*": [
+        "./src/app/models/*"
+      ],
+      "@constants": [
+        "./src/app/core/constants/index.ts"
+      ],
+      "@constants/*": [
+        "./src/app/core/constants/*"
+      ],
+      "@components": [
+        "./src/app/components/index.ts"
+      ],
+      "@components/*": [
+        "./src/app/components/*"
+      ],
+      "@features/*": [
+        "./src/app/features/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    },
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

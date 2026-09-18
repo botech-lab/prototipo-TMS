@@ -1,0 +1,766 @@
+/**
+ * Master Routes Dashboard Styles · Tablero Espacial (Amanecer andino)
+ * Estructura original: cabecera con una sola acción en cobre, pestañas en
+ * pista segmentada de vidrio, orígenes como paneles de vidrio con banda cobre
+ * al desplegar y modal de vidrio flotante. Solo cambian colores y tokens.
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   DESTINOS DEL ORIGEN
+   Red de seguridad: si aun así un chip quedara cortado por el borde, se
+   desvanece en vez de aparecer partido a la mitad.
+   ========================================================================== */
+.rm-origin-destinations {
+  -webkit-mask-image: linear-gradient(to right, black calc(100% - 18px), transparent 100%);
+  mask-image: linear-gradient(to right, black calc(100% - 18px), transparent 100%);
+}
+
+/* ==========================================================================
+   PÁGINA
+   ========================================================================== */
+.master-routes-dashboard {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--space-4) 0.625rem;
+  font-family: var(--font-family-ui);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-5);
+    margin-bottom: 0;
+  }
+
+  @include bp(sm) {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  @include bp(lg) {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
+
+  /* 1. Cabecera */
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--board-rule);
+    @include rise-in;
+  }
+
+  &__title {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-tight);
+    font-weight: 800;
+    color: var(--color-neutral-950);
+    letter-spacing: -0.03em;
+
+    @include bp(sm) {
+      font-size: 2rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: var(--text-xs);
+    line-height: var(--leading-body);
+    font-weight: 500;
+    color: var(--color-neutral-600);
+    margin-top: 0.125rem;
+
+    @include bp(sm) {
+      font-size: var(--text-sm);
+    }
+  }
+
+  /* Nueva Ruta: la única acción en cobre de la página */
+  &__create-btn {
+    @include pill-button(primary);
+
+    & {
+      flex-shrink: 0;
+    }
+  }
+
+  &__create-icon {
+    width: var(--space-4);
+    height: var(--space-4);
+  }
+
+  &__create-label {
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* 2. Filtros y búsqueda */
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--space-3);
+    width: 100%;
+
+    @include bp(sm) {
+      gap: var(--space-4);
+    }
+
+    @include bp(md) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  /* Pista segmentada de vidrio */
+  &__tabs {
+    @include segmented-track;
+
+    & {
+      display: flex;
+      align-self: flex-start;
+      max-width: 100%;
+      min-width: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    @include hide-scrollbar;
+
+    @include bp(md) {
+      align-self: auto;
+    }
+  }
+
+  &__tab {
+    @include segmented-option(false);
+
+    & {
+      flex-shrink: 0;
+      height: 2.25rem;
+      padding: 0 var(--space-4);
+      font-size: var(--text-2xs);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    &--active,
+    &--active:hover {
+      background-color: var(--color-neutral-900);
+      color: var(--color-neutral-0);
+      box-shadow: var(--shadow-ink);
+    }
+  }
+
+  &__search {
+    position: relative;
+    width: 100%;
+    flex-shrink: 0;
+
+    @include bp(md) {
+      width: 16rem;
+    }
+
+    @include bp(lg) {
+      width: 18rem;
+    }
+  }
+
+  &__search-input {
+    @include field;
+
+    & {
+      height: 2.75rem;
+      padding: 0 2.5rem 0 var(--space-4);
+      font-size: 0.8125rem;
+    }
+  }
+
+  &__search-icon {
+    position: absolute;
+    right: 0.875rem;
+    top: 50%;
+    width: var(--space-4);
+    height: var(--space-4);
+    transform: translateY(-50%);
+    color: var(--color-neutral-400);
+    pointer-events: none;
+  }
+
+  /* 3. Orígenes */
+  &__departments {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    align-items: start;
+    gap: 0.875rem;
+    width: 100%;
+    @include rise-in(60ms);
+
+    @include bp(sm) {
+      gap: var(--space-4);
+    }
+
+    @include bp(xl) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Panel de vidrio flotante por origen */
+  &__department {
+    width: 100%;
+    overflow: hidden;
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-standard);
+    border-radius: var(--radius-panel);
+    background-color: rgb(255 255 255 / 0.85);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7), var(--shadow-float);
+
+    &:hover {
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7), var(--shadow-lift);
+      transform: translateY(-2px);
+    }
+
+    /* Desplegado (seleccionado): banda cobre de 3px arriba que agrupa sus
+       rutas; no se eleva al pasar el mouse porque sus tarjetas ya lo hacen. */
+    &--expanded,
+    &--expanded:hover {
+      box-shadow: inset 0 3px 0 var(--color-terracota-500), inset 0 0 0 1px rgb(255 255 255 / 0.7), var(--shadow-float);
+      transform: none;
+    }
+
+    &--expanded {
+      @include bp(xl) {
+        grid-column: span 2 / span 2;
+      }
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      background-color: var(--color-neutral-0);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  &__dept-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem;
+    cursor: pointer;
+    background-color: transparent;
+    transition: background-color var(--dur-base) var(--ease-standard);
+    user-select: none;
+
+    &:hover {
+      background-color: var(--board-hover);
+    }
+
+    @include bp(sm) {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+
+    @include bp(xl) {
+      padding-left: var(--space-4);
+      padding-right: var(--space-4);
+    }
+
+    @include bp(2xl) {
+      padding-left: var(--space-5);
+      padding-right: var(--space-5);
+    }
+
+    .master-routes-dashboard__department--expanded & {
+      background-color: color-mix(in srgb, var(--color-terracota-50) 60%, transparent);
+
+      &:hover {
+        background-color: var(--board-hover);
+      }
+    }
+  }
+
+  /* Accesibilidad: el h2 y el botón no alteran el aspecto de la barra; el
+     botón reproduce la fila flex original. */
+  &__dept-heading {
+    flex: 1 1 0%;
+    min-width: 0;
+    margin: 0;
+    font: inherit;
+  }
+
+  &__dept-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-field);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    @include focus-ring;
+  }
+
+  &__dept-info {
+    display: flex;
+    min-width: 0;
+    flex: 1 1 0%;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    overflow: hidden;
+
+    @include bp(sm) {
+      gap: 0.625rem;
+    }
+
+    @include bp(lg) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  /* Pin del departamento en cobre (ajuste Amanecer) */
+  &__dept-pin {
+    flex-shrink: 0;
+    width: var(--space-4);
+    height: var(--space-4);
+    color: var(--color-terracota-500);
+
+    @include bp(sm) {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  /* Rótulo de tablero: "ORIGEN: LA PAZ" */
+  &__dept-name {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 800;
+    color: var(--color-neutral-950);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+
+    @include bp(sm) {
+      font-size: var(--text-sm);
+    }
+
+    @include bp(md) {
+      font-size: var(--text-md);
+    }
+
+    @include bp(xl) {
+      font-size: var(--text-sm);
+    }
+
+    @include bp(2xl) {
+      font-size: var(--text-md);
+    }
+  }
+
+  /* Contador: píldora suave DM Sans tabular */
+  &__dept-count {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.125rem 0.625rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-neutral-100);
+    box-shadow: inset 0 0 0 1px var(--board-rule);
+    color: var(--color-neutral-700);
+    font-family: var(--font-family-data);
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    transition:
+      background-color var(--dur-base) var(--ease-standard),
+      color var(--dur-base) var(--ease-standard);
+
+    @include bp(sm) {
+      font-size: var(--text-xs);
+      line-height: var(--leading-ui);
+    }
+
+    /* Origen seleccionado: píldora suave en cobre */
+    .master-routes-dashboard__department--expanded & {
+      background-color: var(--color-terracota-50);
+      box-shadow: inset 0 0 0 1px var(--color-terracota-200);
+      color: var(--color-terracota-600);
+    }
+  }
+
+  &__destinations {
+    display: none;
+    min-width: 0;
+    align-items: center;
+    gap: 0.375rem;
+    overflow: hidden;
+
+    @include bp(lg) {
+      display: flex;
+    }
+  }
+
+  /* Flechas de ruta en cobre */
+  &__destinations-arrow {
+    color: var(--color-terracota-500);
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Chips de ciudad: píldoras suaves neutras */
+  &__destination {
+    flex-shrink: 0;
+    border-radius: var(--radius-chip);
+    background-color: var(--card-bg);
+    box-shadow: inset 0 0 0 1px var(--card-border);
+    padding: 0.125rem 0.5625rem;
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    color: var(--color-neutral-700);
+    white-space: nowrap;
+  }
+
+  &__metrics {
+    display: none;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-2xs);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-neutral-600);
+    white-space: nowrap;
+
+    @include bp(xl) {
+      display: flex;
+    }
+  }
+
+  &__metrics-dot {
+    color: var(--color-neutral-300);
+  }
+
+  &__metrics-active {
+    font-weight: 700;
+    color: var(--color-success-600);
+  }
+
+  &__summary-compact {
+    display: none;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: var(--text-2xs);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-neutral-600);
+    white-space: nowrap;
+
+    @include bp(2xl) {
+      display: inline-flex;
+    }
+  }
+
+  &__summary-arrow {
+    color: var(--color-terracota-500);
+    font-weight: 700;
+  }
+
+  &__dept-action {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.375rem;
+    padding-left: var(--space-3);
+    color: var(--color-neutral-600);
+    transition: color var(--dur-base) var(--ease-standard);
+
+    @include bp(sm) {
+      gap: var(--space-2);
+    }
+
+    .master-routes-dashboard__dept-header:hover & {
+      color: var(--color-neutral-950);
+    }
+  }
+
+  &__dept-action-label {
+    display: none;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+
+    @include bp(sm) {
+      display: inline-block;
+    }
+  }
+
+  &__dept-chevron {
+    height: var(--space-4);
+    width: var(--space-4);
+    transition: transform var(--dur-base) var(--ease-standard);
+
+    @include bp(sm) {
+      height: var(--space-5);
+      width: var(--space-5);
+    }
+
+    .master-routes-dashboard__department--expanded & {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dept-body {
+    padding: 0.625rem;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--board-rule);
+    background-color: var(--board-zebra);
+
+    @include bp(sm) {
+      padding: var(--space-4);
+    }
+  }
+
+  &__routes {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 0.875rem;
+    align-items: start;
+
+    @include bp(sm) {
+      gap: var(--space-4);
+    }
+
+    @include bp(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include bp(lg) {
+      gap: var(--space-5);
+    }
+
+    @include bp(xl) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__route {
+    width: 100%;
+  }
+
+  &__empty {
+    grid-column: 1 / -1;
+    padding: var(--space-12) var(--space-6);
+    text-align: center;
+    border-radius: var(--radius-block);
+    border: 1px dashed var(--color-neutral-300);
+    background-color: var(--card-bg);
+
+    > :not([hidden]) ~ :not([hidden]) {
+      margin-top: var(--space-2);
+      margin-bottom: 0;
+    }
+  }
+
+  &__empty-icon {
+    --nav-icon-size: 1.875rem;
+    color: var(--color-neutral-400);
+  }
+
+  &__empty-title {
+    font-size: 0.9375rem;
+    line-height: var(--leading-tight);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--color-neutral-950);
+  }
+
+  &__empty-text {
+    font-size: 0.8125rem;
+    line-height: var(--leading-body);
+    color: var(--color-neutral-600);
+    max-width: 28rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 4. Modal "+ Nueva ruta": vidrio flotante */
+  &__modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-neutral-900) 32%, transparent);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+  }
+
+  &__modal {
+    max-width: 32rem;
+    width: 100%;
+    padding: var(--space-6);
+    @include float-panel(overlay);
+
+    & {
+      box-shadow: var(--edge-glass), var(--shadow-lift);
+    }
+
+    @include rise-in;
+
+    > :not([hidden]) ~ :not([hidden]) {
+      margin-top: var(--space-5);
+      margin-bottom: 0;
+    }
+  }
+
+  &__modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--board-rule);
+  }
+
+  &__modal-title {
+    font-size: var(--text-lg);
+    line-height: var(--leading-tight);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--color-neutral-950);
+  }
+
+  &__modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    width: 2.25rem;
+    border-radius: var(--radius-pill);
+    color: var(--color-neutral-500);
+    @include press;
+    @include focus-ring;
+
+    &:hover {
+      color: var(--color-neutral-900);
+      background-color: var(--color-neutral-100);
+    }
+  }
+
+  &__modal-fields {
+    font-size: var(--text-sm);
+    line-height: var(--leading-ui);
+
+    > :not([hidden]) ~ :not([hidden]) {
+      margin-top: var(--space-4);
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    margin-bottom: 0.375rem;
+    @include board-label;
+  }
+
+  &__select,
+  &__input {
+    @include field;
+
+    & {
+      height: 2.75rem;
+      padding: 0 var(--space-4);
+      font-size: var(--text-sm);
+    }
+  }
+
+  &__select {
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  &__modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--board-rule);
+  }
+
+  &__modal-cancel {
+    @include pill-button(ghost);
+  }
+
+  &__modal-save {
+    @include pill-button(primary);
+  }
+}
+
+/* ==========================================================================
+   MOVIMIENTO REDUCIDO: sin desplazamientos; entradas y cambios con fundido.
+   ========================================================================== */
+@keyframes rm-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .master-routes-dashboard__header,
+  .master-routes-dashboard__departments,
+  .master-routes-dashboard__dept-body,
+  .master-routes-dashboard__modal {
+    animation: rm-fade-in var(--dur-fast) linear both;
+  }
+
+  .master-routes-dashboard__department {
+    transition: box-shadow var(--dur-fast) linear;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .master-routes-dashboard__dept-chevron {
+    transition: none;
+  }
+
+  .master-routes-dashboard__create-btn,
+  .master-routes-dashboard__tab,
+  .master-routes-dashboard__modal-close,
+  .master-routes-dashboard__modal-cancel,
+  .master-routes-dashboard__modal-save {
+    transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear;
+
+    &:active {
+      transform: none;
+      opacity: 0.8;
+    }
+  }
+}

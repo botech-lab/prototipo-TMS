@@ -1,0 +1,120 @@
+<div class="rm-route-card route-card"
+     [class.route-card--expanded]="isExpanded()"
+     [class.route-card--collapsed]="!isExpanded()">
+
+  <!-- 1. BLOQUE HEADER: ALTURA FIJA (HEADER_HEIGHT = 76px) -->
+  <div class="route-card__header">
+    <!-- Fila Superior: Badges + Switch Toggle -->
+    <div class="route-card__top-row">
+      <div class="route-card__badges">
+        <span
+          data-testid="route-code"
+          class="route-card__code">
+          {{ route().code }}
+        </span>
+        <span
+          data-testid="route-status-badge"
+          class="route-card__status"
+          [class.route-card__status--active]="route().status === 'ACTIVO'"
+          [class.route-card__status--inactive]="route().status !== 'ACTIVO'">
+          <span class="route-card__status-dot"></span>
+          {{ route().status }}
+        </span>
+      </div>
+
+      <!-- Switch Toggle -->
+      <label
+        data-testid="route-status-switch"
+        class="route-card__switch">
+        <input
+          type="checkbox"
+          [checked]="route().status === 'ACTIVO'"
+          (change)="toggleStatus($event)"
+          class="route-card__switch-input"
+          [attr.aria-label]="'Alternar estado de la ruta ' + route().code">
+        <div class="route-card__switch-track"></div>
+      </label>
+    </div>
+
+    <!-- Fila Inferior: Título de la Ruta + Botón Ocultar/Ver Detalle -->
+    <div class="route-card__title-row">
+      <h3
+        data-testid="route-title"
+        class="route-card__title"
+        [title]="route().name">
+        @for (part of nameParts(); track $index) {
+          @if ($index > 0) {<span class="route-card__arrow">→</span>}{{ part }}
+        }
+      </h3>
+
+      <!-- Botón Desplegar Estandarizado -->
+      <button
+        type="button"
+        data-testid="btn-toggle-details"
+        (click)="toggleCollapse()"
+        class="route-card__details-btn"
+        [title]="isExpanded() ? 'Ocultar Detalle' : 'Ver Detalle'"
+        [attr.aria-label]="isExpanded() ? 'Ocultar Detalle' : 'Ver Detalle'"
+        [attr.aria-expanded]="isExpanded()">
+        <span>{{ isExpanded() ? 'Ocultar Detalle' : 'Ver Detalle' }}</span>
+        <svg class="route-card__chevron" [class.route-card__chevron--down]="!isExpanded()" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false">
+          <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. BLOQUE EXPANDIBLE: ESTRUCTURA CON ALTURAS FIJAS -->
+  @if (isExpanded()) {
+    <!-- Contenedor del Gráfico SVG (SVG_CONTAINER_HEIGHT = 210px) -->
+    <div
+      data-testid="route-graph-container"
+      class="route-card__graph-box">
+      <app-route-graph-svg [stops]="route().stops" class="route-card__graph" />
+    </div>
+
+    <!-- Contenedor de Servicios Creados (SERVICES_CONTAINER_HEIGHT = 110px) -->
+    <div
+      data-testid="route-services-container"
+      class="route-card__services rm-custom-scrollbar">
+      <div
+        data-testid="created-services-header"
+        class="route-card__services-title">
+        <app-nav-icon name="bus-front" class="route-card__glyph" /> SERVICIOS CREADOS:
+      </div>
+      <div class="route-card__chips">
+        @for (service of services(); track service) {
+          <span
+            data-testid="avoided-duplicate-chip"
+            class="route-card__chip">
+            {{ service }}
+          </span>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- 3. BLOQUE FOOTER: ALTURA FIJA ANCLADA (FOOTER_HEIGHT = 48px) -->
+  <div
+    data-testid="route-footer"
+    class="route-card__footer">
+    <div class="route-card__stops">
+      <app-nav-icon name="route" class="route-card__glyph" />
+      <span data-testid="route-footer-stops-count" class="route-card__stops-count">
+        {{ route().stops.length || route().stopsCount }} paradas conectadas
+      </span>
+    </div>
+    <button
+      type="button"
+      data-testid="btn-edit-route"
+      (click)="onEdit()"
+      class="route-card__edit-btn">
+      <svg class="route-card__glyph-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z" />
+        <path d="M13.5 6.5l4 4" />
+      </svg> Editar
+    </button>
+  </div>
+
+</div>

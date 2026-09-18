@@ -1,0 +1,48 @@
+{
+  "name": "rutas-maestras-tms-frontend",
+  "version": "1.0.0",
+  "description": "Sistema Enterprise de Gestión y Venta de Pasajes de Transporte Interdepartamental - RUTAS MAESTRAS",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "audit:responsive": "node tools/audit-responsive.mjs",
+    "vr:list": "node tools/visual-regression/vr.mjs list",
+    "vr:baseline": "node tools/visual-regression/vr.mjs baseline",
+    "vr:check": "node tools/visual-regression/vr.mjs check"
+  },
+  "private": true,
+  "packageManager": "pnpm@12.4.2",
+  "engines": {
+    "npm": "please-use-pnpm",
+    "pnpm": ">=12"
+  },
+  "dependencies": {
+    "@angular/common": "^22.1.6",
+    "@angular/compiler": "^22.1.6",
+    "@angular/core": "^22.1.6",
+    "@angular/forms": "^22.1.6",
+    "@angular/platform-browser": "^22.1.6",
+    "@angular/router": "^22.1.6",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.15.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^22.1.8",
+    "@angular/cli": "^22.1.8",
+    "@angular/compiler-cli": "^22.1.6",
+    "@types/jasmine": "~5.1.0",
+    "istanbul-lib-instrument": "^6.0.3",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "playwright": "^1.63.0",
+    "typescript": "~6.0.3"
+  }
+}

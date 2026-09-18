@@ -1,0 +1,394 @@
+/**
+ * Route Card Component Styles · Tablero Espacial (Amanecer andino)
+ * Estructura original; solo cambian colores y tokens: tarjeta opaca
+ * (--card-bg) con filete --card-border, código RM en texto DM Sans (sin
+ * ficha negra), estado en píldora suave, bloques internos hueso (#FAF9F6)
+ * con filete fino. La tarjeta desplegada es la seleccionada: fondo
+ * terracota-50, filete terracota-200 y franja de 3px en cobre.
+ *
+ * DIMENSIONES CONGELADAS (ARCHITECTURE_RULES.md, ROUTE_CARD_DIMENSIONS):
+ * header 76, SVG 210, servicios 110, footer 48, colapsada 160, expandida 520.
+ * Las alturas llegan como variables --route-card-* desde el host. El padding
+ * de 20px y los márgenes de 12px suman exactamente 520px en modo expandido:
+ * 20 + 76 + 12 + 210 + 12 + 110 + 12 + 48 + 20. No tocarlos. Los filetes
+ * van como box-shadow inset para no sumar alto.
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.rm-route-card {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-standard),
+    background-color var(--dur-base) var(--ease-standard);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Movimiento reducido: sin desplazamiento; la sombra se funde. */
+  @media (prefers-reduced-motion: reduce) {
+    transition: box-shadow var(--dur-fast) linear, background-color var(--dur-fast) linear;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+/* ==========================================================================
+   TARJETA DE RUTA MAESTRA
+   ========================================================================== */
+.route-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-5);
+  border: 0;
+  border-radius: var(--radius-panel);
+  background-color: var(--card-bg);
+  box-shadow: inset 0 0 0 1px var(--card-border), var(--shadow-float);
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--card-border), var(--shadow-lift);
+  }
+
+  &--expanded,
+  &--expanded:hover {
+    min-height: var(--route-card-expanded-min-h);
+    background-color: var(--color-terracota-50);
+    box-shadow:
+      inset 3px 0 0 var(--color-terracota-500),
+      inset 0 0 0 1px var(--color-terracota-200),
+      var(--shadow-float);
+  }
+
+  &--collapsed {
+    min-height: var(--route-card-collapsed-min-h);
+  }
+
+  /* 1. Header: alto fijo HEADER_HEIGHT (76px) */
+  &__header {
+    height: var(--route-card-header-h);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  &__top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__badges {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  /* Código RM-01: texto DM Sans tabular, sin ficha */
+  &__code {
+    flex-shrink: 0;
+    padding: var(--space-1) 0;
+    font-family: var(--font-family-data);
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    color: var(--color-neutral-700);
+  }
+
+  /* Estado: píldora suave */
+  &__status {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius-pill);
+    padding: var(--space-1) 0.625rem;
+    font-family: var(--font-family-ui);
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    &--active {
+      background-color: var(--color-success-100);
+      color: var(--color-success-600);
+    }
+
+    &--inactive {
+      background-color: var(--color-neutral-100);
+      color: var(--color-neutral-600);
+    }
+  }
+
+  &__status-dot {
+    height: 0.375rem;
+    width: 0.375rem;
+    border-radius: var(--radius-pill);
+
+    .route-card__status--active & {
+      background-color: var(--color-success-500);
+    }
+
+    .route-card__status--inactive & {
+      background-color: var(--color-neutral-400);
+    }
+  }
+
+  /* Switch de entidad: encendido en grafito, apagado en --switch-off */
+  &__switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  &__switch-input {
+    @include sr-only;
+  }
+
+  &__switch-track {
+    height: var(--space-6);
+    width: 2.625rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--switch-off);
+    transition: background-color var(--dur-base) var(--ease-standard);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      height: 1.125rem;
+      width: 1.125rem;
+      border-radius: var(--radius-pill);
+      background-color: var(--color-neutral-0);
+      box-shadow: var(--shadow-rest);
+      transition: transform var(--dur-base) var(--ease-out);
+    }
+  }
+
+  &__switch-input:focus-visible ~ &__switch-track {
+    box-shadow: var(--ring);
+  }
+
+  &__switch-input:checked ~ &__switch-track {
+    background-color: var(--color-neutral-900);
+
+    &::after {
+      transform: translateX(1.125rem);
+    }
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    width: 100%;
+  }
+
+  &__title {
+    @include truncate;
+    flex: 1 1 0%;
+    min-width: 0;
+    font-size: 0.9375rem;
+    line-height: var(--leading-tight);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    color: var(--color-neutral-950);
+  }
+
+  /* Flecha de la ruta en cobre */
+  &__arrow {
+    color: var(--color-terracota-500);
+  }
+
+  /* Ver / Ocultar Detalle: píldora ghost */
+  &__details-btn {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-1);
+    height: var(--space-8);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-pill);
+    background-color: transparent;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    color: var(--color-neutral-700);
+    @include press;
+    @include focus-ring;
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+      color: var(--color-neutral-950);
+    }
+  }
+
+  &__chevron {
+    height: 0.875rem;
+    width: 0.875rem;
+    transition: transform var(--dur-base) var(--ease-standard);
+
+    &--down {
+      transform: rotate(180deg);
+    }
+  }
+
+  /* 2. Bloque expandible: SVG_CONTAINER_HEIGHT (210px) */
+  &__graph-box {
+    height: var(--route-card-svg-h);
+    width: 100%;
+    background-color: rgb(250 249 246 / 0.8);
+    border-radius: var(--radius-block);
+    padding: var(--space-2);
+    box-shadow: inset 0 0 0 1px var(--board-rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-3);
+    overflow: hidden;
+  }
+
+  &__graph {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* SERVICES_CONTAINER_HEIGHT (110px) */
+  &__services {
+    height: var(--route-card-services-h);
+    width: 100%;
+    background-color: rgb(250 249 246 / 0.5);
+    border-radius: var(--radius-block);
+    padding: var(--space-3);
+    box-shadow: inset 0 0 0 1px var(--board-rule);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+    margin-bottom: var(--space-3);
+  }
+
+  &__services-title {
+    @include board-label;
+
+    & {
+      color: var(--color-neutral-600);
+      margin-bottom: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      flex-shrink: 0;
+    }
+  }
+
+  /* Íconos de línea que sustituyen a los emojis, mismo sitio y tamaño */
+  &__glyph {
+    --nav-icon-size: 0.875rem;
+    color: var(--color-neutral-500);
+  }
+
+  &__glyph-svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    align-content: flex-start;
+  }
+
+  &__chip {
+    border-radius: var(--radius-chip);
+    background-color: var(--card-bg);
+    box-shadow: inset 0 0 0 1px var(--card-border);
+    padding: var(--space-1) 0.625rem;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 600;
+    color: var(--color-neutral-800);
+  }
+
+  /* 3. Footer: FOOTER_HEIGHT (48px), anclado */
+  &__footer {
+    height: var(--route-card-footer-h);
+    width: 100%;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--board-rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+
+  &__stops {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-width: 0;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    font-weight: 600;
+    color: var(--color-neutral-600);
+  }
+
+  &__stops-count {
+    font-family: var(--font-family-data);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: var(--color-neutral-900);
+  }
+
+  /* Editar: píldora secondary (cabe en los 35px útiles del pie) */
+  &__edit-btn {
+    @include pill-button(secondary);
+
+    & {
+      flex-shrink: 0;
+      gap: 0.375rem;
+      height: 2.125rem;
+      padding: 0 0.9375rem;
+      font-size: var(--text-2xs);
+    }
+  }
+}
+
+/* Movimiento reducido: la perilla y el chevrón cambian sin deslizarse; los
+   botones responden con fundido en vez de encogerse. */
+@media (prefers-reduced-motion: reduce) {
+  .route-card__switch-track::after,
+  .route-card__chevron {
+    transition: none;
+  }
+
+  .route-card__details-btn,
+  .route-card__edit-btn {
+    transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear;
+
+    &:active {
+      transform: none;
+      opacity: 0.8;
+    }
+  }
+}

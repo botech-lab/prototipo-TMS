@@ -1,0 +1,734 @@
+<div class="scheduled-services">
+
+  <!-- ========================================================================= -->
+  <!-- 1. PANEL IZQUIERDO: PROGRAMADO DE ORÍGENES (RESPONSIVE CELULAR & TABLET)  -->
+  <!-- ========================================================================= -->
+  <aside class="scheduled-services__sidebar" aria-labelledby="ss-page-title">
+
+    <div class="scheduled-services__sidebar-body">
+
+      <!-- Header Sidebar Compacto -->
+      <div class="scheduled-services__sidebar-header">
+        <div class="scheduled-services__sidebar-title">
+          <span class="scheduled-services__step-badge">1</span>
+          <h1 id="ss-page-title" class="scheduled-services__sidebar-heading">Servicios programados</h1>
+        </div>
+        <span class="scheduled-services__sidebar-count">
+          {{ opsService.filteredServices().length }} en lista
+        </span>
+      </div>
+
+      <!-- Buscador con Icono Vectorial SVG -->
+      <div class="scheduled-services__search">
+        <input
+          type="text"
+          [ngModel]="opsService.searchQuery()"
+          (ngModelChange)="opsService.searchQuery.set($event)"
+          placeholder="Buscar ruta o ciudad..."
+          aria-label="Buscar ruta o ciudad"
+          class="scheduled-services__search-input" />
+        <svg class="scheduled-services__search-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+        </svg>
+        @if (opsService.searchQuery()) {
+          <button type="button" (click)="opsService.searchQuery.set('')" class="scheduled-services__search-clear" aria-label="Limpiar búsqueda">✕</button>
+        }
+      </div>
+
+      <!-- Lista con Altura Natural en Celular/Tablet & Scroll Interno en Desktop -->
+      <div class="scheduled-services__group-list">
+        @for (group of opsService.groupedServices(); track group.originCity) {
+          <div class="scheduled-services__group">
+
+            <!-- Botón de Origen (Cabecera de Grupo, H2 del acordeón) -->
+            <h2 class="scheduled-services__group-heading">
+            <button
+              type="button"
+              (click)="opsService.openOriginCity.set(opsService.openOriginCity() === group.originCity ? '' : group.originCity)"
+              [attr.aria-expanded]="opsService.openOriginCity() === group.originCity"
+              class="scheduled-services__group-header">
+              <div class="scheduled-services__group-title">
+                <span class="scheduled-services__group-dot" aria-hidden="true"></span>
+                <span class="scheduled-services__group-name" [title]="group.originCity">{{ group.originCity }}</span>
+                <span class="scheduled-services__group-count"><span aria-hidden="true">· </span>{{ group.servicesCount }}<span class="scheduled-services__sr-only"> servicios</span></span>
+              </div>
+              <svg class="scheduled-services__group-chevron" [class.scheduled-services__group-chevron--open]="opsService.openOriginCity() === group.originCity" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            </h2>
+
+            <!-- Lista de Servicios con TARJETA RESPONSIVE (SIN CORTES) -->
+            @if (opsService.openOriginCity() === group.originCity) {
+              <div class="scheduled-services__service-list">
+                @for (srv of group.services; track srv.id) {
+                  <div
+                    (click)="selectService(srv)"
+                    (keydown.enter)="onServiceCardKeydown(srv, $event)"
+                    (keydown.space)="onServiceCardKeydown(srv, $event)"
+                    role="button"
+                    tabindex="0"
+                    [attr.aria-pressed]="opsService.selectedService()?.id === srv.id"
+                    [class.scheduled-services__service-card--selected]="opsService.selectedService()?.id === srv.id"
+                    class="scheduled-services__service-card">
+
+                    <!-- Tarjeta compacta: toda la tarjeta es el control de selección -->
+                    <div class="scheduled-services__card-main">
+                      <div class="scheduled-services__card-heading">
+                        @if (srv.shift) {
+                          <span class="scheduled-services__shift-pill">{{ srv.shift }}</span>
+                        }
+                        <h3 class="scheduled-services__card-title" [title]="srv.originCity + ' → ' + srv.destinationCity">
+                          <span class="scheduled-services__card-city">{{ srv.originCity }}</span>
+                          <span class="scheduled-services__card-arrow" aria-label="a">→</span>
+                          <span class="scheduled-services__card-city">{{ srv.destinationCity }}</span>
+                        </h3>
+                      </div>
+
+                      <!-- Hora de salida y duración a la derecha -->
+                      <div class="scheduled-services__ticket">
+                        <span class="scheduled-services__ticket-time">{{ getServiceDeparture(srv.shift) }}</span>
+                        <span class="scheduled-services__ticket-duration">
+                          <svg class="scheduled-services__ticket-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                          </svg>
+                          {{ getServiceDuration(srv.distanceKm) }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Una línea de metadatos -->
+                    <p class="scheduled-services__card-meta">
+                      <span class="scheduled-services__card-codes">{{ getCityCode(srv.originCity) }}<span class="scheduled-services__meta-arrow" aria-label="a"> → </span>{{ getCityCode(srv.destinationCity) }}</span>
+                      <span class="scheduled-services__meta-sep" aria-hidden="true">·</span>
+                      <span>{{ getOperatingDaysSummary(srv.operatingDays) }}</span>
+                      <span class="scheduled-services__meta-sep" aria-hidden="true">·</span>
+                      <span>{{ srv.dailyDeparturesCount }} salidas/día</span>
+                      <span class="scheduled-services__meta-sep" aria-hidden="true">·</span>
+                      <span>{{ srv.distanceKm }} km</span>
+                    </p>
+
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+        } @empty {
+          <!-- Estado vacío de la búsqueda -->
+          <div class="scheduled-services__search-empty" role="status">
+            @if (opsService.searchQuery().trim()) {
+              <p class="scheduled-services__empty-title">No hay rutas con «{{ opsService.searchQuery().trim() }}»</p>
+              <p class="scheduled-services__empty-text">Prueba con otra ciudad o con el código de la ruta.</p>
+              <button
+                type="button"
+                (click)="clearSearch()"
+                class="scheduled-services__search-empty-btn">
+                Limpiar búsqueda
+              </button>
+            } @else {
+              <p class="scheduled-services__empty-title">No hay servicios programados</p>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Footer Sidebar Anclado -->
+    <div class="scheduled-services__sidebar-footer">
+      <span class="scheduled-services__footer-count">{{ opsService.groupedServices().length }} Ciudades Origen</span>
+      <span class="scheduled-services__network-status">
+        <span class="scheduled-services__network-dot" aria-hidden="true"></span> Red Activa
+      </span>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 2. PANEL DERECHO: VISTA SEMANAL (60% ANCHO - PROPORCIÓN EQUILIBRADA)      -->
+  <!-- ========================================================================= -->
+  <section
+    class="scheduled-services__main"
+    [attr.aria-labelledby]="opsService.selectedService() ? 'ss-detail-title' : 'ss-empty-title'">
+
+    @if (opsService.selectedService(); as srv) {
+      <div class="scheduled-services__detail">
+
+        <!-- 1. CABECERA COMO BOLETO: origen | línea de ruta | destino -->
+        <div class="scheduled-services__ticket-head">
+          <h2 id="ss-detail-title" class="scheduled-services__sr-only">
+            {{ srv.serviceName || (srv.originCity + ' a ' + srv.destinationCity) }}
+          </h2>
+          <div class="scheduled-services__route-ticket">
+            <p class="scheduled-services__route-end">
+              <span class="scheduled-services__route-code">{{ getCityCode(srv.originCity) }}</span>
+              <span class="scheduled-services__route-city">{{ srv.originCity }}</span>
+            </p>
+
+            <div class="scheduled-services__route-line" aria-hidden="true">
+              <span class="scheduled-services__route-stop" style="left: 0" [style.--stop-color]="cityColor(srv.originCity)"></span>
+              @for (stop of ticketStops(); track stop.name) {
+                <span class="scheduled-services__route-stop" [style.left.%]="stop.left" [style.--stop-color]="stop.color"></span>
+                @if (stop.showLabel) {
+                  <span class="scheduled-services__route-label" [style.left.%]="stop.left">{{ stop.name }}</span>
+                }
+              }
+              <span class="scheduled-services__route-stop" style="left: 100%" [style.--stop-color]="cityColor(srv.destinationCity)"></span>
+              <span class="scheduled-services__route-bus">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="3" width="16" height="15" rx="3" />
+                  <path d="M4 11h16M8 18v2M16 18v2" />
+                  <circle cx="8" cy="14.5" r=".8" fill="currentColor" />
+                  <circle cx="16" cy="14.5" r=".8" fill="currentColor" />
+                </svg>
+              </span>
+            </div>
+            @if (ticketStops().length > 0) {
+              <p class="scheduled-services__sr-only">
+                Paradas intermedias: {{ ticketStopsText() }}.
+              </p>
+            }
+
+            <p class="scheduled-services__route-end scheduled-services__route-end--dest">
+              <span class="scheduled-services__route-code">{{ getCityCode(srv.destinationCity) }}</span>
+              <span class="scheduled-services__route-city">{{ srv.destinationCity }}</span>
+            </p>
+
+            <button
+              type="button"
+              (click)="closeDetail()"
+              class="scheduled-services__detail-close"
+              title="Cerrar detalle"
+              aria-label="Cerrar detalle">
+              ✕
+            </button>
+          </div>
+
+          <!-- Datos del servicio + la única acción cobre de la vista -->
+          <div class="scheduled-services__facts">
+            <dl class="scheduled-services__facts-list">
+              <div class="scheduled-services__fact">
+                <dt>Estado</dt>
+                <dd>
+                  <span
+                    class="scheduled-services__badge scheduled-services__badge--status"
+                    [class.scheduled-services__badge--inactive]="srv.status !== 'ACTIVO'">
+                    {{ srv.status === 'ACTIVO' ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </dd>
+              </div>
+              <div class="scheduled-services__fact">
+                <dt>Turno</dt>
+                <dd>{{ formatShift(srv.shift) }}</dd>
+              </div>
+              <div class="scheduled-services__fact">
+                <dt>Frecuencia</dt>
+                <dd>{{ getOperatingDaysSummary(srv.operatingDays) }}</dd>
+              </div>
+              <div class="scheduled-services__fact">
+                <dt>Distancia</dt>
+                <dd class="scheduled-services__fact-figure">{{ srv.distanceKm }} km</dd>
+              </div>
+              <div class="scheduled-services__fact">
+                <dt>Duración</dt>
+                <dd class="scheduled-services__fact-figure">{{ getServiceDuration(srv.distanceKm) }}</dd>
+              </div>
+            </dl>
+            <button
+              type="button"
+              (click)="openEditDrawer(srv)"
+              class="scheduled-services__edit-config">
+              <svg class="scheduled-services__icon-14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+              </svg>
+              <span>Editar configuración</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. SEMANA COMO SELECTOR DE DÍAS -->
+        <div class="scheduled-services__week">
+          <div class="scheduled-services__week-bar">
+            <h3 class="scheduled-services__week-title">{{ weekHeading() }}</h3>
+            <div class="scheduled-services__week-nav">
+              <button type="button" (click)="calendarService.prevWeek()" class="scheduled-services__week-btn">Anterior</button>
+              @if (!calendarService.currentWeek().isFirstWeek) {
+                <button type="button" (click)="calendarService.goToCurrentWeek()" class="scheduled-services__week-btn">Semana actual</button>
+              }
+              <button type="button" (click)="calendarService.nextWeek()" class="scheduled-services__week-btn">Siguiente</button>
+            </div>
+          </div>
+
+          <div class="scheduled-services__days-track">
+            <div class="scheduled-services__days" role="group" aria-label="Filtrar salidas por día">
+              @for (day of weekDays(); track day.isoString) {
+                <button
+                  type="button"
+                  class="scheduled-services__day"
+                  [class.scheduled-services__day--today]="day.isToday"
+                  [attr.aria-pressed]="activeDayIso() === day.isoString"
+                  [attr.aria-label]="day.fullName + ' ' + day.dayNumber + (day.isToday ? ', hoy' : '') + ', ' + day.slots.length + (day.slots.length === 1 ? ' salida' : ' salidas')"
+                  (click)="selectDay(day.isoString)">
+                  <span class="scheduled-services__day-name">{{ day.dayName }}</span>
+                  <span class="scheduled-services__day-number">
+                    {{ day.dayNumber }}
+                    @if (day.isToday) {
+                      <span class="scheduled-services__day-today">Hoy</span>
+                    }
+                  </span>
+                  <span class="scheduled-services__day-bars" aria-hidden="true">
+                    @for (s of day.slots; track s.id) {
+                      <i
+                        class="scheduled-services__day-bar"
+                        [class.scheduled-services__day-bar--warning]="getSlotState(s) === 'warning'"
+                        [class.scheduled-services__day-bar--off]="!s.isActive"
+                        [style.height.%]="getOccupancyPercent(s) < 8 ? 8 : getOccupancyPercent(s)"></i>
+                    }
+                  </span>
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="scheduled-services__week-foot">
+            <ul class="scheduled-services__legend" aria-label="Estado de las salidas">
+              @for (item of slotStateLegend; track item.variant) {
+                <li class="scheduled-services__legend-item">
+                  <span class="scheduled-services__legend-dot scheduled-services__legend-dot--{{ item.variant }}" aria-hidden="true"></span>
+                  {{ item.label }}
+                </li>
+              }
+            </ul>
+            <button
+              type="button"
+              class="scheduled-services__all-week"
+              [attr.aria-pressed]="activeDayIso() === null"
+              (click)="showWholeWeek()">
+              Toda la semana
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. SALIDAS COMO BOLETOS -->
+        @if (visibleSlots().length > 0) {
+          <ul class="scheduled-services__slots" [attr.aria-label]="activeDayIso() ? 'Salidas del día' : 'Salidas de la semana'">
+            @for (slot of visibleSlots(); track slot.id; let i = $index) {
+              <li
+                class="scheduled-services__slot"
+                [style.--i]="i"
+                [class.scheduled-services__slot--inactive]="!slot.isActive"
+                [class.scheduled-services__slot--warning]="getSlotState(slot) === 'warning'"
+                [class.scheduled-services__slot--menu-open]="openMenuSlotId() === slot.id">
+
+                <!-- Talón: día, salida y llegada -->
+                <div class="scheduled-services__stub">
+                  <h4 class="scheduled-services__slot-day">{{ slot.dayBadge }}</h4>
+                  <p class="scheduled-services__stub-dep"><time>{{ formatTime(slot.departureTime) }}</time></p>
+                  <p class="scheduled-services__stub-arr">
+                    <span class="scheduled-services__slot-time-arrow" aria-label="llega">→</span>
+                    <time>{{ formatTime(slot.arrivalTime) }}</time>
+                  </p>
+                </div>
+
+                <!-- Cuerpo del boleto -->
+                <div class="scheduled-services__slot-main">
+                  <div class="scheduled-services__slot-head">
+                    <span class="scheduled-services__slot-code" [title]="slot.serviceCode">{{ getShortCode(slot.serviceCode) }}</span>
+                    <button
+                      type="button"
+                      role="switch"
+                      [attr.aria-checked]="slot.isActive"
+                      [attr.aria-label]="getSlotStateLabel(slot) + ', salida ' + slot.dayBadge + '. ' + (slot.isActive ? 'Suspender' : 'Reactivar')"
+                      (click)="requestToggleSlot(slot)"
+                      class="scheduled-services__switch">
+                      <span class="scheduled-services__switch-label scheduled-services__switch-label--{{ getSlotState(slot) }}">
+                        {{ getSlotStateLabel(slot) }}
+                      </span>
+                      <span
+                        class="scheduled-services__switch-track"
+                        [class.scheduled-services__switch-track--active]="slot.isActive && slot.statusVariant === 'active'"
+                        [class.scheduled-services__switch-track--warning]="slot.isActive && slot.statusVariant === 'warning'"
+                        [class.scheduled-services__switch-track--off]="!slot.isActive">
+                        <span
+                          class="scheduled-services__switch-knob"
+                          [class.scheduled-services__switch-knob--on]="slot.isActive">
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+
+                  <p class="scheduled-services__slot-bus-name" [title]="slot.assignedVehicle">
+                    {{ getBusName(slot.assignedVehicle) }}
+                    <small class="scheduled-services__slot-bus-cap">{{ slot.occupancyTotal }} asientos</small>
+                  </p>
+
+                  <div class="scheduled-services__slot-occ">
+                    <span
+                      class="scheduled-services__occ-ring"
+                      [style.--p]="getOccupancyPercent(slot)"
+                      aria-hidden="true">
+                      <b>{{ getOccupancyPercent(slot) | number: '1.0-0' }}%</b>
+                    </span>
+                    <p class="scheduled-services__occ-text">
+                      <b>{{ slot.occupancyCurrent }} / {{ slot.occupancyTotal }}</b> pasajes vendidos
+                    </p>
+                  </div>
+
+                  <!-- Pie: una acción de texto + "Más acciones" -->
+                  <div class="scheduled-services__slot-actions">
+                    @if (slot.isActive) {
+                      <button type="button" (click)="openQuickModal('manifest', slot)" class="scheduled-services__slot-primary">Ver manifiesto</button>
+                    } @else {
+                      <button
+                        type="button"
+                        (click)="requestToggleSlot(slot)"
+                        [attr.aria-label]="'Reactivar salida ' + slot.dayBadge"
+                        class="scheduled-services__slot-primary">
+                        Reactivar
+                      </button>
+                    }
+                          <div class="scheduled-services__slot-more-wrap">
+                            <button
+                              type="button"
+                              [id]="'slot-more-' + slotDomId(slot)"
+                              aria-haspopup="menu"
+                              [attr.aria-expanded]="openMenuSlotId() === slot.id"
+                              [attr.aria-controls]="openMenuSlotId() === slot.id ? 'slot-menu-' + slotDomId(slot) : null"
+                              [attr.aria-label]="'Más acciones, salida ' + slot.dayBadge"
+                              (click)="toggleSlotMenu(slot, $event)"
+                              (keydown)="onMenuTriggerKeydown(slot, $event)"
+                              class="scheduled-services__slot-more">
+                              <svg class="scheduled-services__quick-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                              </svg>
+                            </button>
+
+                            @if (openMenuSlotId() === slot.id) {
+                              <div
+                                class="scheduled-services__slot-menu"
+                                role="menu"
+                                [id]="'slot-menu-' + slotDomId(slot)"
+                                [attr.aria-labelledby]="'slot-more-' + slotDomId(slot)"
+                                (keydown)="onMenuKeydown(slot, $event)">
+                                @if (!slot.isActive) {
+                                  <button type="button" role="menuitem" tabindex="-1" (click)="openQuickModal('manifest', slot)" class="scheduled-services__slot-menu-item">
+                                    <svg class="scheduled-services__quick-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span>Ver manifiesto</span>
+                                  </button>
+                                }
+                                <button type="button" role="menuitem" tabindex="-1" (click)="openQuickModal('vehicle', slot)" class="scheduled-services__slot-menu-item">
+                                  <svg class="scheduled-services__quick-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/>
+                                  </svg>
+                                  <span>Asignar bus y chofer</span>
+                                </button>
+                                <button type="button" role="menuitem" tabindex="-1" (click)="openQuickModal('tags', slot)" class="scheduled-services__slot-menu-item">
+                                  <svg class="scheduled-services__quick-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                  </svg>
+                                  <span>Etiquetas de equipaje</span>
+                                </button>
+                                <button type="button" role="menuitem" tabindex="-1" (click)="openQuickModal('edit', slot)" class="scheduled-services__slot-menu-item">
+                                  <svg class="scheduled-services__quick-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                  </svg>
+                                  <span>Editar salida</span>
+                                </button>
+                              </div>
+                            }
+                          </div>
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="scheduled-services__week-empty">
+            <svg class="scheduled-services__week-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <h3 class="scheduled-services__empty-title">{{ activeDayIso() ? 'Sin salidas este día' : 'Sin salidas programadas esta semana' }}</h3>
+            <p class="scheduled-services__empty-text">
+              {{ activeDayIso() ? 'El servicio no opera este día. Elige otro día o toda la semana.' : 'Este servicio no tiene días operativos configurados para el rango seleccionado.' }}
+            </p>
+          </div>
+        }
+
+      </div>
+    } @else {
+      <!-- Estado Vacío Global Vectorial -->
+      <div class="scheduled-services__empty">
+        <svg class="scheduled-services__empty-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <h2 id="ss-empty-title" class="scheduled-services__empty-title">Selecciona un servicio para ver sus despachos</h2>
+        <p class="scheduled-services__empty-text scheduled-services__empty-text--spaced">Haz clic en una de las rutas del panel lateral.</p>
+      </div>
+    }
+
+  </section>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 3. DRAWER DE EDICIÓN MAESTRA (STANDALONE REACTIVE FORMS)                  -->
+<!-- ========================================================================= -->
+@if (isEditDrawerOpen()) {
+  <app-edit-service-drawer></app-edit-service-drawer>
+}
+
+<!-- ========================================================================= -->
+<!-- 4. MODALES INTERACTIVOS DE ACCIONES RÁPIDAS & CONFIRMACIÓN SWITCH         -->
+<!-- ========================================================================= -->
+@if (modalState().isOpen && modalState().type === 'manifest' && modalState().slot) {
+  <app-manifest-drawer [slot]="modalState().slot!" (closed)="closeQuickModal()"></app-manifest-drawer>
+}
+
+@if (modalState().isOpen && modalState().type !== 'manifest') {
+  <div class="scheduled-services__modal-overlay">
+    <div class="scheduled-services__modal" role="dialog" aria-modal="true" aria-labelledby="ss-modal-title">
+      
+      <!-- Modal Header -->
+      <div class="scheduled-services__modal-header">
+        <div class="scheduled-services__modal-title-wrap">
+          @switch (modalState().type) {
+            @case ('toggle-confirm') {
+              <h2 id="ss-modal-title" class="scheduled-services__modal-title">
+                {{ modalState().slot?.isActive ? 'Confirmar Suspensión de Salida' : 'Confirmar Reactivación de Salida' }}
+              </h2>
+            }
+            @case ('vehicle') {
+              <h2 id="ss-modal-title" class="scheduled-services__modal-title">Asignar Bus y Chofer</h2>
+            }
+            @case ('tags') {
+              <h2 id="ss-modal-title" class="scheduled-services__modal-title">Etiquetas de Equipaje</h2>
+            }
+            @case ('edit') {
+              <h2 id="ss-modal-title" class="scheduled-services__modal-title">Editar Salida</h2>
+            }
+          }
+        </div>
+        <button 
+          type="button"
+          (click)="closeQuickModal()"
+          aria-label="Cerrar"
+          class="scheduled-services__modal-close">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      @if (modalState().slot; as slot) {
+        
+        <!-- Caso 0: Confirmación de Switch / Píldora -->
+        @if (modalState().type === 'toggle-confirm') {
+          <div class="scheduled-services__modal-stack">
+            <div class="scheduled-services__confirm-alert" 
+                 [class.scheduled-services__confirm-alert--warning]="slot.isActive"
+                 [class.scheduled-services__confirm-alert--success]="!slot.isActive">
+              <div class="scheduled-services__confirm-alert-head">
+                <svg class="scheduled-services__confirm-icon" [class.scheduled-services__confirm-icon--warning]="slot.isActive" [class.scheduled-services__confirm-icon--success]="!slot.isActive" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+                <p class="scheduled-services__confirm-question">
+                  {{ slot.isActive 
+                    ? '¿Estás seguro de que deseas desactivar esta salida?' 
+                    : '¿Deseas reactivar este despacho en la programación?' }}
+                </p>
+              </div>
+              <p class="scheduled-services__confirm-text">
+                {{ slot.isActive 
+                  ? 'Se suspenderá la operación comercial y la asignación del bus para este día.' 
+                  : 'El despacho volverá a estar disponible para venta de pasajes y asignación de flota.' }}
+              </p>
+            </div>
+
+            <div class="scheduled-services__confirm-summary">
+              <div class="scheduled-services__modal-row">
+                <span class="scheduled-services__modal-label">Día de Operación:</span>
+                <strong class="scheduled-services__modal-value">{{ slot.dayLabel }}</strong>
+              </div>
+              <div class="scheduled-services__modal-row">
+                <span class="scheduled-services__modal-label">Código:</span>
+                <strong class="scheduled-services__modal-value scheduled-services__modal-value--mono">{{ slot.serviceCode }}</strong>
+              </div>
+              <div class="scheduled-services__modal-row">
+                <span class="scheduled-services__modal-label">Horario:</span>
+                <strong class="scheduled-services__modal-value">{{ formatTime(slot.departureTime) }} → {{ formatTime(slot.arrivalTime) }}</strong>
+              </div>
+              <div class="scheduled-services__modal-row">
+                <span class="scheduled-services__modal-label">BUS:</span>
+                <strong class="scheduled-services__modal-value">{{ slot.assignedVehicle }}</strong>
+              </div>
+            </div>
+
+            <!-- Footer Confirmación -->
+            <div class="scheduled-services__modal-footer">
+              <button 
+                type="button"
+                (click)="closeQuickModal()" 
+                class="scheduled-services__modal-btn-secondary scheduled-services__modal-btn-secondary--transition">
+                Cancelar
+              </button>
+              <button 
+                type="button"
+                (click)="confirmToggleSlot()" 
+                [class.scheduled-services__confirm-btn--warning]="slot.isActive"
+                [class.scheduled-services__confirm-btn--success]="!slot.isActive"
+                class="scheduled-services__confirm-btn">
+                {{ slot.isActive ? 'Aceptar (Desactivar)' : 'Aceptar (Activar)' }}
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Caso 2: Vehículo -->
+        @if (modalState().type === 'vehicle') {
+          <div class="scheduled-services__vehicle-form">
+            <div>
+              <label class="scheduled-services__field-label">BUS / Unidad de Transporte</label>
+              <select 
+                #vehSelect
+                [value]="slot.assignedVehicle"
+                class="scheduled-services__field-input scheduled-services__field-input--medium">
+                <option value="Bus Cama Suite (36 Asientos)">Bus Cama Suite (36 Asientos)</option>
+                <option value="Bus Leito VIP (42 Asientos)">Bus Leito VIP (42 Asientos)</option>
+                <option value="Semi-Cama Directo (46 Asientos)">Semi-Cama Directo (46 Asientos)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="scheduled-services__field-label">Chofer Principal</label>
+              <input 
+                type="text" 
+                #drvInput
+                [value]="slot.driverName || 'Carlos Mendoza'" 
+                class="scheduled-services__field-input" />
+            </div>
+
+            <div>
+              <label class="scheduled-services__field-label">Placa / Matrícula</label>
+              <input 
+                type="text" 
+                #plateInput
+                [value]="slot.licensePlate || '3049-LPZ'" 
+                class="scheduled-services__field-input" />
+            </div>
+          </div>
+
+          <!-- Footer Vehículo -->
+          <div class="scheduled-services__modal-footer">
+            <button 
+              type="button"
+              (click)="closeQuickModal()" 
+              class="scheduled-services__modal-btn-secondary">
+              Cerrar
+            </button>
+            <button 
+              type="button"
+              (click)="saveModalChanges(slot)" 
+              class="scheduled-services__modal-btn-primary">
+              Guardar Cambios
+            </button>
+          </div>
+        }
+
+        <!-- Caso 3: Etiquetas -->
+        @if (modalState().type === 'tags') {
+          <div class="scheduled-services__modal-stack">
+            <p class="scheduled-services__tags-intro">Etiquetas generadas para el despacho {{ slot.serviceCode }}:</p>
+            <div class="scheduled-services__tags-grid">
+              @for (p of [1, 2]; track p) {
+                <div class="scheduled-services__tag">
+                  <div class="scheduled-services__tag-label">TAG DE EQUIPAJE #0{{ p }}</div>
+                  <div class="scheduled-services__tag-code">BGG-{{ slot.dayLabel.replace(' ', '') }}-0{{ p }}</div>
+                  <div class="scheduled-services__tag-footer">PAZAVI TMS ENTERPRISE</div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Footer Tags -->
+          <div class="scheduled-services__modal-footer">
+            <button 
+              type="button"
+              (click)="closeQuickModal()" 
+              class="scheduled-services__modal-btn-secondary">
+              Cerrar
+            </button>
+            <button 
+              type="button"
+              (click)="closeQuickModal()" 
+              class="scheduled-services__modal-btn-primary">
+              Imprimir Etiquetas
+            </button>
+          </div>
+        }
+
+        <!-- Caso 4: Editar Salida -->
+        @if (modalState().type === 'edit') {
+          <div class="scheduled-services__edit-form">
+            <div class="scheduled-services__field-grid">
+              <div>
+                <label class="scheduled-services__field-label">Hora Salida</label>
+                <input 
+                  type="text" 
+                  #depInput
+                  [value]="formatTime(slot.departureTime)" 
+                  class="scheduled-services__field-input" />
+              </div>
+              <div>
+                <label class="scheduled-services__field-label">Hora Llegada</label>
+                <input 
+                  type="text" 
+                  #arrInput
+                  [value]="formatTime(slot.arrivalTime)" 
+                  class="scheduled-services__field-input" />
+              </div>
+            </div>
+
+            <div class="scheduled-services__field-grid">
+              <div>
+                <label class="scheduled-services__field-label">Pasajes Vendidos</label>
+                <input 
+                  type="number" 
+                  #occCurInput
+                  [value]="slot.occupancyCurrent" 
+                  class="scheduled-services__field-input" />
+              </div>
+              <div>
+                <label class="scheduled-services__field-label">Capacidad Total</label>
+                <input 
+                  type="number" 
+                  #occTotInput
+                  [value]="slot.occupancyTotal" 
+                  class="scheduled-services__field-input" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Editar -->
+          <div class="scheduled-services__modal-footer">
+            <button 
+              type="button"
+              (click)="closeQuickModal()" 
+              class="scheduled-services__modal-btn-secondary">
+              Cerrar
+            </button>
+            <button 
+              type="button"
+              (click)="saveModalChanges(slot)" 
+              class="scheduled-services__modal-btn-primary">
+              Guardar Cambios
+            </button>
+          </div>
+        }
+
+      }
+
+    </div>
+  </div>
+}

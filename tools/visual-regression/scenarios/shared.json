@@ -1,0 +1,3524 @@
+[
+ {
+  "name": "vehiculos-table-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "vehiculos-cards-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-table-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "usuarios-cards-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-table-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "conductores-cards-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-table-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "ciudades-cards-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-table-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "departamentos-cards-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "personas-table-1440",
+  "path": "/parametric/personas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "personas-cards-1440",
+  "path": "/parametric/personas",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-cargas-table-1440",
+  "path": "/parametric/tipo-cargas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipo-cargas-cards-1440",
+  "path": "/parametric/tipo-cargas",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-vehiculos-table-1440",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipo-vehiculos-cards-1440",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-documentos-table-1440",
+  "path": "/parametric/tipo-documentos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipo-documentos-cards-1440",
+  "path": "/parametric/tipo-documentos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-table-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipo-incidencias-cards-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-licencias-table-1440",
+  "path": "/parametric/tipo-licencias",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipo-licencias-cards-1440",
+  "path": "/parametric/tipo-licencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-recargos-table-1440",
+  "path": "/parametric/tipo-recargos",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipo-recargos-cards-1440",
+  "path": "/parametric/tipo-recargos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "metodos-pago-table-1440",
+  "path": "/parametric/metodos-pago",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "metodos-pago-cards-1440",
+  "path": "/parametric/metodos-pago",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "monedas-table-1440",
+  "path": "/parametric/monedas",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "monedas-cards-1440",
+  "path": "/parametric/monedas",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-uso-ruta-table-1440",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipos-uso-ruta-cards-1440",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-categoria-tarifa-table-1440",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipos-categoria-tarifa-cards-1440",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-asiento-table-1440",
+  "path": "/parametric/tipos-asiento",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "tipos-asiento-cards-1440",
+  "path": "/parametric/tipos-asiento",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-table-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900
+ },
+ {
+  "name": "canales-venta-cards-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-table-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "vehiculos-cards-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-table-390",
+  "path": "/usuarios",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "usuarios-cards-390",
+  "path": "/usuarios",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-table-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "conductores-cards-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-table-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "ciudades-cards-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-table-390",
+  "path": "/parametric/departamentos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "departamentos-cards-390",
+  "path": "/parametric/departamentos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "personas-table-390",
+  "path": "/parametric/personas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "personas-cards-390",
+  "path": "/parametric/personas",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-cargas-table-390",
+  "path": "/parametric/tipo-cargas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipo-cargas-cards-390",
+  "path": "/parametric/tipo-cargas",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-vehiculos-table-390",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipo-vehiculos-cards-390",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-documentos-table-390",
+  "path": "/parametric/tipo-documentos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipo-documentos-cards-390",
+  "path": "/parametric/tipo-documentos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-table-390",
+  "path": "/parametric/tipo-incidencias",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipo-incidencias-cards-390",
+  "path": "/parametric/tipo-incidencias",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-licencias-table-390",
+  "path": "/parametric/tipo-licencias",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipo-licencias-cards-390",
+  "path": "/parametric/tipo-licencias",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-recargos-table-390",
+  "path": "/parametric/tipo-recargos",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipo-recargos-cards-390",
+  "path": "/parametric/tipo-recargos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "metodos-pago-table-390",
+  "path": "/parametric/metodos-pago",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "metodos-pago-cards-390",
+  "path": "/parametric/metodos-pago",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "monedas-table-390",
+  "path": "/parametric/monedas",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "monedas-cards-390",
+  "path": "/parametric/monedas",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-uso-ruta-table-390",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipos-uso-ruta-cards-390",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-categoria-tarifa-table-390",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipos-categoria-tarifa-cards-390",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-asiento-table-390",
+  "path": "/parametric/tipos-asiento",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "tipos-asiento-cards-390",
+  "path": "/parametric/tipos-asiento",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-table-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844
+ },
+ {
+  "name": "canales-venta-cards-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-table-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "vehiculos-cards-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-cards-expanded-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-table-1024",
+  "path": "/usuarios",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "usuarios-cards-1024",
+  "path": "/usuarios",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-cards-expanded-1024",
+  "path": "/usuarios",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-table-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "conductores-cards-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-cards-expanded-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-table-1024",
+  "path": "/parametric/ciudades",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "ciudades-cards-1024",
+  "path": "/parametric/ciudades",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-cards-expanded-1024",
+  "path": "/parametric/ciudades",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-table-1024",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "tipo-incidencias-cards-1024",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-cards-expanded-1024",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-table-1024",
+  "path": "/parametric/canales-venta",
+  "width": 1024,
+  "height": 768
+ },
+ {
+  "name": "canales-venta-cards-1024",
+  "path": "/parametric/canales-venta",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-cards-expanded-1024",
+  "path": "/parametric/canales-venta",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-table-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "vehiculos-cards-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-cards-expanded-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-table-768",
+  "path": "/usuarios",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "usuarios-cards-768",
+  "path": "/usuarios",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-cards-expanded-768",
+  "path": "/usuarios",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-table-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "conductores-cards-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-cards-expanded-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-table-768",
+  "path": "/parametric/ciudades",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "ciudades-cards-768",
+  "path": "/parametric/ciudades",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-cards-expanded-768",
+  "path": "/parametric/ciudades",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-table-768",
+  "path": "/parametric/tipo-incidencias",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "tipo-incidencias-cards-768",
+  "path": "/parametric/tipo-incidencias",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-cards-expanded-768",
+  "path": "/parametric/tipo-incidencias",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-table-768",
+  "path": "/parametric/canales-venta",
+  "width": 768,
+  "height": 1024
+ },
+ {
+  "name": "canales-venta-cards-768",
+  "path": "/parametric/canales-venta",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-cards-expanded-768",
+  "path": "/parametric/canales-venta",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-cards-expanded-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-cards-expanded-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-cards-expanded-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-cards-expanded-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-cards-expanded-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-cards-expanded-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-cards-expanded-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-cards-expanded-390",
+  "path": "/usuarios",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-cards-expanded-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-cards-expanded-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-cards-expanded-390",
+  "path": "/parametric/tipo-incidencias",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-cards-expanded-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-cards-expanded-all-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-cards-expanded-all-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-cards-expanded-all-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-cards-expanded-all-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-cards-expanded-all-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "personas-cards-expanded-all-1440",
+  "path": "/parametric/personas",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-cargas-cards-expanded-all-1440",
+  "path": "/parametric/tipo-cargas",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-vehiculos-cards-expanded-all-1440",
+  "path": "/parametric/tipo-vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-documentos-cards-expanded-all-1440",
+  "path": "/parametric/tipo-documentos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-cards-expanded-all-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-licencias-cards-expanded-all-1440",
+  "path": "/parametric/tipo-licencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-recargos-cards-expanded-all-1440",
+  "path": "/parametric/tipo-recargos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "metodos-pago-cards-expanded-all-1440",
+  "path": "/parametric/metodos-pago",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "monedas-cards-expanded-all-1440",
+  "path": "/parametric/monedas",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-uso-ruta-cards-expanded-all-1440",
+  "path": "/parametric/tipos-uso-ruta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-categoria-tarifa-cards-expanded-all-1440",
+  "path": "/parametric/tipos-categoria-tarifa",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "tipos-asiento-cards-expanded-all-1440",
+  "path": "/parametric/tipos-asiento",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-cards-expanded-all-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-row-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=data-table-row]"
+ },
+ {
+  "name": "vehiculos-delete-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-delete]"
+ },
+ {
+  "name": "vehiculos-card-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=entity-card]"
+ },
+ {
+  "name": "vehiculos-card-toggle-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-toggle-details]"
+ },
+ {
+  "name": "vehiculos-card-edit-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-edit-entity]"
+ },
+ {
+  "name": "vehiculos-header-action-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=page-header-action]"
+ },
+ {
+  "name": "vehiculos-switcher-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=view-switcher-cards]"
+ },
+ {
+  "name": "vehiculos-switcher-hover-cards-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=view-switcher-table]"
+ },
+ {
+  "name": "vehiculos-search-noresults-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-search-noresults-cards-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-search-noresults-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-search-clear-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=search-field-clear]"
+ },
+ {
+  "name": "vehiculos-scroll-x-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "div:has(> table[data-testid=data-table])",
+     400,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-card-switch-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=entity-card-switch]"
+   }
+  ]
+ },
+ {
+  "name": "usuarios-row-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=data-table-row]"
+ },
+ {
+  "name": "usuarios-delete-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-delete]"
+ },
+ {
+  "name": "usuarios-card-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=entity-card]"
+ },
+ {
+  "name": "usuarios-card-toggle-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-toggle-details]"
+ },
+ {
+  "name": "usuarios-card-edit-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-edit-entity]"
+ },
+ {
+  "name": "usuarios-header-action-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=page-header-action]"
+ },
+ {
+  "name": "usuarios-switcher-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=view-switcher-cards]"
+ },
+ {
+  "name": "usuarios-switcher-hover-cards-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=view-switcher-table]"
+ },
+ {
+  "name": "usuarios-search-noresults-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "usuarios-search-noresults-cards-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "usuarios-search-noresults-390",
+  "path": "/usuarios",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "usuarios-search-clear-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=search-field-clear]"
+ },
+ {
+  "name": "usuarios-scroll-x-390",
+  "path": "/usuarios",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "div:has(> table[data-testid=data-table])",
+     400,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "usuarios-card-switch-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=entity-card-switch]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-row-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=data-table-row]"
+ },
+ {
+  "name": "conductores-delete-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-delete]"
+ },
+ {
+  "name": "conductores-card-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=entity-card]"
+ },
+ {
+  "name": "conductores-card-toggle-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-toggle-details]"
+ },
+ {
+  "name": "conductores-card-edit-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-edit-entity]"
+ },
+ {
+  "name": "conductores-header-action-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=page-header-action]"
+ },
+ {
+  "name": "conductores-switcher-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=view-switcher-cards]"
+ },
+ {
+  "name": "conductores-switcher-hover-cards-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=view-switcher-table]"
+ },
+ {
+  "name": "conductores-search-noresults-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "conductores-search-noresults-cards-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "conductores-search-noresults-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "conductores-search-clear-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=search-field-clear]"
+ },
+ {
+  "name": "conductores-scroll-x-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "div:has(> table[data-testid=data-table])",
+     400,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "conductores-card-switch-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=entity-card-switch]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-row-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=data-table-row]"
+ },
+ {
+  "name": "ciudades-delete-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-delete]"
+ },
+ {
+  "name": "ciudades-card-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=entity-card]"
+ },
+ {
+  "name": "ciudades-card-toggle-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-toggle-details]"
+ },
+ {
+  "name": "ciudades-card-edit-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-edit-entity]"
+ },
+ {
+  "name": "ciudades-header-action-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=page-header-action]"
+ },
+ {
+  "name": "ciudades-switcher-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=view-switcher-cards]"
+ },
+ {
+  "name": "ciudades-switcher-hover-cards-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=view-switcher-table]"
+ },
+ {
+  "name": "ciudades-search-noresults-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "ciudades-search-noresults-cards-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "ciudades-search-noresults-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "ciudades-search-clear-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=search-field-clear]"
+ },
+ {
+  "name": "ciudades-scroll-x-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "div:has(> table[data-testid=data-table])",
+     400,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "ciudades-card-switch-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=entity-card-switch]"
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-row-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=data-table-row]"
+ },
+ {
+  "name": "tipo-incidencias-delete-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-delete]"
+ },
+ {
+  "name": "tipo-incidencias-card-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=entity-card]"
+ },
+ {
+  "name": "tipo-incidencias-card-toggle-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-toggle-details]"
+ },
+ {
+  "name": "tipo-incidencias-card-edit-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-edit-entity]"
+ },
+ {
+  "name": "tipo-incidencias-header-action-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=page-header-action]"
+ },
+ {
+  "name": "tipo-incidencias-switcher-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=view-switcher-cards]"
+ },
+ {
+  "name": "tipo-incidencias-switcher-hover-cards-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=view-switcher-table]"
+ },
+ {
+  "name": "tipo-incidencias-search-noresults-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-search-noresults-cards-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-search-noresults-390",
+  "path": "/parametric/tipo-incidencias",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-search-clear-hover-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=search-field-clear]"
+ },
+ {
+  "name": "tipo-incidencias-scroll-x-390",
+  "path": "/parametric/tipo-incidencias",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "div:has(> table[data-testid=data-table])",
+     400,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "tipo-incidencias-card-switch-1440",
+  "path": "/parametric/tipo-incidencias",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=entity-card-switch]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-row-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=data-table-row]"
+ },
+ {
+  "name": "canales-venta-delete-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-delete]"
+ },
+ {
+  "name": "canales-venta-card-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=entity-card]"
+ },
+ {
+  "name": "canales-venta-card-toggle-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-toggle-details]"
+ },
+ {
+  "name": "canales-venta-card-edit-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=btn-edit-entity]"
+ },
+ {
+  "name": "canales-venta-header-action-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=page-header-action]"
+ },
+ {
+  "name": "canales-venta-switcher-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=view-switcher-cards]"
+ },
+ {
+  "name": "canales-venta-switcher-hover-cards-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ],
+  "keepHover": "[data-testid=view-switcher-table]"
+ },
+ {
+  "name": "canales-venta-search-noresults-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-search-noresults-cards-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-search-noresults-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "zzzzqqq"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-search-clear-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=search-field-clear]"
+ },
+ {
+  "name": "canales-venta-scroll-x-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "div:has(> table[data-testid=data-table])",
+     400,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-card-switch-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=entity-card-switch]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-edit-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-edit]"
+ },
+ {
+  "name": "usuarios-edit-hover-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=row-action-edit]"
+ },
+ {
+  "name": "vehiculos-edit-focus-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=search-field-input]"
+   },
+   {
+    "press": "Tab"
+   },
+   {
+    "press": "Tab"
+   },
+   {
+    "press": "Tab"
+   },
+   {
+    "press": "Tab"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-search-focus-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=search-field-input]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-search-results-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "bus"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "usuarios-search-results-1440",
+  "path": "/usuarios",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "a"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "ciudades-search-results-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "san"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "ciudades-search-results-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "fill": [
+     "[data-testid=search-field-input]",
+     "san"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-header-action-focus-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=search-field-input]"
+   },
+   {
+    "press": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-page2-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-page2-390",
+  "path": "/parametric/ciudades",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-page2-768",
+  "path": "/parametric/ciudades",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-page2-cards-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-pag-next-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-next]"
+ },
+ {
+  "name": "ciudades-pag-prev-hover-disabled-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-prev]"
+ },
+ {
+  "name": "ciudades-pag-page-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-page]:not([aria-current])"
+ },
+ {
+  "name": "ciudades-pag-page-hover-current-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-page][aria-current]"
+ },
+ {
+  "name": "canales-venta-page2-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-page2-390",
+  "path": "/parametric/canales-venta",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-page2-768",
+  "path": "/parametric/canales-venta",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-page2-cards-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "canales-venta-pag-next-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-next]"
+ },
+ {
+  "name": "canales-venta-pag-prev-hover-disabled-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-prev]"
+ },
+ {
+  "name": "canales-venta-pag-page-hover-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-page]:not([aria-current])"
+ },
+ {
+  "name": "canales-venta-pag-page-hover-current-1440",
+  "path": "/parametric/canales-venta",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-page][aria-current]"
+ },
+ {
+  "name": "departamentos-page2-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-page2-390",
+  "path": "/parametric/departamentos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-page2-768",
+  "path": "/parametric/departamentos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-page2-cards-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "departamentos-pag-next-hover-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-next]"
+ },
+ {
+  "name": "departamentos-pag-prev-hover-disabled-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-prev]"
+ },
+ {
+  "name": "departamentos-pag-page-hover-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-page]:not([aria-current])"
+ },
+ {
+  "name": "departamentos-pag-page-hover-current-1440",
+  "path": "/parametric/departamentos",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=pagination-page][aria-current]"
+ },
+ {
+  "name": "ciudades-page3-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   },
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ]
+ },
+ {
+  "name": "ciudades-page3-prev-hover-1440",
+  "path": "/parametric/ciudades",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=pagination-next]"
+   },
+   {
+    "click": "[data-testid=pagination-next]"
+   }
+  ],
+  "keepHover": "[data-testid=pagination-prev]"
+ },
+ {
+  "name": "conductores-tab2-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(2)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab3-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(3)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab5-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(5)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab2-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(2)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab3-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(3)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab5-1024",
+  "path": "/conductores",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(5)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab2-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(2)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab3-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(3)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab5-768",
+  "path": "/conductores",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(5)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab2-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(2)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab3-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(3)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab5-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(5)"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab-hover-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=filter-tab]:nth-child(3)"
+ },
+ {
+  "name": "conductores-tab-hover-active-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "keepHover": "[data-testid=filter-tab]:nth-child(1)"
+ },
+ {
+  "name": "conductores-tab3-cards-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(3)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab-scroll-390",
+  "path": "/conductores",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "scroll": [
+     "[data-testid=filter-tabs]",
+     200,
+     0
+    ]
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab2-cards-exp-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(2)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   },
+   {
+    "click": "[data-testid=btn-toggle-details]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab3-cards-exp-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(3)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab4-cards-exp-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(4)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab5-cards-exp-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(5)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab6-cards-exp-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(6)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "conductores-tab7-cards-exp-1440",
+  "path": "/conductores",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=filter-tab]:nth-child(7)"
+   },
+   {
+    "click": "[data-testid=view-switcher-cards]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-open-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-invalid-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "AB"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-valid-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "abc-123"
+    ]
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-internal]",
+     "M-042"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=Marcopolo]",
+     "Volvo"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=\"Paradiso G8\"]",
+     "B420"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-open-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-invalid-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "AB"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-valid-1024",
+  "path": "/vehiculos",
+  "width": 1024,
+  "height": 768,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "abc-123"
+    ]
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-internal]",
+     "M-042"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=Marcopolo]",
+     "Volvo"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=\"Paradiso G8\"]",
+     "B420"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-open-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-invalid-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "AB"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-valid-768",
+  "path": "/vehiculos",
+  "width": 768,
+  "height": 1024,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "abc-123"
+    ]
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-internal]",
+     "M-042"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=Marcopolo]",
+     "Volvo"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=\"Paradiso G8\"]",
+     "B420"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-open-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ]
+ },
+ {
+  "name": "wizard-invalid-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "AB"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-valid-390",
+  "path": "/vehiculos",
+  "width": 390,
+  "height": 844,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "abc-123"
+    ]
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-internal]",
+     "M-042"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=Marcopolo]",
+     "Volvo"
+    ]
+   },
+   {
+    "fill": [
+     "input[placeholder=\"Paradiso G8\"]",
+     "B420"
+    ]
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset1-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]:nth-child(1)"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset2-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]:nth-child(2)"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset3-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]:nth-child(3)"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset4-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]:nth-child(4)"
+   }
+  ]
+ },
+ {
+  "name": "wizard-preset-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ],
+  "keepHover": "[data-testid^=preset-card-]:nth-child(2)"
+ },
+ {
+  "name": "wizard-preset-hover-sel-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ],
+  "keepHover": "[data-testid^=preset-card-]:nth-child(1)"
+ },
+ {
+  "name": "wizard-close-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   }
+  ],
+  "keepHover": "[data-testid=vehicle-wizard] button[aria-label=Cerrar]"
+ },
+ {
+  "name": "wizard-create-hover-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   },
+   {
+    "fill": [
+     "[data-testid=wizard-plate]",
+     "abc-123"
+    ]
+   }
+  ],
+  "keepHover": "[data-testid=wizard-create]"
+ },
+ {
+  "name": "wizard-create-hover-disabled-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "click": "[data-testid^=preset-card-]"
+   }
+  ],
+  "keepHover": "[data-testid=wizard-create]"
+ },
+ {
+  "name": "wizard-closed-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=page-header-action]"
+   },
+   {
+    "press": "Escape"
+   },
+   {
+    "click": "[data-testid=vehicle-wizard] button[aria-label=Cerrar]"
+   }
+  ]
+ },
+ {
+  "name": "vehiculos-deleted-1440",
+  "path": "/vehiculos",
+  "width": 1440,
+  "height": 900,
+  "actions": [
+   {
+    "click": "[data-testid=row-action-delete]"
+   }
+  ]
+ }
+]

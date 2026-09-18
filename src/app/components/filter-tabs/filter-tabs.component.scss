@@ -1,0 +1,72 @@
+/**
+ * Filter Tabs Component Styles · Grafito y cobre
+ * Control segmentado de vidrio; scroll horizontal en móvil. Si hay pestañas
+ * fuera de vista, el borde correspondiente se desvanece (máscara) para que
+ * ninguna parezca cortada.
+ */
+@use 'mixins' as *;
+
+.filter-tabs {
+  @include segmented-track;
+
+  & {
+    display: flex;
+    max-width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  &__scroller {
+    --fade: var(--space-8);
+    --fade-color: var(--color-neutral-900);
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-1);
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    @include hide-scrollbar;
+
+    &--fade-end {
+      -webkit-mask-image: linear-gradient(to right, var(--fade-color) calc(100% - var(--fade)), transparent);
+      mask-image: linear-gradient(to right, var(--fade-color) calc(100% - var(--fade)), transparent);
+    }
+
+    &--fade-start {
+      -webkit-mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade));
+      mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade));
+    }
+
+    &--fade-start#{&}--fade-end {
+      -webkit-mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade), var(--fade-color) calc(100% - var(--fade)), transparent);
+      mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade), var(--fade-color) calc(100% - var(--fade)), transparent);
+    }
+  }
+
+  &__tab {
+    @include segmented-option(false);
+
+    & {
+      flex-shrink: 0;
+      height: 2.25rem;
+      padding: 0 var(--space-4);
+      scroll-snap-align: start;
+    }
+
+    &--active,
+    &--active:hover {
+      background-color: var(--color-neutral-900);
+      color: var(--color-neutral-0);
+      box-shadow: var(--shadow-ink);
+    }
+  }
+
+  &__count {
+    margin-left: var(--space-2);
+    font-family: var(--font-family-data);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+}

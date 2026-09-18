@@ -1,0 +1,57 @@
+<div class="rm-svg-container route-graph">
+  <svg 
+    data-testid="route-svg-graph"
+    role="img"
+    [attr.aria-label]="ariaLabel()"
+    [attr.viewBox]="graph().viewBox" 
+    class="route-graph__svg" 
+    preserveAspectRatio="xMidYMid meet">
+    
+    <!-- Trazado de ruta punteado -->
+    <path 
+      data-testid="route-connection-path"
+      [attr.d]="graph().pathD" 
+      fill="none" 
+      [style.stroke]="palette.LINE.COLOR"
+      [attr.stroke-width]="graph().strokeWidth"
+      [attr.stroke-dasharray]="palette.LINE.DASH_ARRAY"
+      stroke-linecap="round" />
+
+    <!-- Nodos Vectoriales -->
+    @for (node of graph().nodes; track node.id) {
+      <g 
+        [attr.data-testid]="node.isOrigin ? 'node-origin' : (node.isDestination ? 'node-destination' : 'stop-node')">
+        @if (node.isOrigin) {
+          <circle [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.r" [style.fill]="colorOf(node.name)" />
+          <text class="node-label node-label--inverse" [attr.x]="node.x" [attr.y]="node.y + 3.5" text-anchor="middle" [attr.font-size]="graph().fontSizeNode" font-weight="bold">
+            {{ node.order }}
+          </text>
+        } @else if (node.isDestination) {
+          <circle [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.r" [style.fill]="colorOf(node.name)" />
+          <path
+            class="node-flag" 
+            data-testid="destination-flag-icon"
+            [attr.transform]="'translate(' + (node.x - 6.5) + ',' + (node.y - 6.5) + ') scale(0.65)'" 
+            d="M3 3v18h2v-6h10l-2-5 2-5H5V3H3z" />
+        } @else {
+          <circle [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.r" [style.fill]="palette.PALETTE.NODE_INNER_BG" [style.stroke]="colorOf(node.name)" [attr.stroke-width]="palette.PALETTE.RING_WIDTH" />
+          <text class="node-label" [attr.x]="node.x" [attr.y]="node.y + 3.5" [style.fill]="colorOf(node.name)" text-anchor="middle" [attr.font-size]="graph().fontSizeNode" font-weight="bold">
+            {{ node.order }}
+          </text>
+        }
+
+        <!-- Nombre de la ciudad estrictamente centrado bajo su nodo -->
+        <text 
+          data-testid="city-name-label"
+          class="city-label"
+          [attr.x]="node.x" 
+          [attr.y]="node.y + node.r + 13" 
+          text-anchor="middle" 
+          [attr.font-size]="graph().fontSizeCity"
+          font-weight="500">
+          {{ node.name }}
+        </text>
+      </g>
+    }
+  </svg>
+</div>

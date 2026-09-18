@@ -1,0 +1,951 @@
+@use 'mixins' as *;
+
+/**
+ * App Shell · Amanecer + grafito
+ * Menú lateral grafito (tokens --sidebar-*) con el subítem activo relleno de
+ * cobre; barra superior de vidrio sobre el fondo "Amanecer": base --bg-app y
+ * la capa --bg-app-layer pintada en un ::before fijo con --bg-amount.
+ * Ningún rótulo del menú se corta: las etiquetas admiten dos líneas.
+ */
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Atmósfera: degradado fijo detrás de todo el contenido (el host no lleva
+   backdrop-filter, así que el position: fixed es seguro). */
+:host::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--bg-app-layer);
+  opacity: var(--bg-amount);
+
+  @media (prefers-reduced-transparency: reduce) {
+    display: none;
+  }
+}
+
+// ==========================================================================
+// Transiciones compartidas
+// ==========================================================================
+$transition-colors-props: color, background-color, border-color, box-shadow, fill, stroke;
+
+@mixin transition-colors {
+  transition-property: $transition-colors-props;
+  transition-timing-function: var(--ease-standard);
+  transition-duration: var(--dur-fast);
+}
+
+/* Ítem del menú oscuro: texto secundario, hover en --sidebar-active. */
+@mixin sidebar-item {
+  color: var(--sidebar-muted);
+  @include transition-colors;
+
+  &:hover {
+    background-color: var(--sidebar-active);
+    color: var(--sidebar-text);
+  }
+}
+
+/* Seleccionado en el menú oscuro: relleno cobre y texto blanco. */
+@mixin sidebar-selected {
+  &,
+  &:hover {
+    background-color: var(--color-terracota-500);
+    color: var(--color-neutral-0);
+    font-weight: 700;
+    box-shadow: var(--shadow-cta);
+  }
+}
+
+/* Etiqueta del menú: hasta dos líneas, nunca con puntos suspensivos. */
+@mixin nav-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: var(--leading-tight);
+}
+
+/* Píldora de contorno del menú ("Pronto", recuentos). */
+@mixin sidebar-pill {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--sidebar-border);
+  color: var(--sidebar-muted);
+  line-height: var(--leading-ui);
+}
+
+// ==========================================================================
+// Enlace de salto: oculto hasta recibir foco; entonces píldora con anillo cobre.
+// ==========================================================================
+.shell__skip {
+  @include sr-only;
+
+  &:focus,
+  &:focus-visible {
+    position: fixed;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 100;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: var(--space-3) var(--space-5);
+    overflow: visible;
+    clip: auto;
+    white-space: nowrap;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-950);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-decoration: none;
+    outline: none;
+    box-shadow: var(--ring), var(--shadow-float);
+  }
+}
+
+// ==========================================================================
+// Layout raíz
+// ==========================================================================
+.shell {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: var(--font-family-ui);
+  color: var(--color-neutral-900);
+}
+
+// ==========================================================================
+// 1. Sidebar oscuro (desktop / mini-rail tablet)
+// ==========================================================================
+.shell__sidebar {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 14rem;
+  margin: var(--space-3) 0 var(--space-3) var(--space-3);
+  border-radius: var(--radius-panel);
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  box-shadow: var(--shadow-float);
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  z-index: 20;
+  font-family: var(--font-family-ui);
+  transition: width var(--dur-slow) var(--ease-out);
+
+  @include bp(md) {
+    display: flex;
+  }
+
+  @include bp(lg) {
+    width: 15.5rem;
+  }
+
+  @include bp(xl) {
+    width: 16rem;
+  }
+}
+
+.shell__sidebar--collapsed {
+  &,
+  &.shell__sidebar {
+    width: 4.75rem;
+  }
+}
+
+.shell__brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  height: 4rem;
+  padding: 0 var(--space-3) 0 var(--space-4);
+  border-bottom: 1px solid var(--sidebar-border);
+
+  @include bp(sm) {
+    height: 5rem;
+  }
+}
+
+/* Mini-rail: isotipo y botón apilados para que no se monten en 76px. */
+.shell__brand--collapsed {
+  &,
+  &.shell__brand {
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-1);
+    height: auto;
+    padding: var(--space-3) 0;
+  }
+}
+
+.shell__brand-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Isotipo con el degradado de marca. */
+.shell__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-field);
+  background: var(--brand-gradient);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+  color: var(--color-neutral-0);
+}
+
+.shell__logo-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.shell__brand-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.shell__brand-name {
+  font-size: var(--text-md);
+  line-height: var(--leading-tight);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--sidebar-text);
+  white-space: nowrap;
+
+  @include bp(sm) {
+    font-size: var(--text-lg);
+  }
+}
+
+.shell__brand-tagline {
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sidebar-muted);
+  white-space: nowrap;
+}
+
+.shell__collapse-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-pill);
+  @include sidebar-item;
+  @include focus-ring;
+  @include touch-target;
+}
+
+.shell__collapse-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--dur-base) var(--ease-standard);
+}
+
+.shell__collapse-icon--rotated {
+  transform: rotate(180deg);
+}
+
+// Cabecera + menú: el menú desplaza cuando Catálogos está abierto.
+.shell__sidebar-top {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+// Navegación lateral
+.shell__nav {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sidebar-border) transparent;
+  padding: var(--space-3);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-3);
+  }
+}
+
+.shell__nav--collapsed {
+  padding: var(--space-3) var(--space-2);
+}
+
+.shell__nav-group > :not([hidden]) ~ :not([hidden]) {
+  margin-top: var(--space-1);
+}
+
+/* Sección (Operación, Administración): rótulo de grupo navegable. */
+.shell__nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-decoration: none;
+  @include sidebar-item;
+  @include press;
+  @include focus-ring;
+}
+
+.shell__nav-link--collapsed {
+  justify-content: center;
+  gap: 0;
+  padding: var(--space-2);
+}
+
+/* Sección que contiene la vista actual: texto claro, sin relleno. El relleno
+   de cobre lo lleva el subítem activo. */
+.shell__nav-link--active {
+  &,
+  &:hover {
+    color: var(--sidebar-text);
+  }
+}
+
+.shell__nav-icon {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.shell__nav-label {
+  @include nav-label;
+}
+
+.shell__subnav {
+  margin: var(--space-1) 0 var(--space-1) var(--space-5);
+  padding: 0 0 0 var(--space-2);
+  border-left: 1px solid var(--sidebar-border);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-1);
+  }
+}
+
+.shell__sublink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.25rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-field);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-decoration: none;
+  @include sidebar-item;
+  @include focus-ring;
+  @include touch-target(height);
+
+  // Activo por URL (incluye alias como /programar o /servicios-programados).
+  &--active {
+    @include sidebar-selected;
+  }
+}
+
+// Mini-rail: los subenlaces quedan como iconos centrados bajo su sección.
+.shell__subnav--rail {
+  margin: var(--space-1) 0 var(--space-2);
+  padding: 0;
+  border-left: 0;
+}
+
+.shell__sublink--rail {
+  justify-content: center;
+  gap: 0;
+  padding: var(--space-2);
+  @include touch-target;
+}
+
+.shell__sublink-icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+}
+
+// Subgrupo plegable "Catálogos"
+.shell__catalog-toggle {
+  width: 100%;
+  border: 0;
+  background-color: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.shell__catalog-toggle.shell__catalog-toggle--current {
+  color: var(--sidebar-text);
+  font-weight: 700;
+}
+
+.shell__count {
+  @include board-figure(var(--text-2xs), 700);
+  @include sidebar-pill;
+}
+
+.shell__chevron {
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--sidebar-muted);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.shell__chevron--open {
+  transform: rotate(90deg);
+}
+
+.shell__subnav--nested {
+  margin: var(--space-1) 0 var(--space-1) var(--space-3);
+  padding: 0 0 0 var(--space-2);
+  border-left: 1px solid var(--sidebar-border);
+}
+
+// Módulos en preparación (Ventas, Informes)
+.shell__nav-soon {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--sidebar-border);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-1);
+  }
+}
+
+.shell__nav-link--soon {
+  &,
+  &:hover,
+  &:active {
+    background-color: transparent;
+    color: var(--sidebar-muted);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .shell__nav-icon {
+    opacity: 0.7;
+  }
+}
+
+.shell__soon-pill {
+  @include board-label;
+  @include sidebar-pill;
+}
+
+.shell__soon-dot {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--sidebar-border);
+}
+
+.shell__sublink-label {
+  @include nav-label;
+}
+
+// Pie del sidebar
+.shell__sidebar-footer {
+  padding: var(--space-3);
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.shell__sidebar-footer--collapsed {
+  padding: var(--space-2);
+}
+
+.shell__status {
+  padding: var(--space-2);
+  text-align: center;
+}
+
+.shell__status--collapsed {
+  padding: 0;
+}
+
+.shell__status-version {
+  @include board-figure(var(--text-2xs), 700);
+  color: var(--sidebar-text);
+}
+
+.shell__status-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  color: var(--sidebar-muted);
+
+  /* Punto "En línea" (7px). */
+  &::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-pill);
+    background-color: var(--sidebar-online);
+  }
+}
+
+// ==========================================================================
+// 2. Área principal: topbar + contenido (claros sobre --bg-app)
+// ==========================================================================
+.shell__main {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  padding: var(--space-3) var(--space-3) 0;
+  gap: var(--space-3);
+}
+
+.shell__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  height: 3.75rem;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-panel);
+  @include glass(chrome);
+
+  & {
+    border: 1px solid var(--glass-chrome-border);
+    box-shadow: var(--shadow-float);
+    z-index: 10;
+  }
+
+  @include bp(sm) {
+    height: 4rem;
+    padding: 0 var(--space-3) 0 var(--space-5);
+  }
+}
+
+.shell__topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.shell__burger {
+  display: grid;
+  place-items: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-pill);
+  color: var(--color-neutral-800);
+  @include transition-colors;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-950);
+  }
+
+  @include bp(md) {
+    display: none;
+  }
+}
+
+.shell__burger-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.shell__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  font-weight: 600;
+  color: var(--color-neutral-500);
+}
+
+// En móvil solo se muestra la pantalla actual.
+.shell__breadcrumb-trail,
+.shell__breadcrumb-link,
+.shell__breadcrumb-sep {
+  display: none;
+  white-space: nowrap;
+
+  @include bp(sm) {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+.shell__breadcrumb-sep {
+  color: var(--color-neutral-300);
+}
+
+.shell__breadcrumb-link {
+  border-radius: var(--radius-pill);
+  color: var(--color-neutral-600);
+  text-decoration: none;
+  @include transition-colors;
+  @include focus-ring;
+  @include touch-target(height);
+
+  &:hover {
+    color: var(--color-neutral-950);
+  }
+}
+
+.shell__breadcrumb-current {
+  @include truncate;
+  font-weight: 800;
+  color: var(--color-neutral-950);
+}
+
+.shell__topbar-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--space-2);
+
+  @include bp(sm) {
+    gap: var(--space-4);
+  }
+}
+
+.shell__settings-btn {
+  display: grid;
+  place-items: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+  color: var(--color-neutral-700);
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-950);
+  }
+}
+
+.shell__settings-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.shell__divider {
+  display: none;
+  height: 1.75rem;
+  width: 1px;
+  background-color: var(--board-rule);
+
+  @include bp(sm) {
+    display: block;
+  }
+}
+
+.shell__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  @include bp(sm) {
+    gap: var(--space-3);
+  }
+}
+
+.shell__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-pill);
+  background: var(--brand-gradient);
+  box-shadow: 0 0 0 2px var(--color-neutral-0), var(--shadow-cta);
+  color: var(--color-neutral-0);
+  font-size: var(--text-sm);
+  line-height: var(--leading-tight);
+  font-weight: 800;
+}
+
+.shell__user-info {
+  display: none;
+  flex-direction: column;
+  text-align: left;
+
+  @include bp(sm) {
+    display: flex;
+  }
+}
+
+.shell__user-name {
+  font-size: var(--text-sm);
+  line-height: var(--leading-tight);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.shell__user-role {
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 600;
+  color: var(--color-neutral-500);
+}
+
+// Contenedor del contenido proyectado (las páginas enrutadas no se estilan aquí).
+// Recibe el foco del enlace de salto (tabindex -1): sin anillo propio.
+.shell__content {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  background: transparent;
+  margin: 0 calc(-1 * var(--space-3));
+  padding: 0 var(--space-3);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// ==========================================================================
+// 3. Drawer móvil oscuro + backdrop
+// ==========================================================================
+.shell__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-color: rgb(24 23 22 / 0.4);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+
+  @include bp(md) {
+    display: none;
+  }
+}
+
+.shell__drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 18rem;
+  max-width: 85vw;
+  margin: var(--space-2);
+  border-radius: var(--radius-panel);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  box-shadow: var(--shadow-lift);
+  scrollbar-color: var(--sidebar-border) transparent;
+  font-family: var(--font-family-ui);
+
+  &:focus {
+    outline: none;
+  }
+
+  @include bp(md) {
+    display: none;
+  }
+}
+
+.shell__drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  height: 5rem;
+  padding: 0 var(--space-4) 0 var(--space-5);
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.shell__drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.shell__drawer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-field);
+  background: var(--brand-gradient);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+  color: var(--color-neutral-0);
+}
+
+.shell__drawer-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.shell__drawer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.shell__drawer-brand-name {
+  font-size: var(--text-md);
+  line-height: var(--leading-tight);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--sidebar-text);
+}
+
+.shell__drawer-brand-tagline {
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sidebar-muted);
+}
+
+.shell__drawer-close {
+  display: grid;
+  place-items: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border-radius: var(--radius-pill);
+  @include sidebar-item;
+  @include focus-ring;
+}
+
+.shell__drawer-nav {
+  padding: var(--space-4) var(--space-3);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-3);
+  }
+}
+
+.shell__drawer-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-decoration: none;
+  @include sidebar-item;
+  @include press;
+  @include focus-ring;
+}
+
+.shell__drawer-link--active {
+  &,
+  &:hover {
+    color: var(--sidebar-text);
+  }
+}
+
+.shell__drawer-link-label {
+  @include nav-label;
+}
+
+.shell__drawer-subnav {
+  margin: var(--space-1) 0 0 var(--space-5);
+  padding-left: var(--space-2);
+  border-left: 1px solid var(--sidebar-border);
+
+  > :not([hidden]) ~ :not([hidden]) {
+    margin-top: var(--space-1);
+  }
+}
+
+.shell__drawer-sublink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-field);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  @include sidebar-item;
+  @include focus-ring;
+
+  &--active {
+    @include sidebar-selected;
+  }
+}
+
+.shell__drawer-sublink-label {
+  @include nav-label;
+}
+
+.shell__drawer-footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--sidebar-border);
+}
+
+.shell__drawer-status {
+  padding: var(--space-2);
+  text-align: center;
+}
+
+.shell__drawer-status-version {
+  @include board-figure(var(--text-2xs), 700);
+  color: var(--sidebar-text);
+}
+
+.shell__drawer-status-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  color: var(--sidebar-muted);
+
+  &::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-pill);
+    background-color: var(--sidebar-online);
+  }
+}

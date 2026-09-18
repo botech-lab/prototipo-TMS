@@ -1,0 +1,168 @@
+<section class="vehicles-page">
+
+  <!-- 1. CABECERA DEL MÓDULO -->
+  <app-page-header
+    title="Vehículos"
+    subtitle="Flota de transporte registrada en el sistema"
+    icon="fleet"
+    actionLabel="Nuevo vehículo"
+    (actionClick)="onNewVehicle()" />
+
+  <!-- 2. TOOLBAR: BÚSQUEDA + CONMUTADOR DE VISTA -->
+  <div class="vehicles-page__toolbar">
+    <div class="vehicles-page__search">
+      <app-search-field
+        [(value)]="vehiclesService.searchQuery"
+        placeholder="Buscar por placa, marca o modelo"
+        shortPlaceholder="Placa o marca" />
+    </div>
+
+    <span class="vehicles-page__summary">
+      {{ vehiclesService.filteredVehicles().length }} de {{ vehiclesService.totalCount() }} unidades
+      · {{ vehiclesService.totalPassengerCapacity() }} pax
+    </span>
+
+    <app-view-switcher [(mode)]="viewMode" />
+  </div>
+
+  <!-- 3. CATÁLOGO DE FLOTA (TABLA O TARJETAS) -->
+  @if (viewMode() === 'table') {
+    <app-data-table
+      [columns]="columns"
+      [rows]="vehiclesService.filteredVehicles()"
+      editLabel="Editar datos"
+      [extraActions]="rowExtraActions"
+      emptyTitle="Sin vehículos"
+      emptyMessage="No hay unidades que coincidan con la búsqueda. Ajusta el término o registra un vehículo nuevo."
+      (rowAction)="onRowAction($event)" />
+  } @else {
+    <app-entity-card-grid
+      [rows]="vehiclesService.filteredVehicles()"
+      [definition]="cardDefinition"
+      editLabel="Editar datos"
+      [extraActions]="rowExtraActions"
+      emptyTitle="Sin vehículos"
+      emptyMessage="No hay unidades que coincidan con la búsqueda. Ajusta el término o registra un vehículo nuevo."
+      emptyActionLabel="Nuevo vehículo"
+      (emptyAction)="onNewVehicle()"
+      (rowAction)="onRowAction($event)"
+      (enabledToggle)="onToggleStatus($event)" />
+  }
+
+</section>
+
+<!-- ========================================================================= -->
+<!-- CREACIÓN ASISTIDA: 4 tarjetas · datos mínimos · plano de plazas incluido  -->
+<!-- EDICIÓN DE DATOS: mismo asistente, prellenado, sin cambiar la arquitectura -->
+<!-- ========================================================================= -->
+@if (wizardOpen()) {
+  <div class="vehicles-page__wizard" (click)="closeWizard()" (keydown.escape)="closeWizard()" data-testid="vehicle-wizard">
+    <div #wizardDialog class="vehicles-page__wizard-dialog" role="dialog" aria-modal="true" tabindex="-1" [attr.aria-label]="wizardEditing() ? 'Editar datos de la unidad' : 'Nueva unidad'" (click)="$event.stopPropagation()" (keydown)="onWizardKeydown($event)">
+
+      <div class="vehicles-page__wizard-head">
+        <div>
+          @if (wizardEditing(); as editing) {
+            <p class="vehicles-page__wizard-step">Editar datos · {{ editing.type }}</p>
+            <h2 class="vehicles-page__wizard-title">Unidad <span class="vehicles-page__plate">{{ editing.plate }}</span></h2>
+          } @else {
+            <p class="vehicles-page__wizard-step">Paso 1 · Arquitectura base</p>
+            <h2 class="vehicles-page__wizard-title">Nueva unidad</h2>
+          }
+        </div>
+        <button type="button" class="vehicles-page__wizard-close" (click)="closeWizard()" aria-label="Cerrar"><svg class="vehicles-page__action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+      </div>
+
+      @if (wizardEditing(); as editing) {
+        <form class="vehicles-page__smart-fill" data-testid="vehicle-edit-form" novalidate (submit)="$event.preventDefault(); saveEdit()">
+          <div class="vehicles-page__facts">
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Tipo</p><p class="vehicles-page__fact-value">{{ editing.type }}</p></div>
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Pisos</p><p class="vehicles-page__fact-number">{{ editing.floors }}</p></div>
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Plazas</p><p class="vehicles-page__fact-number">{{ editing.passengerCapacity }} <span class="vehicles-page__fact-unit">pax</span></p></div>
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Arquitectura</p><p class="vehicles-page__fact-value">{{ wizardPreset()?.label ?? 'Sin preset' }}</p></div>
+          </div>
+
+          <div class="vehicles-page__fields">
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Placa <span class="vehicles-page__required" aria-hidden="true">*</span></span>
+              <input type="text" class="vehicles-page__input vehicles-page__input--strong vehicles-page__input--uppercase" placeholder="ABC-123"
+                [value]="wizardPlate()" (input)="wizardPlate.set($any($event.target).value)"
+                [attr.aria-invalid]="wizardSubmitted() && !!plateError()" data-testid="wizard-plate" />
+              @if (wizardSubmitted() && plateError(); as error) { <span class="vehicles-page__field-error">{{ error }}</span> }
+            </label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Nº interno de móvil</span>
+              <input type="text" class="vehicles-page__input vehicles-page__input--strong" placeholder="M-042" [value]="wizardInternal()" (input)="wizardInternal.set($any($event.target).value)" data-testid="wizard-internal" /></label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Marca</span>
+              <input type="text" class="vehicles-page__input" placeholder="Marcopolo" [value]="wizardBrand()" (input)="wizardBrand.set($any($event.target).value)" data-testid="wizard-brand" /></label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Modelo</span>
+              <input type="text" class="vehicles-page__input" placeholder="Paradiso G8" [value]="wizardModel()" (input)="wizardModel.set($any($event.target).value)" data-testid="wizard-model" /></label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Capacidad de pasajeros <span class="vehicles-page__required" aria-hidden="true">*</span></span>
+              <input type="number" inputmode="numeric" min="1" step="1" class="vehicles-page__input vehicles-page__input--strong"
+                [value]="wizardCapacity()" (input)="wizardCapacity.set($any($event.target).value)"
+                [attr.aria-invalid]="wizardSubmitted() && !!capacityError()" data-testid="wizard-capacity" />
+              @if (wizardSubmitted() && capacityError(); as error) { <span class="vehicles-page__field-error">{{ error }}</span> }
+            </label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Carga máx. (kg)</span>
+              <input type="number" inputmode="numeric" min="0" step="1" class="vehicles-page__input vehicles-page__input--strong" placeholder="Sin carga"
+                [value]="wizardCargo()" (input)="wizardCargo.set($any($event.target).value)"
+                [attr.aria-invalid]="wizardSubmitted() && !!cargoError()" data-testid="wizard-cargo" />
+              @if (wizardSubmitted() && cargoError(); as error) { <span class="vehicles-page__field-error">{{ error }}</span> }
+            </label>
+          </div>
+
+          <div class="vehicles-page__edit-actions">
+            <button type="button" class="vehicles-page__secondary" (click)="designSeatsFromWizard()" data-testid="wizard-design-seats">
+              <svg class="vehicles-page__action-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="rowExtraActions[0].iconPath" />
+              </svg>
+              Diseñar plazas
+            </button>
+            <button type="submit" class="vehicles-page__create" data-testid="wizard-save">Guardar cambios</button>
+          </div>
+        </form>
+      } @else {
+
+      <div class="vehicles-page__presets">
+        @for (p of presets; track p.id) {
+          <button type="button" class="vehicles-page__preset"
+            [class.vehicles-page__preset--selected]="wizardPreset()?.id === p.id"
+            (click)="wizardPreset.set(p)" [attr.data-testid]="'preset-card-' + p.id">
+            <app-nav-icon class="vehicles-page__preset-icon" [name]="presetIcon(p.id)" />
+            <span class="vehicles-page__preset-text">
+              <span class="vehicles-page__preset-label">{{ p.label }}</span>
+              <span class="vehicles-page__preset-description">{{ p.description }}</span>
+            </span>
+          </button>
+        }
+      </div>
+
+      @if (wizardPreset(); as p) {
+        <div class="vehicles-page__smart-fill">
+          <p class="vehicles-page__wizard-step">Paso 2 · Relleno inteligente</p>
+
+          <div class="vehicles-page__facts">
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Tipo</p><p class="vehicles-page__fact-value">{{ p.vehicleTypeName }}</p></div>
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Plazas</p><p class="vehicles-page__fact-number">{{ p.spec ? wizardSeats() : p.passengerCapacity }} <span class="vehicles-page__fact-unit">· {{ p.floors }} piso{{ p.floors === 1 ? '' : 's' }}</span></p></div>
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Carga máx.</p><p class="vehicles-page__fact-number">{{ wizardType()?.maxWeightKg ?? '—' }} <span class="vehicles-page__fact-unit">kg</span></p></div>
+            <div class="vehicles-page__fact"><p class="vehicles-page__fact-label">Licencia</p><p class="vehicles-page__fact-number" data-testid="wizard-license">{{ wizardType()?.requiredLicense ?? '—' }}</p></div>
+          </div>
+
+          <div class="vehicles-page__fields">
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Placa <span class="vehicles-page__required" aria-hidden="true">*</span></span>
+              <input type="text" class="vehicles-page__input vehicles-page__input--strong vehicles-page__input--uppercase" placeholder="ABC-123" [value]="wizardPlate()" (input)="wizardPlate.set($any($event.target).value)" data-testid="wizard-plate" /></label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Nº interno de móvil</span>
+              <input type="text" class="vehicles-page__input vehicles-page__input--strong" placeholder="M-042" [value]="wizardInternal()" (input)="wizardInternal.set($any($event.target).value)" data-testid="wizard-internal" /></label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Marca</span>
+              <input type="text" class="vehicles-page__input" placeholder="Marcopolo" [value]="wizardBrand()" (input)="wizardBrand.set($any($event.target).value)" /></label>
+            <label class="vehicles-page__field"><span class="vehicles-page__field-label">Modelo</span>
+              <input type="text" class="vehicles-page__input" placeholder="Paradiso G8" [value]="wizardModel()" (input)="wizardModel.set($any($event.target).value)" /></label>
+          </div>
+
+          <button type="button" class="vehicles-page__create"
+            [disabled]="!wizardValid()" (click)="createFromWizard()" data-testid="wizard-create">
+            {{ p.spec ? 'Crear unidad y abrir su plano' : 'Crear unidad con lienzo limpio' }}
+          </button>
+        </div>
+      }
+      }
+    </div>
+  </div>
+}

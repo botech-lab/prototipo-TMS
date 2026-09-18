@@ -1,0 +1,63 @@
+<section class="users-page">
+
+  <!-- 1. CABECERA DEL MÓDULO -->
+  <app-page-header
+    title="Gestión de Usuarios"
+    subtitle="Control de accesos, roles y seguridad de la plataforma"
+    icon="users"
+    actionLabel="Nuevo usuario"
+    (actionClick)="onNewUser()" />
+
+  <!-- 2. TOOLBAR: BÚSQUEDA + INDICADOR DE SEGURIDAD + CONMUTADOR DE VISTA -->
+  <div class="users-page__toolbar">
+    <div class="users-page__search">
+      <app-search-field
+        [(value)]="usersService.searchQuery"
+        placeholder="Buscar por nombre o usuario"
+        shortPlaceholder="Nombre o usuario" />
+    </div>
+
+    <span class="users-page__summary">
+      {{ usersService.totalCount() }} cuentas
+      @if (usersService.blockedCount() > 0) {
+        · <span class="users-page__summary-alert">{{ usersService.blockedCount() }} bloqueadas</span>
+      }
+    </span>
+
+    <app-view-switcher [(mode)]="viewMode" />
+  </div>
+
+  <!-- 3. CUENTAS DEL SISTEMA (TABLA O TARJETAS) -->
+  @if (viewMode() === 'table') {
+    <app-data-table
+      [columns]="columns"
+      [rows]="usersService.filteredUsers()"
+      emptyTitle="Sin usuarios"
+      emptyMessage="No hay cuentas que coincidan con la búsqueda. Ajusta el término o crea un usuario nuevo."
+      (rowAction)="onRowAction($event)" />
+  } @else {
+    <app-entity-card-grid
+      [rows]="usersService.filteredUsers()"
+      [definition]="cardDefinition"
+      emptyTitle="Sin usuarios"
+      emptyMessage="No hay cuentas que coincidan con la búsqueda. Ajusta el término o crea un usuario nuevo."
+      emptyActionLabel="Nuevo usuario"
+      (emptyAction)="onNewUser()"
+      (rowAction)="onRowAction($event)"
+      (enabledToggle)="onToggleStatus($event)" />
+  }
+
+</section>
+
+<!-- ALTA / EDICIÓN DE CUENTA (drawer compartido) -->
+@if (editor(); as editing) {
+  <app-record-drawer
+    [eyebrow]="editing.row ? 'Editar · Usuarios' : 'Nuevo registro · Usuarios'"
+    [title]="editing.row ? editing.row.fullName : 'Nuevo usuario'"
+    [code]="editing.row ? '@' + editing.row.username : ''"
+    [fields]="formFields"
+    [values]="editing.values"
+    [submitLabel]="editing.row ? 'Guardar cambios' : 'Crear cuenta'"
+    (save)="onSave($event)"
+    (close)="editor.set(null)" />
+}

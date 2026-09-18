@@ -1,0 +1,367 @@
+@use 'mixins' as *;
+
+/**
+ * Record Drawer Component Styles · Tablero Espacial
+ * Drawer de vidrio flotante (overlay, radio 24px, separado del borde), rótulos
+ * de tablero, campos del sistema, propiedades como filas de tablero con
+ * switch y pie de píldoras con una sola acción en cobre.
+ * Mismo lenguaje que `edit-service-drawer` (Operaciones).
+ */
+
+:host {
+  display: contents;
+}
+
+.record-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  font-family: var(--font-family-ui);
+}
+
+/* Velo: tinta café translúcida, nunca negro puro. */
+.record-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(24 23 22 / 0.32);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.record-drawer__panel-wrap {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding: var(--space-3);
+
+  @include bp(sm) {
+    width: auto;
+    padding-left: calc(var(--space-8) + var(--space-2));
+  }
+}
+
+.record-drawer__panel {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  @include float-panel(overlay);
+  @include rise-in(0ms);
+
+  @include bp(sm) {
+    width: 100vw;
+    max-width: 28rem;
+  }
+}
+
+/* ---- Cabecera ------------------------------------------------------------ */
+.record-drawer__header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-bottom: 1px solid var(--board-rule);
+  background-color: var(--board-zebra);
+  padding: var(--space-5) var(--space-5) var(--space-4);
+
+  @include bp(sm) {
+    padding: var(--space-6);
+  }
+}
+
+.record-drawer__heading {
+  min-width: 0;
+}
+
+.record-drawer__eyebrow {
+  @include board-label;
+}
+
+.record-drawer__title {
+  margin-top: var(--space-1);
+  overflow-wrap: anywhere;
+  font-size: var(--text-lg);
+  line-height: var(--leading-ui);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-neutral-950);
+}
+
+.record-drawer__code {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+}
+
+/* Identificador: texto neutro sin relleno, DM Sans tabular. */
+.record-drawer__code-value {
+  display: inline-block;
+  margin-left: var(--space-1);
+  @include board-figure(var(--text-xs), 700);
+  letter-spacing: 0.04em;
+  color: var(--color-neutral-900);
+}
+
+.record-drawer__close {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  width: 2.25rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-900);
+  }
+
+  @include touch-target;
+}
+
+.record-drawer__icon {
+  height: 1rem;
+  width: 1rem;
+  flex-shrink: 0;
+}
+
+/* ---- Cuerpo -------------------------------------------------------------- */
+.record-drawer__body {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: var(--space-5);
+  overflow-y: auto;
+  padding: var(--space-5);
+
+  @include bp(sm) {
+    padding: var(--space-6);
+  }
+}
+
+.record-drawer__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-3);
+}
+
+.record-drawer__field {
+  display: flex;
+  min-width: 0;
+  grid-column: span 2 / span 2;
+  flex-direction: column;
+
+  &--half {
+    @include bp(sm) {
+      grid-column: span 1 / span 1;
+    }
+  }
+}
+
+.record-drawer__label {
+  display: block;
+  margin-bottom: var(--space-1);
+  @include board-label;
+  color: var(--color-neutral-600);
+}
+
+.record-drawer__required {
+  color: var(--color-error-600);
+}
+
+.record-drawer__input {
+  @include field;
+
+  & {
+    height: 2.75rem;
+    padding: 0 var(--space-3);
+    font-size: var(--text-md);
+    font-weight: 600;
+  }
+
+  &--figure {
+    @include board-figure(var(--text-md), 700);
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &--select {
+    padding-left: var(--space-3);
+    padding-right: var(--space-3);
+    cursor: pointer;
+  }
+}
+
+.record-drawer__error {
+  margin-top: var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  color: var(--color-error-600);
+}
+
+/* Error de una fila de switch: dentro del bloque, alineado al rótulo. */
+.record-drawer__error--row {
+  margin-top: 0;
+  padding: 0 var(--space-4) var(--space-2);
+}
+
+.record-drawer__hint {
+  margin-top: var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 600;
+  color: var(--color-neutral-500);
+}
+
+/* ---- Propiedades: filas de tablero con switch ------------------------------ */
+.record-drawer__switches {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-block);
+  background-color: var(--card-bg);
+  box-shadow: inset 0 0 0 1px var(--card-border);
+}
+
+.record-drawer__switch-row {
+  position: relative;
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard);
+
+  & + & {
+    border-top: 1px solid var(--board-rule);
+  }
+
+  &:nth-child(even) {
+    background-color: var(--board-zebra);
+  }
+
+  &:hover {
+    background-color: var(--board-hover);
+  }
+}
+
+.record-drawer__switch-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.record-drawer__switch-label {
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.record-drawer__switch-state {
+  @include board-label;
+}
+
+.record-drawer__switch-input {
+  @include sr-only;
+}
+
+/* Mismo switch que la tarjeta de entidad: encendido neutral-900, apagado neutral-300. */
+.record-drawer__switch-track {
+  position: relative;
+  height: 1.5rem;
+  width: 2.625rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-neutral-300);
+  transition: background-color var(--dur-base) var(--ease-standard);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    height: 1.125rem;
+    width: 1.125rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--color-neutral-0);
+    box-shadow: 0 2px 4px rgb(24 23 22 / 0.25);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+}
+
+.record-drawer__switch-input:focus-visible ~ .record-drawer__switch-track {
+  box-shadow: var(--ring);
+}
+
+.record-drawer__switch-input:checked ~ .record-drawer__switch-track {
+  background-color: var(--color-neutral-900);
+
+  &::after {
+    transform: translateX(1.125rem);
+  }
+}
+
+/* ---- Pie ------------------------------------------------------------------- */
+.record-drawer__footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  border-top: 1px solid var(--board-rule);
+  background-color: var(--board-zebra);
+  padding: var(--space-4) var(--space-5);
+
+  @include bp(sm) {
+    padding: var(--space-5) var(--space-6);
+  }
+}
+
+.record-drawer__summary {
+  flex-basis: 100%;
+  margin-right: auto;
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  color: var(--color-error-600);
+
+  @include bp(sm) {
+    flex-basis: auto;
+  }
+}
+
+.record-drawer__cancel {
+  @include pill-button(secondary);
+}
+
+.record-drawer__save {
+  @include pill-button(primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .record-drawer * {
+    transition: none;
+  }
+}

@@ -1,0 +1,66 @@
+/**
+ * Drivers Page Component Styles
+ * Maquetación del módulo: cabecera, toolbar y catálogo (tabla o tarjetas).
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.drivers-page {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  width: 100%;
+  max-width: 1600px;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-4);
+
+  @include bp(sm) {
+    padding: var(--space-6);
+  }
+
+  &__toolbar {
+    display: flex;
+    min-height: 56px;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--space-3);
+
+    @include bp(lg) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__tabs {
+    min-width: 0;
+    flex: 1 1 0%;
+  }
+
+  &__tools {
+    display: flex;
+    width: 100%;
+    flex-shrink: 0;
+    align-items: center;
+    gap: var(--space-3);
+
+    @include bp(lg) {
+      width: auto;
+    }
+  }
+
+  &__search {
+    min-width: 0;
+    flex: 1 1 0%;
+
+    @include bp(lg) {
+      width: 280px;
+      flex: none;
+    }
+  }
+}

@@ -1,0 +1,271 @@
+/**
+ * Data Table Component Styles
+ * Superficie, cabecera fija, filas normalizadas (alturas en `DATA_TABLE_DIMENSIONS`),
+ * acciones de fila, estado vacío y la barra de scroll horizontal del contenedor.
+ */
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-neutral-300) transparent;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-neutral-300);
+    border-radius: var(--radius-pill);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-neutral-400);
+  }
+}
+
+.data-table {
+  /* Contenedor: `DATA_TABLE_DIMENSIONS.surface`. */
+  &__surface {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    @include float-panel(data);
+    @include rise-in(60ms);
+  }
+
+  /* Desplazamiento horizontal con degradado de borde (como filter-tabs). */
+  &__scroller {
+    --fade: var(--space-12);
+    --fade-color: var(--color-neutral-900);
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+
+    &--fade-end {
+      -webkit-mask-image: linear-gradient(to right, var(--fade-color) calc(100% - var(--fade)), transparent);
+      mask-image: linear-gradient(to right, var(--fade-color) calc(100% - var(--fade)), transparent);
+    }
+
+    &--fade-start {
+      -webkit-mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade));
+      mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade));
+    }
+
+    &--fade-start#{&}--fade-end {
+      -webkit-mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade), var(--fade-color) calc(100% - var(--fade)), transparent);
+      mask-image: linear-gradient(to right, transparent, var(--fade-color) var(--fade), var(--fade-color) calc(100% - var(--fade)), transparent);
+    }
+  }
+
+  &__table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  &__head {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--board-head);
+  }
+
+  /* Altura: `DATA_TABLE_DIMENSIONS.headHeight` (enlace de estilo). */
+  &__head-row {
+    border-bottom: 1px solid var(--board-rule);
+  }
+
+  &__cell {
+    padding-left: var(--space-5);
+    padding-right: var(--space-5);
+
+    &--align-left {
+      text-align: left;
+      justify-content: flex-start;
+    }
+
+    &--align-center {
+      text-align: center;
+      justify-content: center;
+    }
+
+    &--align-right {
+      text-align: right;
+      justify-content: flex-end;
+    }
+
+    &--from-sm,
+    &--from-md,
+    &--from-lg {
+      display: none;
+    }
+
+    &--from-sm {
+      @include bp(sm) {
+        display: table-cell;
+      }
+    }
+
+    &--from-md {
+      @include bp(md) {
+        display: table-cell;
+      }
+    }
+
+    &--from-lg {
+      @include bp(lg) {
+        display: table-cell;
+      }
+    }
+  }
+
+  &__head-cell {
+    white-space: nowrap;
+    @include board-label;
+
+    &--actions {
+      width: 92px;
+      text-align: right;
+      white-space: normal;
+    }
+  }
+
+  &__sr-only {
+    @include sr-only;
+  }
+
+  /* Altura: `DATA_TABLE_DIMENSIONS.rowHeight` (enlace de estilo). */
+  /* Fila del tablero: cebra neutra y filete fino; el cobre queda para la selección. */
+  &__row {
+    position: relative;
+    border-bottom: 1px solid var(--board-rule);
+    transition: background-color var(--dur-base) var(--ease-standard);
+
+    &:nth-child(even) {
+      background-color: var(--board-zebra);
+    }
+
+    &:last-child {
+      border-bottom-width: 0;
+    }
+
+    &:hover {
+      background-color: var(--board-hover);
+    }
+  }
+
+  &__body-cell {
+    vertical-align: middle;
+
+    &--actions {
+      text-align: right;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-1);
+  }
+
+  &__action {
+    display: grid;
+    place-items: center;
+    position: relative;
+    height: 2.25rem;
+    width: 2.25rem;
+    border-radius: var(--radius-pill);
+    color: var(--color-neutral-500);
+    @include press;
+    @include focus-ring;
+
+    &--edit {
+      &:hover {
+        background-color: var(--color-neutral-100);
+        color: var(--color-neutral-950);
+      }
+
+    }
+
+    /* Acción extra (p. ej. Plazas): acción secundaria en cielo. */
+    &--extra {
+      color: var(--color-sky-500);
+
+      &:hover {
+        background-color: var(--color-sky-50);
+        color: var(--color-sky-600);
+      }
+    }
+
+    &--delete {
+      &:hover {
+        background-color: var(--color-error-100);
+        color: var(--color-error-600);
+      }
+    }
+
+    @include touch-target;
+  }
+
+  &__action-icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  /* Altura mínima: `DATA_TABLE_DIMENSIONS.emptyStateHeight` (enlace de estilo). */
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  &__empty-icon {
+    display: flex;
+    height: 4rem;
+    width: 4rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-panel);
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-500);
+    box-shadow: var(--edge-glass), var(--shadow-rest);
+    margin-bottom: var(--space-2);
+  }
+
+  &__empty-svg {
+    height: 1.75rem;
+    width: 1.75rem;
+  }
+
+  &__empty-title {
+    font-size: var(--text-md);
+    line-height: var(--leading-ui);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--color-neutral-900);
+  }
+
+  &__empty-message {
+    max-width: 380px;
+    font-size: var(--text-sm);
+    line-height: var(--leading-ui);
+    font-weight: 500;
+    color: var(--color-neutral-600);
+  }
+}

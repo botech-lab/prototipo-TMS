@@ -1,0 +1,462 @@
+/**
+ * ============================================================================
+ * Card Blocks Styles
+ * ============================================================================
+ * La retícula la resuelve CSS: las columnas se alinean por construcción y el
+ * ancho se consume por completo, sin escalar ningún lienzo. La tipografía
+ * queda en píxeles reales, constantes en cualquier tamaño de tarjeta.
+ * ============================================================================
+ */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap, 10px);
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  font-family: var(--font-family-data);
+}
+
+.block {
+  display: block;
+  min-width: 0;
+
+  // Los bloques de retícula absorben el espacio sobrante del cuerpo.
+  &--grow {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   MOVIMIENTO: entrada escalonada de bloques al desplegar la tarjeta
+   ========================================================================== */
+.block--animated {
+  animation: block-in var(--block-ms, 320ms) var(--spring, cubic-bezier(0.32, 0.72, 0, 1)) backwards;
+  animation-delay: calc(var(--stagger, 0) * var(--stagger-ms, 45ms));
+}
+
+@keyframes block-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   RÓTULOS COMUNES
+   ========================================================================== */
+.section-label {
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+}
+
+.empty-dash {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-neutral-300);
+}
+
+/* ==========================================================================
+   STAT
+   ========================================================================== */
+.stat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  &__value {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    // Interlineado de título: con uno exacto los descendentes y los acentos
+    // de las mayúsculas quedaban fuera de la caja.
+    line-height: var(--leading-tight);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__caption {
+    margin-top: var(--space-1);
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-neutral-500);
+  }
+}
+
+/* ==========================================================================
+   CAPTION
+   ========================================================================== */
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-width: 0;
+
+  &__text,
+  &__end {
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-neutral-600);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__end {
+    font-weight: 800;
+    color: var(--color-neutral-800);
+  }
+}
+
+/* ==========================================================================
+   KEYVALUE
+   ========================================================================== */
+.keyvalue {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-width: 0;
+    overflow: hidden;
+
+    & + & {
+      border-top: 1px solid var(--board-rule);
+    }
+  }
+
+  &__label {
+    flex-shrink: 0;
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-neutral-500);
+  }
+
+  &__value {
+    min-width: 0;
+    text-align: right;
+  }
+}
+
+/* ==========================================================================
+   TAGS
+   ========================================================================== */
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--space-3);
+    row-gap: var(--space-1);
+  }
+
+  // Marcas informativas: texto neutro, sin píldora rellena.
+  &__item {
+    color: var(--color-neutral-700);
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+}
+
+/* ==========================================================================
+   METER
+   ========================================================================== */
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  &__end {
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 800;
+    color: var(--color-neutral-800);
+    white-space: nowrap;
+  }
+
+  // Riel apenas insinuado: la barra es el dato.
+  &__track {
+    width: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--color-neutral-100);
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    border-radius: var(--radius-pill);
+    transition: width 480ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  &__caption {
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 600;
+    color: var(--color-neutral-500);
+  }
+}
+
+/* ==========================================================================
+   MATRIX — el dato es la geometría
+   ========================================================================== */
+.matrix {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  &__end {
+    font-size: var(--text-2xs);
+    line-height: var(--leading-ui);
+    font-weight: 800;
+    color: var(--color-neutral-800);
+    white-space: nowrap;
+  }
+
+  // Las columnas se alinean solas: mismo paso para todas las filas.
+  // `minmax(0, 1fr)` es deliberado: las filas se reparten el alto disponible
+  // y la retícula NUNCA desborda su contenedor, por densa que sea. Un piso de
+  // 50 plazas encoge sus butacas en vez de salirse de la tarjeta.
+  &__grid {
+    display: grid;
+    // CARD_BLOCK_RULES.MATRIX.GAP (3px): métrica de regla, no espaciado libre.
+    gap: 3px;
+    grid-auto-rows: minmax(0, 1fr);
+    flex: 1 1 auto;
+    min-height: 0;
+    align-content: stretch;
+    // Con celdas acotadas sobra ancho: la retícula se centra en su bloque.
+    justify-content: center;
+  }
+
+  &__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // CARD_BLOCK_RULES.MATRIX.RADIUS (2px).
+    border-radius: 2px;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+    // La fila crece con el contenedor, pero la celda conserva proporción y
+    // se centra en ella. Así una butaca sigue pareciendo una butaca.
+    // `height: 100%` es imprescindible: con `align-self: center` la celda se
+    // ajusta a su contenido -que está vacío- y colapsa a 0 de alto.
+    height: 100%;
+    max-height: var(--max-cell-h, none);
+    align-self: center;
+    transition: background-color 200ms ease, opacity 200ms ease;
+
+    &.state-on {
+      opacity: 1;
+    }
+
+    // Ventana de aviso: mismo tono, tratamiento atenuado.
+    &.state-warn {
+      background: var(--color-warning-100) !important;
+      opacity: 1;
+    }
+
+    &.state-off {
+      background: var(--color-neutral-200) !important;
+    }
+  }
+
+  // Variante con rótulo: necesita alto suficiente para el texto, así que
+  // aquí sí se respeta el mínimo.
+  &__grid--tile {
+    gap: var(--space-1);
+    grid-auto-rows: minmax(var(--min-cell, 30px), 1fr);
+    justify-content: stretch;
+
+    .matrix__cell {
+      height: 100%;
+      max-height: none;
+      align-self: stretch;
+    }
+
+    // El radio sigue la regla de celda (MATRIX.RADIUS).
+    .matrix__cell {
+      padding: var(--space-1);
+    }
+
+    .matrix__cell.state-off {
+      background: var(--color-neutral-100) !important;
+      border: 1px dashed var(--color-neutral-300);
+    }
+  }
+
+  &__cell-label {
+    font-size: var(--text-2xs);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: var(--leading-tight);
+    max-width: 100%;
+    // Rótulos largos ("SUPERVISOR") pasan a dos líneas, partidos por sílaba
+    // (lang="es"), en vez de recortarse. 2 líneas de 11px ocupan ~27px.
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
+  &__cell.state-on &__cell-label,
+  &__cell.state-on .matrix__cell-label {
+    color: var(--color-neutral-0);
+  }
+
+  &__cell.state-off .matrix__cell-label {
+    color: var(--color-neutral-500);
+  }
+}
+
+/* ==========================================================================
+   GROUP
+   ========================================================================== */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  &__body {
+    display: flex;
+    gap: var(--space-3);
+    min-width: 0;
+    flex: 1 1 auto;
+    min-height: 0;
+
+    &[data-direction='column'] {
+      flex-direction: column;
+    }
+  }
+
+  &__cell {
+    flex-basis: 0;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+  }
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid var(--board-rule);
+  margin: 0;
+}
+
+/* ==========================================================================
+   TONOS — el color solo donde significa
+   ========================================================================== */
+.tone-success { color: var(--color-success-600); }
+.tone-warning { color: var(--color-warning-600); }
+.tone-danger  { color: var(--color-error-500); }
+.tone-info    { color: var(--color-info-600); }
+.tone-primary { color: var(--color-neutral-900); }
+.tone-critical{ color: var(--color-error-500); }
+.tone-neutral { color: var(--color-neutral-800); }
+
+.tone-bg-success { background-color: var(--color-success-500); }
+.tone-bg-warning { background-color: var(--color-warning-500); }
+.tone-bg-danger  { background-color: var(--color-error-500); }
+.tone-bg-info    { background-color: var(--color-info-500); }
+/* Primario = dato neutro: grafito al 55 % (misma lectura que la ocupación). */
+.tone-bg-primary { background-color: color-mix(in srgb, var(--color-neutral-900) 55%, transparent); }
+.tone-bg-critical{ background-color: var(--color-error-500); }
+.tone-bg-neutral { background-color: var(--color-neutral-600); }
+
+/* ==========================================================================
+   ACCESIBILIDAD: respetar la preferencia de movimiento reducido
+   ========================================================================== */
+@keyframes block-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  // Sin desplazamiento: solo un fundido corto, sin escalonado.
+  .block--animated {
+    animation: block-fade var(--dur-fast) linear backwards;
+    animation-delay: 0ms;
+  }
+
+  // La barra y las celdas cambian sin crecer; el color se funde.
+  .meter__fill {
+    transition: none;
+  }
+
+  .matrix__cell {
+    transition: background-color var(--dur-fast) linear, opacity var(--dur-fast) linear;
+  }
+}
+
+/* ==========================================================================
+   ESCALÓN ESTRECHO
+   En tarjetas de ~320px las celdas con rótulo bajan a ~60px de ancho útil.
+   La tipografía se queda en 11px (mínimo del sistema): se quita el padding
+   lateral de la celda y los rótulos largos se parten por sílaba en 2 líneas.
+   No se reducen columnas: bajar de 4 a 3 añadiría una fila y desbordaría.
+   ========================================================================== */
+:host([data-tier='narrow']) {
+  .matrix__grid--tile .matrix__cell {
+    padding: var(--space-1) 0;
+  }
+}

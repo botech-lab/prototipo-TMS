@@ -1,0 +1,81 @@
+/**
+ * Status Chip Component Styles · Amanecer andino
+ * El tono llega como modificador BEM desde `CHIP_TONE_CLASSES`.
+ * Estado en píldora suave con texto (tablas y tarjetas):
+ *   success  "Activo", "Operativo", "Vigente"        success-100 / success-600
+ *   warning  "Revisión técnica", "Por vencer"        warning-100 / warning-600
+ *   danger   "Fuera de servicio", "Bloqueado"        error-100   / error-600
+ *   critical igual que danger, con filo del estado
+ *   neutral  "Inactivo", "Vencida"                   neutral-50  / neutral-600
+ *   info     información                              sky-50      / sky-600
+ *   primary  nivel destacado (neutro, sin cobre)      neutral-100 / neutral-800
+ */
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 1.625rem;
+  padding: 0 var(--space-3) 0 var(--space-2);
+  white-space: nowrap;
+  border-radius: var(--radius-chip);
+  font-family: var(--font-family-ui);
+  font-size: var(--text-2xs);
+  line-height: var(--leading-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-600);
+  box-shadow: inset 0 0 0 1px var(--card-border);
+
+  &__dot {
+    flex-shrink: 0;
+    height: 7px;
+    width: 7px;
+    border-radius: var(--radius-pill);
+    background-color: currentColor;
+  }
+
+  &--success {
+    background-color: var(--color-success-100);
+    color: var(--color-success-600);
+    box-shadow: none;
+  }
+
+  &--warning {
+    background-color: var(--color-warning-100);
+    color: var(--color-warning-600);
+    box-shadow: none;
+  }
+
+  &--danger {
+    background-color: var(--color-error-100);
+    color: var(--color-error-600);
+    box-shadow: none;
+  }
+
+  &--critical {
+    background-color: var(--color-error-100);
+    color: var(--color-error-600);
+    box-shadow: inset 0 0 0 1px var(--color-error-600);
+    font-weight: 800;
+  }
+
+  &--neutral {
+    background-color: var(--color-neutral-50);
+    color: var(--color-neutral-600);
+  }
+
+  &--info {
+    background-color: var(--color-sky-50);
+    color: var(--color-sky-600);
+    box-shadow: none;
+  }
+
+  &--primary {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-800);
+    box-shadow: none;
+  }
+}

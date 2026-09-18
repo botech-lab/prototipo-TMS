@@ -1,0 +1,91 @@
+/* Estilos globales · Aleta TMS (Amanecer + grafito) */
+@use 'styles/tokens';
+@use 'styles/reset';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fondo "Amanecer": la base --bg-app va solo en html (lienzo); body queda
+   transparente para que la capa ::before fija del shell (z-index -1) se vea. */
+html {
+  background-color: var(--bg-app);
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-family-ui);
+  line-height: var(--leading-body);
+  color: var(--color-neutral-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Superficies del navegador tematizadas con la paleta. */
+::selection {
+  background-color: var(--color-terracota-200);
+  color: var(--color-neutral-950);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-neutral-300) transparent;
+}
+
+/* Entrada orquestada de paneles (ver mixin rise-in). */
+@keyframes ds-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-2)) scale(0.995);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Cifras tabulares por defecto en todo dato numérico marcado. */
+.font-data,
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Foco de teclado coherente en controles sin estilo propio. */
+:where(a, button, [role='tab'], [tabindex]):focus-visible {
+  outline: 2px solid var(--color-terracota-500);
+  outline-offset: 2px;
+}
+
+/* Fundido corto reutilizable para movimiento reducido (sin desplazamiento). */
+@keyframes ds-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Movimiento reducido: se elimina el desplazamiento (transform, escala,
+ * cambios de tamaño) y solo quedan fundidos cortos de opacidad y color
+ * (150ms). Las animaciones con fotogramas se vuelven instantáneas; los
+ * componentes que quieran aparecer suavemente usan `ds-fade` (p. ej. el aviso).
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: opacity, color, background-color, border-color, outline-color, fill, stroke !important;
+    transition-duration: 150ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,49 @@
+/**
+ * View Switcher Component Styles · Tablero Espacial
+ * Segmented control Tabla / Tarjetas.
+ */
+@use 'mixins' as *;
+
+.view-switcher {
+  @include segmented-track;
+  flex-shrink: 0;
+
+  &__option {
+    @include segmented-option(false);
+
+    & {
+      display: flex;
+      height: 2.25rem;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 0 var(--space-3);
+    }
+
+    &--active,
+    &--active:hover {
+      background-color: var(--color-neutral-900);
+      color: var(--color-neutral-0);
+      box-shadow: var(--shadow-ink);
+    }
+
+    /* Foco de teclado inmediato; gana también sobre la opción activa. */
+    &:focus-visible,
+    &--active:focus-visible {
+      box-shadow: var(--ring);
+      transition-property: transform, background-color, color;
+    }
+  }
+
+  &__icon {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  &__label {
+    display: none;
+
+    @include bp(sm) {
+      display: inline;
+    }
+  }
+}
