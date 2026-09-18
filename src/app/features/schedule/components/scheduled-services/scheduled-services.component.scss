@@ -808,37 +808,57 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: ss-ride 6s linear infinite;
+    animation: ss-ride 10s linear infinite;
   }
 }
 
-/* Solo ida: aparece en el origen, recorre la ruta, se desvanece al llegar
-   y vuelve a salir desde el origen (el salto ocurre ya invisible). */
+/* Solo ida: el bus sale de las letras del origen (LPZ), recorre la ruta
+   y entra en las letras del destino (ORU), donde se desvanece; luego vuelve
+   a salir del origen. Distancia a las letras: gap de la grilla + margen de la línea. */
+.scheduled-services__route-ticket {
+  --bus-to-letters: calc(var(--space-4) + var(--space-2) + var(--space-3));
+
+  @container (min-width: 560px) {
+    --bus-to-letters: calc(var(--space-6) + var(--space-2) + var(--space-3));
+  }
+}
+
+.scheduled-services__route-end {
+  position: relative;
+  z-index: 1;
+}
+
 @keyframes ss-ride {
   0% {
-    left: 4%;
+    left: calc(0% - var(--bus-to-letters));
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
+    filter: blur(4px);
+    transform: translate(-50%, -50%) scale(0.4);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  8% {
-    left: 4%;
+  14% {
+    left: 2%;
     opacity: 1;
+    filter: blur(0);
     transform: translate(-50%, -50%) scale(1);
     animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
   }
 
-  82% {
-    left: 96%;
+  78% {
+    left: 98%;
     opacity: 1;
+    filter: blur(0);
     transform: translate(-50%, -50%) scale(1);
+    animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
   }
 
   92%,
   100% {
-    left: 96%;
+    left: calc(100% + var(--bus-to-letters));
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
+    filter: blur(4px);
+    transform: translate(-50%, -50%) scale(0.4);
   }
 }
 
