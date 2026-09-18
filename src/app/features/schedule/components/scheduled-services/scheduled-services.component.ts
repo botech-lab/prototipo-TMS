@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ElementRef, HostListener, inject, computed, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, DestroyRef, ElementRef, HostListener, inject, computed, effect, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ScheduleService } from '../../services/schedule.service';
@@ -87,6 +87,14 @@ const CITY_CODES_MAP: Record<string, string> = {
   'CAMIRI': 'CAM',
   'COBIJA': 'CIJ'
 };
+
+/** Toma `count` elementos repartidos de forma pareja, conservando el orden. */
+function pickEvenly<T>(items: readonly T[], count: number): T[] {
+  if (count >= items.length) return [...items];
+  if (count <= 0) return [];
+  const step = items.length / count;
+  return Array.from({ length: count }, (_, i) => items[Math.floor(step * i + step / 2)]);
+}
 
 @Component({
   selector: 'app-scheduled-services',
@@ -207,34 +215,65 @@ export class ScheduledServicesComponent {
    * el origen antes que el destino. Sin ruta que coincida: solo extremos.
    */
   readonly ticketStops = computed<TicketStop[]>(() => {
+    const between = this.allTicketStops();
+    // Solo visual: se muestran las paradas que caben con aire entre ellas según
+    // el ancho real de la línea (1 o 2 en celular, todas en pantallas anchas).
+    // El texto accesible (ticketStopsText) sigue listando todas.
+    const visible = pickEvenly(between, this.maxVisibleStops());
+    const labelEvery = Math.max(1, Math.ceil(visible.length / 3));
+    return visible.map((name, idx) => ({
+      name,
+      color: stopColor(name),
+      left: ((idx + 1) / (visible.length + 1)) * 100,
+      showLabel: idx % labelEvery === 0
+    }));
+  });
+
+  /** Paradas intermedias del tramo seleccionado (todas, para lectores de pantalla). */
+  private readonly allTicketStops = computed<string[]>(() => {
     const srv = this.selectedService();
     if (!srv) return [];
     const norm = (v: string) => v.trim().toLowerCase();
     const origin = norm(srv.originCity);
     const destination = norm(srv.destinationCity);
-    let between: string[] = [];
     for (const group of this.routesService.departmentGroups()) {
       for (const route of group.routes) {
         const names = route.stops.map(st => st.name);
         const i = names.findIndex(n => norm(n) === origin);
         const j = names.findIndex(n => norm(n) === destination);
-        if (i >= 0 && j > i) {
-          between = names.slice(i + 1, j);
-          break;
-        }
+        if (i >= 0 && j > i) return names.slice(i + 1, j);
       }
-      if (between.length) break;
     }
-    const labelEvery = Math.max(1, Math.ceil(between.length / 3));
-    return between.map((name, idx) => ({
-      name,
-      color: stopColor(name),
-      left: ((idx + 1) / (between.length + 1)) * 100,
-      showLabel: idx % labelEvery === 0
-    }));
+    return [];
   });
 
-  readonly ticketStopsText = computed(() => this.ticketStops().map(st => st.name).join(', '));
+  /** Ancho medido de la línea del trayecto (px). */
+  private readonly routeLineWidth = signal(0);
+  private readonly routeLine = viewChild<ElementRef<HTMLElement>>('routeLine');
+
+  /** Cuántas paradas intermedias caben con al menos 30px entre puntos (mínimo 1). */
+  private readonly maxVisibleStops = computed(() => {
+    const width = this.routeLineWidth();
+    if (width <= 0) return Number.MAX_SAFE_INTEGER;
+    return Math.max(1, Math.floor(width / 30) - 1);
+  });
+
+  private readonly routeLineObserver = (() => {
+    if (typeof ResizeObserver === 'undefined') return null;
+    const observer = new ResizeObserver(entries => {
+      const width = entries[0]?.contentRect.width ?? 0;
+      this.routeLineWidth.set(Math.round(width));
+    });
+    inject(DestroyRef).onDestroy(() => observer.disconnect());
+    effect(() => {
+      const el = this.routeLine()?.nativeElement;
+      observer.disconnect();
+      if (el) observer.observe(el);
+    });
+    return observer;
+  })();
+
+  readonly ticketStopsText = computed(() => this.allTicketStops().join(', '));
 
   /** Color de categoría (departamento) de una ciudad extrema del boleto. */
   cityColor(name: string): string {

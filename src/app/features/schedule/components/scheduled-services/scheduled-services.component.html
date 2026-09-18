@@ -165,7 +165,7 @@
               <span class="scheduled-services__route-city">{{ srv.originCity }}</span>
             </p>
 
-            <div class="scheduled-services__route-line" aria-hidden="true">
+            <div #routeLine class="scheduled-services__route-line" aria-hidden="true">
               <span class="scheduled-services__route-stop" style="left: 0" [style.--stop-color]="cityColor(srv.originCity)"></span>
               @for (stop of ticketStops(); track stop.name) {
                 <span class="scheduled-services__route-stop" [style.left.%]="stop.left" [style.--stop-color]="stop.color"></span>
