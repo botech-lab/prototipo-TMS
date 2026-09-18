@@ -658,6 +658,9 @@
 // días y cada salida como un boleto con talón.
 // ===========================================================================
 .scheduled-services__main {
+  /* Al llegar aquí desde la lista (pantallas apiladas), deja aire bajo la barra superior. */
+  scroll-margin-top: var(--space-4);
+
   container-type: inline-size;
   display: flex;
   flex: 1 1 0%;

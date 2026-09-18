@@ -70,6 +70,7 @@
                     tabindex="0"
                     [attr.aria-pressed]="opsService.selectedService()?.id === srv.id"
                     [class.scheduled-services__service-card--selected]="opsService.selectedService()?.id === srv.id"
+                    [attr.data-service-id]="srv.id"
                     class="scheduled-services__service-card">
 
                     <!-- Tarjeta compacta: toda la tarjeta es el control de selección -->
@@ -155,7 +156,7 @@
 
         <!-- 1. CABECERA COMO BOLETO: origen | línea de ruta | destino -->
         <div class="scheduled-services__ticket-head">
-          <h2 id="ss-detail-title" class="scheduled-services__sr-only">
+          <h2 id="ss-detail-title" class="scheduled-services__sr-only" tabindex="-1">
             {{ srv.serviceName || (srv.originCity + ' a ' + srv.destinationCity) }}
           </h2>
           <div class="scheduled-services__route-ticket">

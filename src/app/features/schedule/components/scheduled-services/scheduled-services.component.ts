@@ -407,6 +407,29 @@ export class ScheduledServicesComponent {
 
   selectService(srv: ScheduledCommercialService): void {
     this.opsService.selectService(srv);
+    // En pantallas apiladas (por debajo de lg) el detalle queda debajo de la
+    // lista: se lleva al usuario hasta él para que vea las salidas.
+    if (this.isStackedLayout()) {
+      setTimeout(() => this.revealDetail());
+    }
+  }
+
+  /** Por debajo de 1024px la lista y el detalle se apilan en una sola columna. */
+  private isStackedLayout(): boolean {
+    return typeof window !== 'undefined' && window.matchMedia('(max-width: 1023.98px)').matches;
+  }
+
+  private scrollBehavior(): ScrollBehavior {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  }
+
+  /** Desplaza hasta el detalle y deja el foco en su título (lo anuncia el lector de pantalla). */
+  private revealDetail(): void {
+    const detail = this.host.nativeElement.querySelector<HTMLElement>('.scheduled-services__main');
+    detail?.scrollIntoView({ behavior: this.scrollBehavior(), block: 'start' });
+    this.host.nativeElement
+      .querySelector<HTMLElement>('#ss-detail-title')
+      ?.focus({ preventScroll: true });
   }
 
   /** Enter / Espacio sobre la tarjeta (no sobre sus botones internos). */
@@ -417,7 +440,16 @@ export class ScheduledServicesComponent {
   }
 
   closeDetail(): void {
+    const selectedId = this.opsService.selectedService()?.id;
     this.opsService.closeDetail();
+    // En pantallas apiladas, al cerrar se vuelve a la tarjeta de la lista.
+    if (selectedId && this.isStackedLayout()) {
+      setTimeout(() => {
+        const card = this.host.nativeElement.querySelector<HTMLElement>(`[data-service-id="${selectedId}"]`);
+        card?.scrollIntoView({ behavior: this.scrollBehavior(), block: 'center' });
+        card?.focus({ preventScroll: true });
+      });
+    }
   }
 
   nextWeek(): void {
