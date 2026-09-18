@@ -118,7 +118,7 @@
         <i class="route-card__mini-dot route-card__mini-dot--end" [style.--dot]="destinationColor()"></i>
       </span>
       <span data-testid="route-footer-stops-count" class="route-card__stops-count">
-        {{ route().stops.length || route().stopsCount }} paradas conectadas
+        {{ route().stops.length || route().stopsCount }} {{ matchedStop() ? 'paradas' : 'paradas conectadas' }}
       </span>
       @if (matchedStop()) {
         <span data-testid="route-matched-stop" class="route-card__matched">

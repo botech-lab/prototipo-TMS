@@ -496,6 +496,8 @@
   }
 
   &__stops-count {
+    white-space: nowrap;
+    flex-shrink: 0;
     font-family: var(--font-family-data);
     font-variant-numeric: tabular-nums;
     font-weight: 700;
