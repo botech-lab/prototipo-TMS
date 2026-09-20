@@ -140,7 +140,13 @@ export class RouteCardComponent {
     this.statusToggle.emit(this.route().id);
   }
 
+  /**
+   * Quien manda es el estado de la ruta, no el clic: se cancela el cambio del
+   * navegador y el interruptor se dibuja desde `route().status`. Así, si la
+   * activación se rechaza por faltar datos, no queda encendido de mentira.
+   */
   toggleStatus(event?: Event): void {
+    event?.preventDefault();
     this.onToggleStatus(event);
   }
 

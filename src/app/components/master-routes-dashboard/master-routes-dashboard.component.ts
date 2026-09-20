@@ -252,11 +252,19 @@ export class MasterRoutesDashboardComponent {
   /**
    * Alterna el estado y avisa con "Deshacer". Deshacer restaura el estado
    * exacto anterior (incluido BORRADOR) con setRouteStatus.
+   *
+   * ACTIVAR pasa por la misma lista de verificación del paso 6 del asistente:
+   * si falta algo obligatorio no se activa, porque de una ruta activa nacen
+   * servicios que se venden. APAGAR no revisa nada: nunca es riesgoso.
    */
   onRouteStatusToggle(routeId: string): void {
     const before = this.allRoutes().find(route => route.id === routeId);
     if (!before) return;
+
+    if (before.status !== 'ACTIVO' && !this.tryActivate(before)) return;
+
     this.routesService.toggleRouteStatus(routeId);
+    this.drafts.setSavedStatus(routeId, before.status === 'ACTIVO' ? 'BORRADOR' : 'ACTIVO');
 
     const nowActive = this.allRoutes().find(route => route.id === routeId)?.status === 'ACTIVO';
     const services = (before.derivedServices || before.avoidedDuplicates || []).length;
@@ -264,8 +272,29 @@ export class MasterRoutesDashboardComponent {
       : ` · ${services} ${services === 1 ? 'servicio afectado' : 'servicios afectados'}`;
     this.toast.show(`${before.code} ${nowActive ? 'activada' : 'desactivada'}${affected}`, {
       actionLabel: 'Deshacer',
-      onAction: () => this.routesService.setRouteStatus(routeId, before.status)
+      onAction: () => {
+        this.routesService.setRouteStatus(routeId, before.status);
+        this.drafts.setSavedStatus(routeId, before.status === 'ACTIVO' ? 'ACTIVO' : 'BORRADOR');
+      }
     });
+  }
+
+  /**
+   * ¿Se puede activar? Si falta algo, avisa qué y ofrece abrir el asistente en
+   * el paso donde se arregla. Devuelve false para dejar el interruptor como estaba.
+   */
+  private tryActivate(route: MasterRoute): boolean {
+    const missing = this.drafts.blockingFor(route.id);
+    if (!missing.length) return true;
+
+    const first = missing[0];
+    const rest = missing.length - 1;
+    const detail = rest > 0 ? ` y ${rest} ${rest === 1 ? 'cosa más' : 'cosas más'}` : '';
+    this.toast.show(`${route.code} no se puede activar: ${first.label}${detail}`, {
+      actionLabel: 'Revisar',
+      onAction: () => this.router.navigate(['/rutas-maestras', route.id, 'continuar'], { queryParams: { paso: first.step } })
+    });
+    return false;
   }
 
   /** Abre Servicios programados con ese servicio ya seleccionado. */

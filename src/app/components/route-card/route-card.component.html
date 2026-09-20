@@ -27,7 +27,7 @@
         <input
           type="checkbox"
           [checked]="route().status === 'ACTIVO'"
-          (change)="toggleStatus($event)"
+          (click)="toggleStatus($event)"
           class="route-card__switch-input"
           [attr.aria-label]="'Alternar estado de la ruta ' + route().code">
         <div class="route-card__switch-track"></div>

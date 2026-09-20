@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MasterRoutesDashboardComponent } from './master-routes-dashboard.component';
 import { RoutesService } from '../../services/routes.service';
 import { ToastService } from '../toast/toast.service';
+import { RouteDraftStore } from '../../features/master-routes/create/services/route-draft.store';
 
 describe('MasterRoutesDashboardComponent (TDD Suite - Vertical Accordion Stack)', () => {
   let component: MasterRoutesDashboardComponent;
@@ -209,4 +210,66 @@ describe('MasterRoutesDashboardComponent (TDD Suite - Vertical Accordion Stack)'
       expect(navigate).toHaveBeenCalledWith(['/rutas-maestras/nueva'], { queryParams: { origen: empty.name } });
     });
   });
+
+  // ========================================================
+  // ACTIVAR DESDE LA LISTA: PASA POR LA MISMA REVISIÓN DEL PASO 6
+  // ========================================================
+  describe('Interruptor de estado', () => {
+    /** Guarda un borrador incompleto (solo origen y destino) y devuelve su id. */
+    function borradorIncompleto(): string {
+      const store = TestBed.inject(RouteDraftStore);
+      store.start();
+      store.setEnds({ name: 'Oruro', department: 'ORURO' }, { name: 'Potosí', department: 'POTOSI' });
+      store.saveDraft();
+      fixture.detectChanges();
+      return store.draft()!.id;
+    }
+
+    it('no activa un borrador al que le falta algo obligatorio', () => {
+      const toast = TestBed.inject(ToastService);
+      const aviso = spyOn(toast, 'show');
+      const id = borradorIncompleto();
+
+      component.onRouteStatusToggle(id);
+
+      const ruta = routesService.getAllRoutes().find(item => item.id === id);
+      expect(ruta?.status).toBe('BORRADOR');
+      expect(aviso.calls.mostRecent().args[0]).toContain('no se puede activar');
+    });
+
+    it('el aviso lleva al paso donde falta el dato', () => {
+      const toast = TestBed.inject(ToastService);
+      const aviso = spyOn(toast, 'show');
+      const router = TestBed.inject(Router);
+      const ir = spyOn(router, 'navigate');
+      const id = borradorIncompleto();
+
+      component.onRouteStatusToggle(id);
+      aviso.calls.mostRecent().args[1]!.onAction!();
+
+      expect(ir.calls.mostRecent().args[0]).toEqual(['/rutas-maestras', id, 'continuar']);
+      expect(ir.calls.mostRecent().args[1]).toEqual({ queryParams: { paso: 'paradas' } });
+    });
+
+    it('activa cuando ya no falta nada, y el asistente muestra el mismo estado', () => {
+      const store = TestBed.inject(RouteDraftStore);
+      const id = borradorIncompleto();
+      // Se completa lo que faltaba, sin pasar por la pantalla.
+      spyOn(store, 'blockingFor').and.returnValue([]);
+
+      component.onRouteStatusToggle(id);
+
+      expect(routesService.getAllRoutes().find(item => item.id === id)?.status).toBe('ACTIVO');
+      expect(store.draft()!.status).toBe('ACTIVO');
+    });
+
+    it('apagar una ruta activa no revisa nada', () => {
+      const activa = routesService.getAllRoutes().find(route => route.status === 'ACTIVO')!;
+
+      component.onRouteStatusToggle(activa.id);
+
+      expect(routesService.getAllRoutes().find(item => item.id === activa.id)?.status).not.toBe('ACTIVO');
+    });
+  });
+
 });

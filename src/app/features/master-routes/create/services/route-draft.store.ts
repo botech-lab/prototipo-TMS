@@ -3,7 +3,7 @@ import { SeatType } from '../../../parametric/models/parametric.model';
 import { Vehicle } from '../../../fleet/models/vehicle.model';
 import { CATALOGS_PORT, FLEET_PORT, MASTER_ROUTES_PORT } from '../ports/wizard-ports';
 import { ROUTE_GRAPH_RULES } from '../../../../core/constants/route-graph-rules';
-import { CityOption, DraftBus, DraftCity, RouteDraft } from '../models/route-draft.model';
+import { CityOption, DraftBus, DraftCheck, DraftCity, DraftStatus, RouteDraft } from '../models/route-draft.model';
 import { MasterRoute } from '../../../../models/route.model';
 import * as Engine from './route-draft-engine';
 import { VEHICLE_SEAT_TYPES_MOCK } from '../data/vehicle-seats.mock';
@@ -211,6 +211,28 @@ export class RouteDraftStore {
 
   hasSavedDraft(id: string): boolean {
     return this.saved().has(id);
+  }
+
+  /**
+   * Lo que falta para poder activar esa ruta, o [] si está lista. Vacío también
+   * cuando la ruta no se creó con el asistente: de esas no hay borrador que
+   * revisar (en el sistema real esto lo valida el servidor).
+   */
+  blockingFor(routeId: string): readonly DraftCheck[] {
+    const draft = this.saved().get(routeId);
+    return draft ? Engine.blockingChecks(draft) : [];
+  }
+
+  /**
+   * Cambia el estado del borrador guardado para que la lista y el asistente
+   * digan lo mismo. Al activar, sus tramos también quedan activos.
+   */
+  setSavedStatus(routeId: string, status: DraftStatus): void {
+    const draft = this.saved().get(routeId);
+    if (!draft) return;
+    const next: RouteDraft = { ...draft, status, paths: draft.paths.map(path => ({ ...path, status })) };
+    this.saved.update(map => new Map(map).set(routeId, next));
+    if (this.draft()?.id === routeId) this.draft.set(next);
   }
 
   /** Empieza un borrador nuevo; `originName` preselecciona el origen ("+ Nueva ruta desde Oruro"). */
