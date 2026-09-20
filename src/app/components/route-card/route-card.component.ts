@@ -1,9 +1,12 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  Injector,
+  afterNextRender,
+  computed,
+  inject,
   input,
-  output,
-  computed
+  output
 } from '@angular/core';
 
 import { MasterRoute } from '../../models/route.model';
@@ -64,6 +67,8 @@ export function highlightSegments(text: string, query: string): TextSegment[] {
   },
 })
 export class RouteCardComponent {
+  private readonly injector = inject(Injector);
+
   protected readonly dimensions = ROUTE_CARD_DIMENSIONS;
 
   readonly route = input.required<MasterRoute>();
@@ -141,13 +146,19 @@ export class RouteCardComponent {
   }
 
   /**
-   * Quien manda es el estado de la ruta, no el clic: se cancela el cambio del
-   * navegador y el interruptor se dibuja desde `route().status`. Así, si la
+   * Quien manda es el estado de la ruta, no el clic. Después de avisar al
+   * tablero, el interruptor se vuelve a dibujar desde `route().status`: si la
    * activación se rechaza por faltar datos, no queda encendido de mentira.
+   *
+   * No sirve `preventDefault`: al cancelar el clic, el navegador restaura el
+   * valor anterior y pisa lo que Angular acaba de escribir.
    */
   toggleStatus(event?: Event): void {
-    event?.preventDefault();
+    const input = event?.target as HTMLInputElement | null;
     this.onToggleStatus(event);
+    if (input) {
+      afterNextRender(() => (input.checked = this.route().status === 'ACTIVO'), { injector: this.injector });
+    }
   }
 
   onToggleDetails(): void {
