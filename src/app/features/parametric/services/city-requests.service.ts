@@ -16,7 +16,11 @@ import { Injectable, computed, signal } from '@angular/core';
  * ============================================================================
  */
 
-/** Número de WhatsApp de soporte con código de país, solo dígitos (p. ej. "5917XXXXXXX"). Vacío: WhatsApp pide elegir el contacto. */
+/**
+ * Número de WhatsApp de soporte con código de país, solo dígitos (p. ej. "5917XXXXXXX").
+ * Vacío a propósito: esto es un prototipo y el enlace abre WhatsApp pidiendo elegir el
+ * contacto. Al integrar, poner aquí el número real de soporte de la empresa.
+ */
 export const SUPPORT_WHATSAPP = '';
 
 export type CityRequestStatus = 'PENDIENTE' | 'APROBADA' | 'RECHAZADA';

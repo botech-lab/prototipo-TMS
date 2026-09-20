@@ -5,7 +5,7 @@ No reemplaza a aletadev: propone cómo debería verse y comportarse la creación
 maestras. Este documento dice, cambio por cambio, **qué hace falta del lado de Aleta**
 para llevarlo al sistema real.
 
-Rama con el trabajo: `feat/asistente-ruta-maestra`.
+El trabajo está en `main`.
 
 > **Los dos proyectos son el mismo stack**, así que los componentes se copian, no se
 > reescriben. Ver la sección 0.
@@ -232,7 +232,8 @@ Falta también la pantalla de administración (Paramétricas → Ciudades → So
 aprobar, rechazar o unir con una ciudad que ya existe.
 
 El servicio del prototipo es `src/app/features/parametric/services/city-requests.service.ts`.
-**Pendiente:** poner el número real de WhatsApp de soporte en `SUPPORT_WHATSAPP`.
+`SUPPORT_WHATSAPP` está vacío a propósito (el prototipo simula el envío): al integrar, va
+ahí el número real de soporte de la empresa.
 
 ### 4.6 Validación al activar (prioridad media)
 
