@@ -7,6 +7,45 @@ para llevarlo al sistema real.
 
 Rama con el trabajo: `feat/asistente-ruta-maestra`.
 
+> **Los dos proyectos son el mismo stack**, así que los componentes se copian, no se
+> reescriben. Ver la sección 0.
+
+---
+
+## 0. El código se puede reusar tal cual
+
+Comprobado el 20/09/2026 contra aletadev:
+
+| | aletadev | Este prototipo |
+|---|---|---|
+| Angular | 22.0.0 | 22.1.6 |
+| Detección de cambios | zoneless (sin Zone.js) | OnPush + signals |
+| Librería de UI | ninguna, CSS propio | ninguna, CSS propio |
+| Tipografías | DM Sans + Plus Jakarta Sans | las mismas |
+| Íconos | Material Symbols Sharp | SVG propios (`wizard-icon.component.ts`) |
+
+Misma versión mayor y mismo enfoque. Los componentes del asistente son **standalone**,
+todos con `ChangeDetectionStrategy.OnPush`, sin RxJS, sin `setTimeout` y sin nada que
+dependa de Zone.js: **funcionan zoneless sin cambios**.
+
+Lo que sí hay que adaptar al copiar:
+
+1. **Los servicios de datos.** `route-draft.store.ts` lee catálogos de mentira
+   (`features/parametric/data/parametric.mock.ts`). Hay que cambiarlos por las llamadas
+   reales a `/api/v1/parametric/*` y `/api/v1/route-master/*`. La lógica no se toca: vive
+   aparte, en `route-draft-engine.ts`, que es TypeScript puro sin Angular.
+2. **Los íconos.** El prototipo dibuja sus SVG; aletadev usa Material Symbols. Cambiar
+   `wizard-icon.component.ts` por el ícono equivalente, o dejarlo como está.
+3. **Las variables de CSS.** Los estilos usan tokens (`--color-terracota-500`,
+   `--space-3`, `--radius-pill`…) definidos en `src/styles/_tokens.scss`. Hay que
+   mapearlos a los de aletadev o copiar el archivo.
+4. **`zone.js` sigue en el `package.json`** de este prototipo por herencia; no hace falta
+   al integrar.
+
+Orden práctico para copiar: primero `route-draft.model.ts` y `route-draft-engine.ts`
+(no dependen de nada), después el store conectado a la API real, y al final los
+componentes de `components/`.
+
 ---
 
 ## 1. Cómo correrlo
