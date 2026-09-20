@@ -7,12 +7,9 @@ dist/
 .DS_Store
 *.log
 
-# Ajustes locales de Claude Code (los ajustes compartidos se versionan)
-.claude/settings.local.json
-
-# Habilidades de Claude: material de apoyo, no del proyecto.
-# Siguen en el disco de quien las usa, solo dejan de subirse.
-.claude/skills/
+# Claude Code: ajustes de quien programa, no del proyecto.
+# Siguen en el disco, solo dejan de subirse.
+.claude/
 
 # Configuración local de Impeccable
 .impeccable/
