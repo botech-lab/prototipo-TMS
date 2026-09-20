@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { NewBadgeComponent } from '../new-badge.component';
+import { HelpTipComponent } from '../help-tip.component';
 import { DecimalPipe } from '@angular/common';
 import { RouteGraphSvgComponent } from '../../../../../components/route-graph-svg/route-graph-svg.component';
 import { StopNode } from '../../../../../models/route.model';
@@ -35,7 +36,7 @@ const EXAMPLE = {
  */
 @Component({
   selector: 'app-inheritance-preview',
-  imports: [NewBadgeComponent, RouteGraphSvgComponent, DecimalPipe],
+  imports: [NewBadgeComponent, RouteGraphSvgComponent, DecimalPipe, HelpTipComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './inheritance-preview.component.scss',
   template: `
@@ -60,7 +61,12 @@ const EXAMPLE = {
         </dl>
 
         <div class="preview__sample">
-          <h3 class="preview__subtitle">Así nace un servicio</h3>
+          <h3 class="preview__subtitle">
+            Así nace un servicio
+            <app-help-tip
+              label="Así nace un servicio"
+              text="Es una simulación: así quedarían las horas si crearas un servicio que sale a esa hora. No crea nada ni guarda la hora; cambia la hora de arriba para probar otras salidas." />
+          </h3>
           @if (hasTimes()) {
             <div class="preview__sample-head">
               <label class="preview__departure">
