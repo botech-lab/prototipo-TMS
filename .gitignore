@@ -14,10 +14,7 @@ dist/
 # Configuración local de Impeccable
 .impeccable/
 
-# Capturas de pantalla de trabajo (5,6 MB) y scripts de un solo uso.
+# Herramientas de quien programa (capturas, pruebas visuales, auditorias).
 # Siguen en el disco, solo dejan de subirse.
-tools/screenshots/
-tools/probe-*.mjs
-tools/shot-*.mjs
-tools/test-designer*.mjs
+tools/
 .claude/scheduled_tasks.lock
