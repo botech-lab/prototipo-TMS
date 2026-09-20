@@ -7,11 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "audit:responsive": "node tools/audit-responsive.mjs",
-    "vr:list": "node tools/visual-regression/vr.mjs list",
-    "vr:baseline": "node tools/visual-regression/vr.mjs baseline",
-    "vr:check": "node tools/visual-regression/vr.mjs check"
+    "test": "ng test"
   },
   "private": true,
   "packageManager": "pnpm@12.4.2",

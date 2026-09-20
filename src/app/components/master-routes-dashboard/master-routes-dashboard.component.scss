@@ -2,7 +2,7 @@
  * Master Routes Dashboard Styles · Tablero Espacial (Amanecer andino)
  * Estructura original: cabecera con una sola acción en cobre, pestañas en
  * pista segmentada de vidrio, orígenes como paneles de vidrio con banda cobre
- * al desplegar y modal de vidrio flotante. Solo cambian colores y tokens.
+ * al desplegar. Solo cambian colores y tokens.
  */
 @use 'mixins' as *;
 
@@ -662,119 +662,6 @@
     margin-left: auto;
     margin-right: auto;
   }
-
-  /* 4. Modal "+ Nueva ruta": vidrio flotante */
-  &__modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background-color: color-mix(in srgb, var(--color-neutral-900) 32%, transparent);
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    z-index: 50;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-4);
-  }
-
-  &__modal {
-    max-width: 32rem;
-    width: 100%;
-    padding: var(--space-6);
-    @include float-panel(overlay);
-
-    & {
-      box-shadow: var(--edge-glass), var(--shadow-lift);
-    }
-
-    @include rise-in;
-
-    > :not([hidden]) ~ :not([hidden]) {
-      margin-top: var(--space-5);
-      margin-bottom: 0;
-    }
-  }
-
-  &__modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: var(--space-3);
-    border-bottom: 1px solid var(--board-rule);
-  }
-
-  &__modal-title {
-    font-size: var(--text-lg);
-    line-height: var(--leading-tight);
-    font-weight: 800;
-    letter-spacing: -0.015em;
-    color: var(--color-neutral-950);
-  }
-
-  &__modal-close {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.25rem;
-    width: 2.25rem;
-    border-radius: var(--radius-pill);
-    color: var(--color-neutral-500);
-    @include press;
-    @include focus-ring;
-
-    &:hover {
-      color: var(--color-neutral-900);
-      background-color: var(--color-neutral-100);
-    }
-  }
-
-  &__modal-fields {
-    font-size: var(--text-sm);
-    line-height: var(--leading-ui);
-
-    > :not([hidden]) ~ :not([hidden]) {
-      margin-top: var(--space-4);
-      margin-bottom: 0;
-    }
-  }
-
-  &__label {
-    display: block;
-    margin-bottom: 0.375rem;
-    @include board-label;
-  }
-
-  &__select,
-  &__input {
-    @include field;
-
-    & {
-      height: 2.75rem;
-      padding: 0 var(--space-4);
-      font-size: var(--text-sm);
-    }
-  }
-
-  &__select {
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  &__modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--space-3);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--board-rule);
-  }
-
-  &__modal-cancel {
-    @include pill-button(ghost);
-  }
-
-  &__modal-save {
-    @include pill-button(primary);
-  }
 }
 
 /* ==========================================================================
@@ -793,8 +680,7 @@
 @media (prefers-reduced-motion: reduce) {
   .master-routes-dashboard__header,
   .master-routes-dashboard__departments,
-  .master-routes-dashboard__dept-body,
-  .master-routes-dashboard__modal {
+  .master-routes-dashboard__dept-body {
     animation: rm-fade-in var(--dur-fast) linear both;
   }
 
@@ -811,10 +697,7 @@
   }
 
   .master-routes-dashboard__create-btn,
-  .master-routes-dashboard__tab,
-  .master-routes-dashboard__modal-close,
-  .master-routes-dashboard__modal-cancel,
-  .master-routes-dashboard__modal-save {
+  .master-routes-dashboard__tab {
     transition: background-color var(--dur-fast) linear, color var(--dur-fast) linear;
 
     &:active {

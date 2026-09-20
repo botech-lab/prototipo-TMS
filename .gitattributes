@@ -1,0 +1,10 @@
+# Qué cuenta GitHub como "el lenguaje del proyecto".
+# Sin esto, un script de herramienta de 13.500 líneas hacía que el repo
+# apareciera como 30% JavaScript, cuando la aplicación es TypeScript puro.
+
+# Herramientas y scripts de apoyo: no son la aplicación.
+.claude/**       linguist-vendored
+tools/**         linguist-vendored
+
+# El código de la aplicación.
+src/**           linguist-detectable

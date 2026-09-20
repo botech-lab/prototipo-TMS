@@ -186,6 +186,9 @@ export const FARE_CATEGORY_TYPES_MOCK: readonly FareCategoryType[] = [
   { id: 'fct-estudiante', name: 'Estudiante', description: 'Tarifa con descuento para estudiantes', isDefault: false, appliesOta: true, appliesAgent: true, visibleInPortal: true, status: 'ACTIVO' },
   { id: 'fct-ejecutivo', name: 'Ejecutivo', description: 'Tarifa ejecutiva con asientos premium', isDefault: false, appliesOta: true, appliesAgent: true, visibleInPortal: true, status: 'ACTIVO' },
   { id: 'fct-predeterminado', name: 'Predeterminado', description: '', isDefault: true, appliesOta: true, appliesAgent: true, visibleInPortal: false, status: 'ACTIVO' },
+  // ★ Nuevo (no existen en aletadev): precios por tipo de pasajero que pide el asistente de rutas maestras.
+  { id: 'fct-nino', name: 'Niño', description: 'Precio para niños que ocupan asiento', isDefault: false, appliesOta: true, appliesAgent: true, visibleInPortal: true, status: 'ACTIVO' },
+  { id: 'fct-tercera-edad', name: 'Tercera edad', description: 'Precio para personas adultas mayores', isDefault: false, appliesOta: true, appliesAgent: true, visibleInPortal: true, status: 'ACTIVO' },
   { id: 'fct-cibermoto', name: 'Cibermoto', description: '', isDefault: false, appliesOta: false, appliesAgent: false, visibleInPortal: false, status: 'INACTIVO' }
 ];
 

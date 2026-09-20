@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { MasterRoutesDashboardComponent } from './master-routes-dashboard.component';
 import { RoutesService } from '../../services/routes.service';
 import { ToastService } from '../toast/toast.service';
@@ -203,9 +204,9 @@ describe('MasterRoutesDashboardComponent (TDD Suite - Vertical Accordion Stack)'
       fixture.detectChanges();
       const cta = fixture.debugElement.query(By.css('[data-testid="btn-create-route-from-origin"]'));
       expect(cta.nativeElement.textContent).toContain(empty.name);
+      const navigate = spyOn(TestBed.inject(Router), 'navigate').and.resolveTo(true);
       cta.triggerEventHandler('click', null);
-      expect(component.modalOrigin()).toBe(empty.name);
-      expect(component.isModalOpen()).toBeTrue();
+      expect(navigate).toHaveBeenCalledWith(['/rutas-maestras/nueva'], { queryParams: { origen: empty.name } });
     });
   });
 });

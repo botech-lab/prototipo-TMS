@@ -15,6 +15,9 @@ export class VehiclesService {
   /** Catálogo completo en memoria. */
   private readonly vehicles = signal<readonly Vehicle[]>(VEHICLES_MOCK);
 
+  /** Catálogo completo, sin filtro de búsqueda (lo usa el asistente de rutas maestras). */
+  readonly all = this.vehicles.asReadonly();
+
   /** Término de búsqueda por placa, marca o modelo. */
   readonly searchQuery = signal<string>('');
 

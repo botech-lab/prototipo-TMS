@@ -1,0 +1,128 @@
+@if (draft(); as d) {
+  <div class="wizard" data-testid="route-wizard">
+
+    <!-- CABECERA: identidad de la ruta que se está creando -->
+    <header class="wizard__head">
+      <a routerLink="/rutas-maestras" class="wizard__back">
+        <app-wizard-icon name="arrow-left" class="wizard__back-icon" /> Rutas maestras
+      </a>
+      <div class="wizard__head-row">
+        <div class="wizard__identity">
+          <h1 class="wizard__title">{{ hasEnds() ? name() : 'Nueva ruta maestra' }}</h1>
+          <p class="wizard__meta">
+            <span class="wizard__code">{{ d.code }}</span>
+            <span class="wizard__status">{{ d.status === 'ACTIVO' ? 'Activa · tramo nuevo en borrador' : 'Borrador' }}</span>
+            <span class="wizard__progress-text">{{ doneCount() }} de {{ partCount }} partes completas</span>
+          </p>
+        </div>
+        <button type="button" class="wizard__save" (click)="saveDraft()" data-testid="wizard-save-draft">
+          <app-wizard-icon name="save" class="wizard__save-icon" /> Guardar borrador
+        </button>
+      </div>
+      <div class="wizard__progress" role="progressbar" aria-label="Avance de la ruta" aria-valuemin="0" [attr.aria-valuemax]="partCount" [attr.aria-valuenow]="doneCount()">
+        <span class="wizard__progress-fill" [style.width.%]="(doneCount() / partCount) * 100"></span>
+      </div>
+    </header>
+
+    <div class="wizard__layout">
+
+      <!-- RIEL DE PASOS -->
+      <nav class="wizard__rail" aria-label="Pasos para crear la ruta">
+        <ol class="rail">
+          @for (item of steps; track item.key; let i = $index) {
+            @let st = state(item.key);
+            <li class="rail__item">
+              <button
+                type="button"
+                class="rail__btn"
+                [class.rail__btn--current]="item.key === stepKey()"
+                [class.rail__btn--done]="st === 'done' && item.key !== 'revision'"
+                [class.rail__btn--warn]="st === 'warn'"
+                [attr.aria-current]="item.key === stepKey() ? 'step' : null"
+                [disabled]="!canOpen(item.key)"
+                (click)="goTo(item.key)">
+                <span class="rail__mark" aria-hidden="true">
+                  @if (st === 'done' && item.key !== 'revision') {
+                    <app-wizard-icon name="check" />
+                  } @else if (st === 'warn') {
+                    <app-wizard-icon name="alert" />
+                  } @else {
+                    {{ i + 1 }}
+                  }
+                </span>
+                <span class="rail__text">
+                  <span class="rail__title">{{ item.title }}</span>
+                  <span class="rail__summary">{{ summary(item.key) }}</span>
+                  <span class="sr-only">{{ st === 'done' ? '(completo)' : st === 'warn' ? '(conviene revisar)' : '(pendiente)' }}</span>
+                </span>
+              </button>
+            </li>
+          }
+        </ol>
+      </nav>
+
+      <!-- PASO ACTUAL -->
+      <section class="wizard__stage" aria-labelledby="stage-title">
+        <header class="stage__head">
+          <h2 id="stage-title" class="stage__title" #stageHeading tabindex="-1">
+            <span class="stage__number">{{ index() + 1 }}</span>{{ step().title }}
+          </h2>
+          <p class="stage__question">{{ step().question }}</p>
+          @if (inheritsDismissed()) {
+            <button type="button" class="stage__inherits-mini" (click)="store.setInheritsDismissed(stepKey(), false)">
+              <app-wizard-icon name="inherit" class="stage__inherits-icon" /> ¿Qué heredan los servicios de este paso?
+            </button>
+          } @else {
+            <p class="stage__inherits">
+              <app-wizard-icon name="inherit" class="stage__inherits-icon" />
+              <span>
+                <strong>Lo heredan los servicios.</strong> {{ step().inherits }}
+                <button type="button" class="stage__got-it" (click)="store.setInheritsDismissed(stepKey(), true)">Entendido</button>
+              </span>
+            </p>
+          }
+        </header>
+
+        <div class="stage__body">
+          @switch (stepKey()) {
+            @case ('recorrido') { <app-step-route /> }
+            @case ('paradas') { <app-step-stops /> }
+            @case ('tramos') { <app-step-tramos /> }
+            @case ('operacion') { <app-step-operation /> }
+            @case ('tarifas') { <app-step-fares /> }
+            @case ('revision') { <app-step-review (goTo)="goTo($event)" (activate)="activate()" (saveDraft)="saveDraft()" /> }
+          }
+        </div>
+
+        @if (stepKey() !== 'revision') {
+          <footer class="stage__nav">
+            @if (previous(); as prev) {
+              <button type="button" class="stage__prev" (click)="goTo(prev.key)">
+                <app-wizard-icon name="arrow-left" class="stage__nav-icon" /> <span class="stage__prev-label">{{ prev.title }}</span><span class="sr-only stage__prev-sr">Atrás</span>
+              </button>
+            } @else {
+              <span></span>
+            }
+            @if (next(); as nx) {
+              <div class="stage__next-wrap">
+                @if (!hasEnds()) {
+                  <span class="stage__blocked" id="next-blocked">Elige el origen y el destino para seguir</span>
+                } @else if (duplicate(); as dup) {
+                  <span class="stage__blocked" id="next-blocked">Ya existe {{ dup.code }}: agrega el camino como tramo de esa ruta</span>
+                }
+                <button type="button" class="stage__next" (click)="goTo(nx.key)" [disabled]="!canOpen(nx.key)" [attr.aria-describedby]="canOpen(nx.key) ? null : 'next-blocked'" data-testid="wizard-next">
+                  <span class="stage__next-prefix">Siguiente:</span> {{ nx.title }} <app-wizard-icon name="arrow-right" class="stage__nav-icon" />
+                </button>
+              </div>
+            }
+          </footer>
+        }
+      </section>
+
+      <!-- LO QUE HEREDAN LOS SERVICIOS -->
+      <aside class="wizard__aside" aria-label="Vista previa de la ruta">
+        <app-inheritance-preview [draft]="d" [path]="store.activePath()" />
+      </aside>
+    </div>
+  </div>
+}

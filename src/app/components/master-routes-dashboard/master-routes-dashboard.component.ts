@@ -1,13 +1,9 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  ElementRef,
-  Injector,
-  afterNextRender,
   inject,
   signal,
-  computed,
-  viewChild
+  computed
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoutesService } from '../../services/routes.service';
@@ -17,6 +13,7 @@ import { NavIconComponent } from '../app-shell/nav-icon.component';
 import { ToastService } from '../toast/toast.service';
 import { departmentCode } from '../../core/constants/department-codes';
 import { MasterRoute, RouteStatusFilter } from '../../models/route.model';
+import { RouteDraftStore } from '../../features/master-routes/create/services/route-draft.store';
 
 export interface DepartmentItem {
   name: string;
@@ -62,14 +59,7 @@ export class MasterRoutesDashboardComponent {
   private readonly toast = inject(ToastService);
   private readonly router = inject(Router);
 
-  readonly isModalOpen = signal<boolean>(false);
-
-  /** Origen preseleccionado en el modal (p. ej. "+ Nueva ruta desde Oruro"). */
-  readonly modalOrigin = signal<string | null>(null);
-
-  private readonly injector = inject(Injector);
-  private readonly createBtn = viewChild<ElementRef<HTMLButtonElement>>('createBtn');
-  private readonly modal = viewChild<ElementRef<HTMLElement>>('modal');
+  private readonly drafts = inject(RouteDraftStore);
 
   // Departamento actualmente expandido (o null si todos están colapsados)
   readonly selectedDepartment = signal<string | null>('La Paz');
@@ -251,58 +241,12 @@ export class MasterRoutesDashboardComponent {
     this.searchQuery.set(input ? input.value : '');
   }
 
+  /**
+   * Abre el asistente "Nueva ruta maestra". Desde "+ Nueva ruta desde Oruro"
+   * llega con el origen ya elegido.
+   */
   onCreateRoute(origin?: string): void {
-    this.modalOrigin.set(origin ?? this.selectedDepartment());
-    this.isModalOpen.set(true);
-    // Accesibilidad: el foco entra al diálogo en cuanto se pinta.
-    afterNextRender(() => {
-      const fields = this.modalFocusables();
-      (fields.find(el => el.matches('select, input')) ?? fields[0])?.focus();
-    }, { injector: this.injector });
-  }
-
-  onCloseModal(): void {
-    this.isModalOpen.set(false);
-    // Accesibilidad: devuelve el foco al botón que abrió el diálogo.
-    this.createBtn()?.nativeElement.focus();
-  }
-
-  /** Escape cierra; Tab y Shift+Tab quedan atrapados dentro del diálogo. */
-  onModalKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      this.onCloseModal();
-      return;
-    }
-    if (event.key !== 'Tab') {
-      return;
-    }
-    const focusables = this.modalFocusables();
-    if (!focusables.length) {
-      return;
-    }
-    const first = focusables[0];
-    const last = focusables[focusables.length - 1];
-    const active = document.activeElement;
-    if (event.shiftKey && active === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && active === last) {
-      event.preventDefault();
-      first.focus();
-    }
-  }
-
-  private modalFocusables(): HTMLElement[] {
-    const root = this.modal()?.nativeElement;
-    if (!root) {
-      return [];
-    }
-    return Array.from(
-      root.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
-    );
+    this.router.navigate(['/rutas-maestras/nueva'], origin ? { queryParams: { origen: origin } } : {});
   }
 
   /**
@@ -335,7 +279,12 @@ export class MasterRoutesDashboardComponent {
     this.routesService.toggleRouteExpand(routeId);
   }
 
+  /** Un borrador creado con el asistente se retoma donde quedó; la edición completa llega después. */
   onEditRoute(routeId: string): void {
-    console.log('Editando ruta maestra:', routeId);
+    if (this.drafts.hasSavedDraft(routeId)) {
+      this.router.navigate(['/rutas-maestras', routeId, 'continuar']);
+      return;
+    }
+    this.toast.show('La edición de rutas maestras llega en la próxima entrega');
   }
 }

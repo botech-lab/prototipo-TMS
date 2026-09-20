@@ -21,6 +21,7 @@ import { RouteUsageTypesPageComponent } from './features/parametric/components/p
 import { FareCategoryTypesPageComponent } from './features/parametric/components/pages/fare-category-types-page.component';
 import { SeatTypesPageComponent } from './features/parametric/components/pages/seat-types-page.component';
 import { SalesChannelsPageComponent } from './features/parametric/components/pages/sales-channels-page.component';
+import { RouteWizardPageComponent } from './features/master-routes/create/components/route-wizard-page/route-wizard-page.component';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 /** Estilos compartidos por las vistas placeholder (Ventas / Administración / Informes). */
@@ -83,6 +84,8 @@ export const routes: Routes = [
   { path: 'operaciones', component: ScheduledServicesComponent, ...pageMeta(OPERACION, 'Servicios programados') },
   { path: 'servicios-programados', component: ScheduledServicesComponent, ...pageMeta(OPERACION, 'Servicios programados') },
   { path: 'rutas-maestras', component: MasterRoutesDashboardComponent, ...pageMeta(OPERACION, 'Rutas maestras') },
+  { path: 'rutas-maestras/nueva', component: RouteWizardPageComponent, ...pageMeta(OPERACION, { label: 'Rutas maestras', link: '/rutas-maestras' }, 'Nueva ruta maestra') },
+  { path: 'rutas-maestras/:id/continuar', component: RouteWizardPageComponent, ...pageMeta(OPERACION, { label: 'Rutas maestras', link: '/rutas-maestras' }, 'Continuar borrador') },
   { path: 'programar', component: MasterRoutesDashboardComponent, ...pageMeta(OPERACION, 'Rutas maestras') },
 
   // Administración

@@ -21,7 +21,6 @@
     <button
       type="button"
       data-testid="btn-create-route"
-      #createBtn
       (click)="onCreateRoute()"
       class="master-routes-dashboard__create-btn">
       <svg class="master-routes-dashboard__create-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -253,66 +252,5 @@
       </div>
     }
   </div>
-
-  <!-- ======================================================== -->
-  <!-- 4. MODAL "+ NUEVA RUTA"                                  -->
-  <!-- ======================================================== -->
-  @if (isModalOpen()) {
-    <div class="master-routes-dashboard__modal-backdrop">
-      <div
-        #modal
-        class="master-routes-dashboard__modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="rm-modal-title"
-        (keydown)="onModalKeydown($event)">
-        <div class="master-routes-dashboard__modal-header">
-          <h2 id="rm-modal-title" class="master-routes-dashboard__modal-title">Crear Nueva Ruta Maestra</h2>
-          <button
-            type="button"
-            (click)="onCloseModal()"
-            aria-label="Cerrar"
-            class="master-routes-dashboard__modal-close">
-            ✕
-          </button>
-        </div>
-
-        <div class="master-routes-dashboard__modal-fields">
-          <div>
-            <label class="master-routes-dashboard__label" for="rm-modal-origin">Ciudad de Origen</label>
-            <select id="rm-modal-origin" class="master-routes-dashboard__select">
-              @for (dept of departments(); track dept.name) {
-                <option [value]="dept.name" [selected]="modalOrigin() === dept.name">{{ dept.name }}</option>
-              }
-            </select>
-          </div>
-
-          <div>
-            <label class="master-routes-dashboard__label" for="rm-modal-name">Nombre de la Ruta</label>
-            <input
-              id="rm-modal-name"
-              type="text"
-              placeholder="ej. La Paz → Potosí Directo"
-              class="master-routes-dashboard__input" />
-          </div>
-        </div>
-
-        <div class="master-routes-dashboard__modal-actions">
-          <button
-            type="button"
-            (click)="onCloseModal()"
-            class="master-routes-dashboard__modal-cancel">
-            Cancelar
-          </button>
-          <button
-            type="button"
-            (click)="onCloseModal()"
-            class="master-routes-dashboard__modal-save">
-            Guardar Ruta
-          </button>
-        </div>
-      </div>
-    </div>
-  }
 
 </div>

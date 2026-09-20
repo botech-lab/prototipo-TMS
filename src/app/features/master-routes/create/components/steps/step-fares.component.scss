@@ -1,0 +1,318 @@
+@use 'mixins' as *;
+@use 'step-common';
+
+.btn-icon,
+.chip__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.empty {
+  justify-items: start;
+}
+
+/* Tarjetas como pestañas: nombre + estado con texto. */
+.cards-bar {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: var(--space-1);
+  @include hide-scrollbar;
+}
+
+.cards-bar__tab {
+  display: grid;
+  gap: 2px;
+  flex: none;
+  min-width: 12rem;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-block);
+  background-color: rgb(255 255 255 / 0.7);
+  box-shadow: inset 0 0 0 1px var(--card-border);
+  text-align: left;
+  font-family: var(--font-family-ui);
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--color-neutral-0);
+  }
+
+  &[aria-selected='true'] {
+    background-color: var(--color-terracota-50);
+    box-shadow: inset 0 0 0 1.5px var(--color-terracota-500);
+  }
+}
+
+.cards-bar__name {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.cards-bar__state {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-success-600);
+
+  &--todo {
+    color: var(--color-warning-600);
+  }
+}
+
+.cards-bar__check {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.cards-bar__add {
+  @include pill-button(ghost);
+  align-self: center;
+  flex: none;
+}
+
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.link-btn--danger {
+  color: var(--color-error-600);
+
+  &:hover {
+    color: var(--color-error-600);
+  }
+}
+
+.card-fields {
+  display: grid;
+  gap: var(--space-3);
+
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+
+  label {
+    min-width: 0;
+  }
+}
+
+.seats {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.seats__help {
+  margin: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.matrix-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.by-day {
+  max-width: 20rem;
+}
+
+.day-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.day-tabs__tab {
+  @include segmented-option(false);
+  min-height: 2.25rem;
+  padding: 0 var(--space-3);
+
+  &[aria-selected='true'] {
+    background-color: var(--color-neutral-900);
+    color: var(--color-neutral-0);
+  }
+}
+
+.day-tabs__copy {
+  margin-left: auto;
+}
+
+.helper {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-block);
+  background-color: var(--color-sky-50);
+}
+
+.helper__icon {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-sky-500);
+}
+
+.helper__body {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-sky-800);
+
+  strong {
+    font-weight: 800;
+  }
+
+  small {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-sky-600);
+  }
+}
+
+.helper__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.helper__select {
+  width: auto;
+  min-width: 9rem;
+}
+
+.helper__price {
+  width: 6rem;
+}
+
+/* Matriz: tablero de precios. Primera columna fija al desplazar en horizontal. */
+.matrix-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-block);
+  box-shadow: inset 0 0 0 1px var(--card-border);
+  @include focus-ring;
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+
+  th,
+  td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--board-rule);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  thead th {
+    @include board-label;
+    background-color: var(--board-head);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child th,
+  tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 11rem;
+    background-color: var(--color-neutral-0);
+  }
+
+  .num {
+    text-align: right;
+  }
+}
+
+.matrix__row--missing th {
+  box-shadow: inset 3px 0 0 var(--color-signal-amber);
+}
+
+.matrix__tramo {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.matrix__km {
+  @include board-figure(var(--text-xs), 600);
+  color: var(--color-neutral-500);
+}
+
+.matrix__input {
+  width: 6.5rem;
+  height: 2.5rem;
+}
+
+.adjust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--board-rule);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-neutral-700);
+}
+
+.adjust__title {
+  margin-right: var(--space-2);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.adjust__select {
+  width: auto;
+  min-width: 6rem;
+}
+
+.adjust__value {
+  width: 5.5rem;
+}
+
+.card-intro {
+  margin: 0;
+}
+
+.matrix-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+}
+
+/* Boleto fijo: un precio por asiento en vez de la tabla por viaje. */
+.fixed {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: var(--space-3);
+}
+
+.fixed__field .number-input {
+  width: 100%;
+}

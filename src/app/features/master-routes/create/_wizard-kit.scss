@@ -1,0 +1,247 @@
+@use 'mixins' as *;
+
+/**
+ * Kit del asistente "Nueva ruta maestra": piezas de formulario compartidas por
+ * los pasos. Solo tokens del sistema (DESIGN.md); nada de hex sueltos.
+ */
+
+/* Bloque de un paso: grupo con título y ayuda corta. */
+@mixin wz-section {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-block);
+  background-color: var(--card-bg);
+  box-shadow: inset 0 0 0 1px var(--card-border), var(--shadow-rest);
+
+  @include bp(md) {
+    padding: var(--space-6);
+  }
+}
+
+@mixin wz-section-title {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  color: var(--color-neutral-900);
+  text-wrap: balance;
+}
+
+@mixin wz-help {
+  margin: 0;
+  max-width: 62ch;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-body);
+  color: var(--color-neutral-500);
+}
+
+@mixin wz-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  line-height: var(--leading-ui);
+  color: var(--color-neutral-700);
+}
+
+@mixin wz-input {
+  @include field;
+  height: 2.75rem;
+  padding: 0 var(--space-4);
+  font-size: var(--text-md);
+  font-weight: 500;
+}
+
+@mixin wz-select {
+  @include wz-input;
+  appearance: none;
+  padding-right: var(--space-8);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235F5A55' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 1rem;
+  cursor: pointer;
+}
+
+/* Cifra editable (km, minutos, precios): DM Sans tabular, alineada a la derecha. */
+@mixin wz-number {
+  @include wz-input;
+  @include board-figure(var(--text-md), 600);
+  padding: 0 var(--space-3);
+  text-align: right;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  -moz-appearance: textfield;
+}
+
+/* Interruptor grafito (La Regla del Switch: fuera de Servicios programados no hay verde). */
+@mixin wz-switch {
+  position: relative;
+  flex: none;
+  width: 2.5rem;
+  height: 1.5rem;
+  margin: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--switch-off);
+  appearance: none;
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard);
+  @include focus-ring;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background-color: var(--color-neutral-0);
+    box-shadow: 0 1px 3px rgb(24 23 22 / 0.3);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  &:checked {
+    background-color: var(--color-neutral-900);
+  }
+
+  &:checked::before {
+    transform: translateX(1rem);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+}
+
+/* Fila "interruptor + texto + ayuda". */
+@mixin wz-toggle-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+
+  & > span {
+    display: grid;
+    gap: 2px;
+    padding-top: 1px;
+  }
+
+  strong {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-neutral-900);
+  }
+
+  small {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    line-height: var(--leading-ui);
+    color: var(--color-neutral-500);
+  }
+}
+
+/* Chip conmutable (días, asientos, canales): aria-pressed. */
+@mixin wz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.25rem;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+  color: var(--color-neutral-600);
+  font-family: var(--font-family-ui);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+  @include touch-target(height);
+
+  &:hover {
+    color: var(--color-neutral-900);
+    box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  }
+
+  &[aria-pressed='true'] {
+    background-color: var(--color-terracota-50);
+    box-shadow: inset 0 0 0 1.5px var(--color-terracota-500);
+    color: var(--color-terracota-700);
+  }
+}
+
+/* Botón de icono pequeño (subir, bajar, quitar). */
+@mixin wz-icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+  @include focus-ring;
+  @include touch-target;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-900);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  app-wizard-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}
+
+/* Nota "Lo heredan los servicios": vínculo explícito padre → hijos. */
+@mixin wz-inherit-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-block);
+  background-color: var(--color-sky-50);
+  color: var(--color-sky-800);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-body);
+
+  app-wizard-icon {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: 1px;
+    color: var(--color-sky-500);
+  }
+
+  strong {
+    font-weight: 800;
+  }
+}
+
+@mixin wz-error {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-error-600);
+}

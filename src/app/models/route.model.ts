@@ -28,6 +28,7 @@ export interface MasterRoute {
   isExpanded: boolean;
   avoidedDuplicates?: string[]; // Servicios parciales que la ruta maestra consolida
   derivedServices?: string[]; // Alias para servicios derivados consolidados
+  pathNames?: string[]; // Tramos (caminos) de la ruta, si tiene más de uno: "Tramo por arriba (vía Oruro, Potosí)"
 }
 
 export interface DepartmentGroup {

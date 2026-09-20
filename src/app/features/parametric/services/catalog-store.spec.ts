@@ -41,7 +41,8 @@ describe('INTEGRITY GUARDIAN: Store de Catálogo', () => {
       { name: 'métodos de pago', rows: PAYMENT_METHODS_MOCK, expected: 7 },
       { name: 'monedas', rows: CURRENCIES_MOCK, expected: 6 },
       { name: 'tipos de uso de ruta', rows: ROUTE_USAGE_TYPES_MOCK, expected: 8 },
-      { name: 'categorías de tarifa', rows: FARE_CATEGORY_TYPES_MOCK, expected: 9 },
+      // 9 de aletadev + 2 ★ Nuevo (Niño, Tercera edad) que pide el asistente de rutas maestras.
+      { name: 'categorías de tarifa', rows: FARE_CATEGORY_TYPES_MOCK, expected: 11 },
       { name: 'tipos de asiento', rows: SEAT_TYPES_MOCK, expected: 7 },
       { name: 'canales de venta', rows: SALES_CHANNELS_MOCK, expected: 12 }
     ];
