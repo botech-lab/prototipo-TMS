@@ -28,23 +28,47 @@ Misma versión mayor y mismo enfoque. Los componentes del asistente son **standa
 todos con `ChangeDetectionStrategy.OnPush`, sin RxJS, sin `setTimeout` y sin nada que
 dependa de Zone.js: **funcionan zoneless sin cambios**.
 
-Lo que sí hay que adaptar al copiar:
+### Puertos y adaptadores: el asistente ya viene desacoplado
 
-1. **Los servicios de datos.** `route-draft.store.ts` lee catálogos de mentira
-   (`features/parametric/data/parametric.mock.ts`). Hay que cambiarlos por las llamadas
-   reales a `/api/v1/parametric/*` y `/api/v1/route-master/*`. La lógica no se toca: vive
-   aparte, en `route-draft-engine.ts`, que es TypeScript puro sin Angular.
-2. **Los íconos.** El prototipo dibuja sus SVG; aletadev usa Material Symbols. Cambiar
+El store **no conoce ningún servicio**: solo tres contratos declarados en
+`ports/wizard-ports.ts`. Para conectar el asistente a Aleta se escribe **un adaptador**,
+sin tocar el store, el motor de reglas ni los componentes.
+
+| Archivo | Qué es |
+|---|---|
+| `ports/wizard-ports.ts` | Los contratos: `CatalogsPort`, `FleetPort`, `MasterRoutesPort`, y sus tokens. **Esto es todo lo que el asistente necesita del exterior.** |
+| `ports/mock.adapters.ts` | Adaptador de mentira (lo que se ve hoy). Es el valor por defecto, así el prototipo y las pruebas andan sin configurar nada. |
+| `ports/aleta.adapter.ts` | **Esqueleto a completar**, con los endpoints anotados y `provideAletaWizard()` listo. |
+| `ports/aleta.mapper.ts` | Borrador → cuerpo de cada endpoint, y `savePlan()` con el orden de guardado. Responde "¿este campo a dónde va?". |
+
+Para activarlo, en el arranque de la app:
+
+```ts
+bootstrapApplication(App, { providers: [provideHttpClient(), provideAletaWizard()] });
+```
+
+Sobre los nombres de campo del mapper: `esTramoDirecto`, `idTipoVehiculo`, `idRutaMaestra`
+e `idMapaRuta` están confirmados contra respuestas reales de aletadev; **el resto son
+propuestas** marcadas con `// confirmar` en el código. Lo que sí está verificado es qué
+dato va a qué endpoint y en qué orden.
+
+Una decisión que queda abierta a propósito, porque depende de la API real: hoy el store
+publica un resumen (`upsert(MasterRoute)`). Para el alta completa conviene ampliar el
+puerto con `save(draft): Promise<{ code }>`. Está anotado en `aleta.adapter.ts`.
+
+Lo demás que hay que adaptar al copiar:
+
+1. **Los íconos.** El prototipo dibuja sus SVG; aletadev usa Material Symbols. Cambiar
    `wizard-icon.component.ts` por el ícono equivalente, o dejarlo como está.
-3. **Las variables de CSS.** Los estilos usan tokens (`--color-terracota-500`,
+2. **Las variables de CSS.** Los estilos usan tokens (`--color-terracota-500`,
    `--space-3`, `--radius-pill`…) definidos en `src/styles/_tokens.scss`. Hay que
    mapearlos a los de aletadev o copiar el archivo.
-4. **`zone.js` sigue en el `package.json`** de este prototipo por herencia; no hace falta
+3. **`zone.js` sigue en el `package.json`** de este prototipo por herencia; no hace falta
    al integrar.
 
 Orden práctico para copiar: primero `route-draft.model.ts` y `route-draft-engine.ts`
-(no dependen de nada), después el store conectado a la API real, y al final los
-componentes de `components/`.
+(no dependen de nada), después `ports/` con el adaptador de Aleta completado, y al final
+los componentes de `components/`. El store se copia tal cual.
 
 ---
 
@@ -53,7 +77,7 @@ componentes de `components/`.
 ```bash
 pnpm install
 pnpm start          # http://localhost:4200
-pnpm test           # 397 pruebas
+pnpm test           # 402 pruebas
 pnpm build
 ```
 

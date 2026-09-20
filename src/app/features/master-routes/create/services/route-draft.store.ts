@@ -1,10 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { RoutesService } from '../../../../services/routes.service';
-import { ParametricCatalogsService } from '../../../parametric/services/parametric-catalogs.service';
 import { SeatType } from '../../../parametric/models/parametric.model';
 import { Vehicle } from '../../../fleet/models/vehicle.model';
-import { VehiclesService } from '../../../fleet/services/vehicles.service';
-import { SeatLayoutStore } from '../../../seat-designer/services/seat-layout.store';
+import { CATALOGS_PORT, FLEET_PORT, MASTER_ROUTES_PORT } from '../ports/wizard-ports';
 import { ROUTE_GRAPH_RULES } from '../../../../core/constants/route-graph-rules';
 import { CityOption, DraftBus, DraftCity, RouteDraft } from '../models/route-draft.model';
 import { MasterRoute } from '../../../../models/route.model';
@@ -57,10 +54,10 @@ export interface BusOption {
 
 @Injectable({ providedIn: 'root' })
 export class RouteDraftStore {
-  private readonly routes = inject(RoutesService);
-  private readonly catalogs = inject(ParametricCatalogsService);
-  private readonly fleet = inject(VehiclesService);
-  private readonly layouts = inject(SeatLayoutStore);
+  // Solo contratos: el asistente no sabe de dónde salen los datos.
+  private readonly routes = inject(MASTER_ROUTES_PORT);
+  private readonly catalogs = inject(CATALOGS_PORT);
+  private readonly fleet = inject(FLEET_PORT);
 
   /** Borradores guardados, por id de ruta. */
   private readonly saved = signal<ReadonlyMap<string, RouteDraft>>(new Map());
@@ -91,7 +88,7 @@ export class RouteDraftStore {
    */
   readonly duplicate = computed(() => {
     const draft = this.draft();
-    return draft ? Engine.sameEndsRoute(draft, this.routes.getAllRoutes()) ?? null : null;
+    return draft ? Engine.sameEndsRoute(draft, this.routes.routes()) ?? null : null;
   });
 
   /** Ciudades del catálogo + las ya usadas en rutas maestras, sin repetir, por departamento. */
@@ -102,7 +99,7 @@ export class RouteDraftStore {
       if (name === 'Tarija Terminal') continue;
       byName.set(name, { name, department });
     }
-    for (const city of this.catalogs.cities.all()) {
+    for (const city of this.catalogs.cities()) {
       if (city.status !== 'ACTIVO') continue;
       const name = city.name === 'Santa Cruz de la Sierra' ? 'Santa Cruz' : city.name;
       if (!byName.has(name)) byName.set(name, { name, department: city.department.toUpperCase() });
@@ -112,14 +109,14 @@ export class RouteDraftStore {
 
   /** Capitales de departamento (para marcarlas en la lista de ciudades). */
   readonly capitals = computed<ReadonlySet<string>>(() => {
-    const names = this.catalogs.departments.all().map(dep => (dep.capital === 'Santa Cruz de la Sierra' ? 'Santa Cruz' : dep.capital));
+    const names = this.catalogs.departments().map(dep => (dep.capital === 'Santa Cruz de la Sierra' ? 'Santa Cruz' : dep.capital));
     return new Set(names);
   });
 
   /** Ciudades que más aparecen en las rutas maestras (sugeridas para origen y destino). */
   readonly popularCities = computed<string[]>(() => {
     const count = new Map<string, number>();
-    for (const route of this.routes.getAllRoutes()) {
+    for (const route of this.routes.routes()) {
       for (const stop of route.stops) {
         const name = stop.name.replace(/\s+Terminal$/i, '').trim();
         count.set(name, (count.get(name) ?? 0) + 1);
@@ -133,14 +130,14 @@ export class RouteDraftStore {
       .map(([name]) => name);
   });
 
-  readonly activeChannels = computed(() => this.catalogs.salesChannels.all().filter(c => c.status === 'ACTIVO'));
-  readonly vehicleTypes = computed(() => this.catalogs.vehicleTypes.all().filter(t => t.status === 'ACTIVO' && t.description));
+  readonly activeChannels = computed(() => this.catalogs.salesChannels().filter(c => c.status === 'ACTIVO'));
+  readonly vehicleTypes = computed(() => this.catalogs.vehicleTypes().filter(t => t.status === 'ACTIVO' && t.description));
   /** Uso de ruta por defecto: "Regular", la línea comercial de todos los días. */
   readonly defaultUsage = computed(() => {
     const usages = this.usageTypes();
     return usages.find(u => u.name === 'Regular') ?? usages.find(u => u.isDefault) ?? usages[0];
   });
-  readonly usageTypes = computed(() => this.catalogs.routeUsageTypes.all().filter(t => t.status === 'ACTIVO' && t.appliesCard));
+  readonly usageTypes = computed(() => this.catalogs.routeUsageTypes().filter(t => t.status === 'ACTIVO' && t.appliesCard));
   /**
    * Para quién es un precio: solo tipos de pasajero. De aletadev se dejan fuera
    * WEB, Agente y Predeterminado (se deciden en "¿Qué precios usa cada canal?")
@@ -152,8 +149,8 @@ export class RouteDraftStore {
   });
   /** Categorías que no existen en aletadev (se marcan "★ Nuevo"). */
   readonly newCategoryIds: ReadonlySet<string> = new Set(['fct-nino', 'fct-tercera-edad']);
-  readonly fareCategories = computed(() => this.catalogs.fareCategoryTypes.all().filter(t => t.status === 'ACTIVO'));
-  readonly seatTypes = computed(() => this.catalogs.seatTypes.all().filter(t => t.status === 'ACTIVO'));
+  readonly fareCategories = computed(() => this.catalogs.fareCategoryTypes().filter(t => t.status === 'ACTIVO'));
+  readonly seatTypes = computed(() => this.catalogs.seatTypes().filter(t => t.status === 'ACTIVO'));
 
   /**
    * Buses de la flota para elegir en "¿Qué buses hacen esta ruta?", agrupables
@@ -163,8 +160,8 @@ export class RouteDraftStore {
   readonly busOptions = computed<BusOption[]>(() => {
     const draft = this.draft();
     const otherRoutes = [...this.saved().values()].filter(route => route.id !== draft?.id);
-    return this.fleet.all().map(vehicle => {
-      const type = this.catalogs.vehicleTypes.all().find(item => item.name === vehicle.type);
+    return this.fleet.vehicles().map(vehicle => {
+      const type = this.catalogs.vehicleTypes().find(item => item.name === vehicle.type);
       const fromPlan = this.planSeatTypes(vehicle);
       const typeId = type?.id ?? '';
       return {
@@ -207,16 +204,8 @@ export class RouteDraftStore {
 
   /** Tipos de asiento (ids del catálogo) presentes en el plano guardado del bus. */
   private planSeatTypes(vehicle: Vehicle): string[] {
-    const layout = this.layouts.present(vehicle.id);
-    if (!layout) return [];
-    const codes = new Set<string>();
-    for (const deck of layout.decks) {
-      for (const row of deck.cells) {
-        for (const cell of row) {
-          if (cell.kind === 'seat') codes.add(cell.seatType);
-        }
-      }
-    }
+    const codes = new Set(this.fleet.seatCodesOf(vehicle.id));
+    if (!codes.size) return [];
     return this.seatTypes().filter(seat => codes.has(seat.code)).map(seat => seat.id);
   }
 
@@ -256,7 +245,7 @@ export class RouteDraftStore {
    */
   openToAddPath(routeId: string): boolean {
     if (!this.resume(routeId)) {
-      const route = this.routes.getAllRoutes().find(item => item.id === routeId);
+      const route = this.routes.routes().find(item => item.id === routeId);
       if (!route) return false;
       this.draft.set(this.fromCatalog(route));
     }
@@ -333,7 +322,7 @@ export class RouteDraftStore {
     const options = this.cityOptions();
     const exact = options.find(option => option.name.toLowerCase() === wanted);
     if (exact) return exact;
-    const department = this.catalogs.departments.all().find(dep => dep.name.toLowerCase() === wanted);
+    const department = this.catalogs.departments().find(dep => dep.name.toLowerCase() === wanted);
     const capital = department?.capital === 'Santa Cruz de la Sierra' ? 'Santa Cruz' : department?.capital;
     return options.find(option => option.name === capital) ?? options.find(option => option.department.toLowerCase() === wanted);
   }
@@ -368,7 +357,7 @@ export class RouteDraftStore {
     let toSave = draft;
     if (draft.createReturn && Engine.mainPath(draft).cities.length >= 2) {
       // La vuelta se crea después de reservar el código de la ida.
-      this.routes.upsertRoute(Engine.toMasterRoute(draft));
+      this.routes.upsert(Engine.toMasterRoute(draft));
       const code = this.routes.nextCode();
       const reverse = Engine.reverseDraft(draft, `rm-${code.toLowerCase()}`, code);
       this.store(reverse);
@@ -381,7 +370,7 @@ export class RouteDraftStore {
   }
 
   private store(draft: RouteDraft): void {
-    this.routes.upsertRoute(Engine.toMasterRoute(draft));
+    this.routes.upsert(Engine.toMasterRoute(draft));
     this.saved.update(map => new Map(map).set(draft.id, draft));
   }
 }
