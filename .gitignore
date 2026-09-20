@@ -10,6 +10,10 @@ dist/
 # Ajustes locales de Claude Code (los ajustes compartidos se versionan)
 .claude/settings.local.json
 
+# Herramienta de Claude: 14.000 lineas que no son del proyecto.
+# Sigue en el disco, solo deja de subirse.
+.claude/skills/impeccable/
+
 # Configuración local de Impeccable
 .impeccable/config.local.json
 .claude/scheduled_tasks.lock
