@@ -1,0 +1,46 @@
+@use 'mixins' as *;
+
+:host {
+  display: contents;
+}
+
+.help-tip__btn {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  vertical-align: middle;
+  @include focus-ring;
+  @include touch-target(box);
+
+  :where(app-wizard-icon) {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  &:hover,
+  &[aria-expanded='true'] {
+    color: var(--color-secondary-700);
+    background-color: var(--color-sky-50);
+  }
+}
+
+.help-tip__text {
+  display: block;
+  flex-basis: 100%;
+  width: 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  background-color: var(--color-sky-50);
+  color: var(--color-sky-800);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: var(--leading-body);
+}

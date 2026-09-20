@@ -1,0 +1,146 @@
+<button
+  #trigger
+  type="button"
+  class="cp__trigger"
+  [id]="inputId()"
+  [disabled]="disabled()"
+  aria-haspopup="listbox"
+  [attr.aria-expanded]="open()"
+  (click)="toggle()">
+  <span class="cp__value" [class.cp__value--empty]="!value()">{{ value() || placeholder() }}</span>
+  <app-wizard-icon name="down" class="cp__chevron" [class.cp__chevron--open]="open()" />
+</button>
+
+@if (open()) {
+  <div class="cp__panel" [class.cp__panel--end]="align() === 'end'">
+    @switch (mode()) {
+      @case ('list') {
+        <div class="cp__search-wrap">
+          <input
+            #searchBox
+            class="cp__search"
+            type="text"
+            role="combobox"
+            autocomplete="off"
+            placeholder="Buscar ciudad, pueblo o departamento"
+            aria-label="Buscar ciudad, pueblo o departamento"
+            aria-autocomplete="list"
+            aria-expanded="true"
+            [attr.aria-controls]="uid + '-list'"
+            [attr.aria-activedescendant]="activeKey() ? uid + '-' + activeKey() : null"
+            [value]="query()"
+            (input)="setQuery($any($event.target).value)"
+            (keydown)="onKeydown($event)" />
+        </div>
+
+        @if (!query()) {
+          <div class="cp__filters" role="group" aria-label="Filtrar por departamento">
+            @if (suggestion(); as s) {
+              <button type="button" class="cp__filter" [attr.aria-pressed]="currentFilter() === suggestedKey" (click)="setFilter(suggestedKey)">{{ s.label }}</button>
+            }
+            <button type="button" class="cp__filter" [attr.aria-pressed]="currentFilter() === allKey" (click)="setFilter(allKey)">Todos</button>
+            @for (department of departments(); track department) {
+              <button type="button" class="cp__filter" [attr.aria-pressed]="currentFilter() === department" (click)="setFilter(department)">{{ label(department) }}</button>
+            }
+          </div>
+        }
+
+        @if (hasCities()) {
+          <ul class="cp__list" role="listbox" [id]="uid + '-list'" aria-label="Ciudades y pueblos">
+            @for (row of rows(); track row.key) {
+              @if (row.kind === 'group') {
+                <li class="cp__group" role="presentation">
+                  <span>{{ row.name }}</span><span class="cp__count">{{ row.count }}</span>
+                </li>
+              } @else {
+                <li
+                  class="cp__option"
+                  role="option"
+                  [id]="uid + '-' + row.key"
+                  [class.cp__option--off]="!!row.reason"
+                  [attr.aria-disabled]="!!row.reason"
+                  [attr.aria-selected]="row.name === value()"
+                  [attr.data-active]="row.key === activeKey()"
+                  (click)="choose(row)">
+                  <span class="cp__name">{{ row.name }}</span>
+                  @if (row.capital) { <span class="cp__capital">capital</span> }
+                  @if (row.reason) {
+                    <small class="cp__reason">{{ row.reason }}</small>
+                  } @else if (!query() && currentFilter() === suggestedKey && suggestion()?.cities?.length) {
+                    <small class="cp__reason">{{ label(row.department) }}</small>
+                  }
+                </li>
+              }
+            }
+          </ul>
+        } @else {
+          <div class="cp__empty">
+            <p class="cp__empty-title">No encontramos «{{ query() }}»</p>
+            @if (nearMatches().length) {
+              <p class="cp__hint">¿Quisiste decir?</p>
+              <div class="cp__near">
+                @for (option of nearMatches(); track option.name) {
+                  <button type="button" class="cp__filter" (click)="setQuery(option.name)">{{ option.name }} · {{ label(option.department) }}</button>
+                }
+              </div>
+            }
+            <div class="cp__request-row">
+              <button type="button" class="cp__request" (click)="startRequest()">
+                <app-wizard-icon name="plus" class="cp__request-icon" /> Solicitar que se agregue «{{ query() }}»
+              </button>
+              <app-new-badge detail="Solicitud de pueblos que faltan en el catálogo; la aprueba el administrador de Paramétricas." />
+            </div>
+          </div>
+        }
+      }
+
+      @case ('request') {
+        <form class="cp__form" (submit)="$event.preventDefault(); sendRequest()">
+          <p class="cp__form-title">Solicitar un pueblo nuevo <app-new-badge detail="Solicitud de pueblos que faltan en el catálogo." /></p>
+          <label class="cp__field">
+            <span>Nombre</span>
+            <input class="cp__input" type="text" [value]="reqName()" (input)="reqName.set($any($event.target).value); reqError.set('')" />
+          </label>
+          <label class="cp__field">
+            <span>Departamento</span>
+            <select class="cp__input" (change)="reqDepartment.set($any($event.target).value); reqError.set('')">
+              <option value="" [selected]="!reqDepartment()">Elige el departamento</option>
+              @for (department of departments(); track department) {
+                <option [value]="department" [selected]="department === reqDepartment()">{{ label(department) }}</option>
+              }
+            </select>
+          </label>
+          <label class="cp__field">
+            <span>Provincia o municipio <span class="cp__optional">(opcional)</span></span>
+            <input class="cp__input" type="text" placeholder="Nor Yungas" [value]="reqMunicipality()" (input)="reqMunicipality.set($any($event.target).value)" />
+          </label>
+          <label class="cp__field">
+            <span>Referencia <span class="cp__optional">(opcional)</span></span>
+            <input class="cp__input" type="text" placeholder="entre Unduavi y Coroico" [value]="reqReference()" (input)="reqReference.set($any($event.target).value)" />
+          </label>
+          @if (reqError()) { <p class="cp__error" role="alert">{{ reqError() }}</p> }
+          <div class="cp__actions">
+            <button type="submit" class="cp__primary">Enviar solicitud</button>
+            <button type="button" class="cp__secondary" (click)="backToList()">Cancelar</button>
+          </div>
+        </form>
+      }
+
+      @case ('sent') {
+        @if (sent(); as request) {
+          <div class="cp__sent" role="status">
+            <p><span class="cp__pill">Pendiente</span> Solicitud <strong>{{ request.code }}</strong> enviada: <strong>{{ request.name }}</strong> ({{ label(request.department) }}).</p>
+            <p class="cp__hint">La revisa el administrador de Paramétricas. Mientras tanto no se puede usar en la ruta.</p>
+            <p class="cp__hint">¿Es urgente? Escribe a soporte con el número {{ request.code }}.</p>
+            <div class="cp__actions">
+              <a class="cp__whatsapp" [href]="whatsapp(request)" target="_blank" rel="noopener">
+                <app-wizard-icon name="arrow-right" class="cp__request-icon" /> Escribir a soporte por WhatsApp
+              </a>
+              <button type="button" class="cp__secondary" (click)="backToList()">Volver a la lista</button>
+            </div>
+          </div>
+        }
+      }
+    }
+  </div>
+}

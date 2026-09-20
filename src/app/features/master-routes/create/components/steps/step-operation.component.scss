@@ -1,0 +1,102 @@
+@use 'mixins' as *;
+@use 'step-common';
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.day {
+  justify-content: center;
+  padding: 0;
+  min-height: 2.75rem;
+  @include board-figure(var(--text-sm), 700);
+}
+
+.days__shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+.rules {
+  display: grid;
+  gap: var(--space-4);
+
+  @include bp(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.rule {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.rule__extra {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-left: calc(2.5rem + var(--space-3));
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-neutral-700);
+
+  .number-input {
+    width: 5rem;
+  }
+}
+
+.rule__nested {
+  padding-left: calc(2.5rem + var(--space-3));
+}
+
+.channel-group {
+  display: grid;
+  gap: var(--space-2);
+
+  & + & {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--board-rule);
+  }
+}
+
+.channel-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-1) var(--space-3);
+}
+
+.channel-group__title {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.channel-group__help {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-neutral-500);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip__icon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.chip__meta {
+  @include board-figure(var(--text-2xs), 700);
+  color: var(--color-neutral-500);
+}

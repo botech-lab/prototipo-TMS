@@ -395,6 +395,31 @@ export class RoutesService {
     );
   }
 
+  /** Siguiente código libre del catálogo: RM-01 … RM-10 → "RM-11". */
+  nextCode(): string {
+    const numbers = this.getAllRoutes().map(route => Number(route.code.replace(/\D/g, '')) || 0);
+    return `RM-${String(Math.max(0, ...numbers) + 1).padStart(2, '0')}`;
+  }
+
+  /**
+   * Alta o actualización de una ruta (asistente "Nueva ruta maestra"). La ruta
+   * se agrupa por su departamento de origen; si el grupo no existe se crea.
+   */
+  upsertRoute(route: MasterRoute): void {
+    const department = route.originDepartment.toUpperCase();
+    this.departmentGroups.update(groups => {
+      const withoutRoute = groups.map(group => ({ ...group, routes: group.routes.filter(r => r.id !== route.id) }));
+      const exists = withoutRoute.some(group => group.department.toUpperCase() === department);
+      const next = exists
+        ? withoutRoute
+        : [...withoutRoute, { department, totalRoutes: 0, isExpanded: false, routes: [] }];
+      return next.map(group => {
+        const routes = group.department.toUpperCase() === department ? [...group.routes, route] : group.routes;
+        return { ...group, routes, totalRoutes: routes.length };
+      });
+    });
+  }
+
   toggleRouteExpand(routeId: string): void {
     this.departmentGroups.update((groups) =>
       groups.map((group) => ({

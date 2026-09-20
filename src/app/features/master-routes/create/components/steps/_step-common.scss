@@ -1,0 +1,237 @@
+@use 'mixins' as *;
+@use '../../wizard-kit' as *;
+
+/* Piezas comunes a todos los pasos (se emiten en cada componente, encapsuladas). */
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+.step-block {
+  @include wz-section;
+  grid-template-columns: minmax(0, 1fr);
+  @include rise-in;
+
+  &--muted {
+    background-color: rgb(255 255 255 / 0.6);
+  }
+}
+
+.step-block__head {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.step-block__title {
+  @include wz-section-title;
+}
+
+.step-block__help,
+.field-help {
+  @include wz-help;
+}
+
+.field-help {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.ends__label {
+  @include wz-label;
+}
+
+.optional {
+  font-weight: 500;
+  color: var(--color-neutral-500);
+}
+
+.ends__select {
+  @include wz-select;
+}
+
+.text-input {
+  @include wz-input;
+}
+
+.number-input {
+  @include wz-number;
+}
+
+.switch {
+  @include wz-switch;
+}
+
+.toggle-row {
+  @include wz-toggle-row;
+}
+
+.chip {
+  @include wz-chip;
+}
+
+.icon-btn {
+  @include wz-icon-button;
+
+  &--danger:hover:not(:disabled) {
+    background-color: var(--color-error-100);
+    color: var(--color-error-600);
+  }
+}
+
+.inherit-note {
+  @include wz-inherit-note;
+}
+
+.field-error {
+  @include wz-error;
+}
+
+.secondary-btn {
+  @include pill-button(secondary);
+}
+
+.ink-btn {
+  @include pill-button(ink);
+}
+
+.ghost-btn {
+  @include pill-button(ghost);
+}
+
+.link-btn {
+  @include action-link;
+}
+
+.sr-only {
+  @include sr-only;
+}
+
+/* Tramos (caminos) de la ruta: pestañas con nombre y "vía …". */
+.paths {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+.paths__tab {
+  display: grid;
+  gap: 2px;
+  min-width: 11rem;
+  max-width: 100%;
+  padding: var(--space-2) var(--space-4);
+  border: 0;
+  border-radius: var(--radius-block);
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+  font-family: var(--font-family-ui);
+  text-align: left;
+  cursor: pointer;
+  @include press;
+  @include focus-ring;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  }
+
+  &[aria-selected='true'] {
+    background-color: var(--color-terracota-50);
+    box-shadow: inset 0 0 0 1.5px var(--color-terracota-500);
+  }
+}
+
+.paths__name {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.paths__via {
+  font-size: var(--text-xs);
+  color: var(--color-neutral-600);
+  @include truncate;
+}
+
+.paths__new {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-warning-600);
+}
+
+.paths__add {
+  @include pill-button(ghost);
+  align-self: center;
+}
+
+
+/* Título con su ⓘ; la explicación abre en la fila siguiente. */
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-1);
+}
+
+/* Resumen cuando la sección ya está completa. */
+.summary-ok {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-success-600);
+
+  :where(app-wizard-icon) {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Lo que falta, justo donde falta. */
+.needs {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  background-color: var(--color-warning-100);
+  color: var(--color-warning-600);
+  font-size: var(--text-sm);
+  font-weight: 600;
+
+  :where(app-wizard-icon) {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 1px;
+  }
+}
+
+.title-row > .ends__label {
+  margin-bottom: 0;
+}
+
+/* Campo con etiqueta (y su ⓘ) arriba del control. */
+.field {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+
+  > .ends__label {
+    margin-bottom: 0;
+  }
+}
+
+/*
+ * La tarjeta con una lista de ciudades abierta queda por encima de las
+ * siguientes (cada tarjeta forma su propia capa por la animación de entrada).
+ */
+.step-block:has(app-city-picker.cp--open) {
+  position: relative;
+  z-index: 10;
+}
