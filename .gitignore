@@ -15,5 +15,12 @@ dist/
 .claude/skills/
 
 # Configuración local de Impeccable
-.impeccable/config.local.json
+.impeccable/
+
+# Capturas de pantalla de trabajo (5,6 MB) y scripts de un solo uso.
+# Siguen en el disco, solo dejan de subirse.
+tools/screenshots/
+tools/probe-*.mjs
+tools/shot-*.mjs
+tools/test-designer*.mjs
 .claude/scheduled_tasks.lock
