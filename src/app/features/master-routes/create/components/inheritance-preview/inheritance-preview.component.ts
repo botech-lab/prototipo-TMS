@@ -10,6 +10,20 @@ import * as Engine from '../../services/route-draft-engine';
 const SAMPLE_DEPARTURES = ['06:00', '07:30', '13:00', '20:30'];
 
 /**
+ * Ejemplo que se muestra mientras la ruta no tiene ciudades. Con nombres y horas
+ * de verdad se entiende de una: arriba lo que se define una vez, abajo lo que
+ * nace de eso. Antes había un dibujo con líneas punteadas que no decía qué eran.
+ */
+const EXAMPLE = {
+  cities: ['La Paz', 'Oruro', 'Cochabamba'],
+  services: [
+    { time: '06:00', trip: 'La Paz → Cochabamba', bus: 'Bus 1234' },
+    { time: '13:00', trip: 'La Paz → Cochabamba', bus: 'Bus 5678' },
+    { time: '20:30', trip: 'Oruro → Cochabamba', bus: 'Bus 1234' }
+  ]
+} as const;
+
+/**
  * ============================================================================
  * "LO QUE HEREDAN LOS SERVICIOS"
  * ============================================================================
@@ -88,21 +102,31 @@ const SAMPLE_DEPARTURES = ['06:00', '07:30', '13:00', '20:30'];
         </div>
       } @else {
         <div class="preview__empty">
-          <svg class="preview__family" viewBox="0 0 260 132" role="img" aria-label="Una ruta maestra y los servicios que nacen de ella">
-            <line x1="22" y1="26" x2="222" y2="26" class="preview__family-master" />
-            <circle cx="22" cy="26" r="7" class="preview__family-end" />
-            <circle cx="88" cy="26" r="5" class="preview__family-mid" />
-            <circle cx="155" cy="26" r="5" class="preview__family-mid" />
-            <circle cx="222" cy="26" r="7" class="preview__family-end" />
-            <text x="122" y="12" text-anchor="middle" class="preview__family-label">Ruta maestra</text>
-            <path d="M22 40 V66 H222" class="preview__family-child" />
-            <path d="M22 40 V94 H155" class="preview__family-child" />
-            <path d="M88 40 V122 H222" class="preview__family-child" />
-            <text x="228" y="66" class="preview__family-time">06:00</text>
-            <text x="161" y="94" class="preview__family-time">07:30</text>
-            <text x="228" y="122" class="preview__family-time">20:30</text>
-          </svg>
-          <p class="preview__note">Elige el origen y el destino para ver la ruta y los servicios que nacerán de ella.</p>
+          <p class="preview__example-lead">Un ejemplo, mientras eliges las ciudades:</p>
+
+          <div class="example">
+            <p class="example__label">La ruta maestra se arma una vez</p>
+            <ol class="example__route">
+              @for (city of EXAMPLE.cities; track city) {
+                <li class="example__city">{{ city }}</li>
+              }
+            </ol>
+            <p class="example__hint">El recorrido, las paradas, los días y los precios.</p>
+
+            <p class="example__label example__label--services">Después se crean los servicios, uno por salida</p>
+            <ul class="example__services">
+              @for (service of EXAMPLE.services; track service.time) {
+                <li class="example__service">
+                  <span class="example__time">{{ service.time }}</span>
+                  <span class="example__trip">{{ service.trip }}</span>
+                  <span class="example__bus">{{ service.bus }}</span>
+                </li>
+              }
+            </ul>
+            <p class="example__hint">Cada servicio solo pone su hora de salida y su bus: lo demás lo hereda.</p>
+          </div>
+
+          <p class="preview__note">Elige el origen y el destino y aquí verás tu ruta, con las horas de un servicio de verdad.</p>
         </div>
       }
     </section>
@@ -153,4 +177,7 @@ export class InheritancePreviewComponent {
   );
 
   protected readonly visibleServices = computed(() => this.services().slice(0, 6));
+
+  /** Ejemplo del estado vacío (ver la constante EXAMPLE). */
+  protected readonly EXAMPLE = EXAMPLE;
 }

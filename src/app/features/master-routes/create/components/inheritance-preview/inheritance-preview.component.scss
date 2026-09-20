@@ -221,51 +221,123 @@
   gap: var(--space-3);
 }
 
-/* Ilustración: una ruta maestra (línea cobre) y los servicios que nacen de ella. */
-.preview__family {
-  width: 100%;
-  height: auto;
-  overflow: visible;
+/* Ejemplo del estado vacío: arriba lo que se define una vez, abajo lo que nace de eso. */
+.preview__example-lead {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
 }
 
-.preview__family-master {
-  stroke: var(--color-terracota-500);
-  stroke-width: 4;
-  stroke-linecap: round;
+.example {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-block);
+  background-color: var(--color-neutral-50);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
 }
 
-.preview__family-end {
-  fill: var(--color-terracota-500);
+.example__label {
+  margin: 0;
+  @include board-label;
+  color: var(--color-neutral-600);
+
+  &--services {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--board-rule);
+  }
 }
 
-.preview__family-mid {
-  fill: var(--color-neutral-0);
-  stroke: var(--color-terracota-500);
-  stroke-width: 2.5;
+/* El recorrido: ciudades en vertical, unidas por la línea cobre. En el panel
+   angosto esto no se parte en dos filas como sí lo hacía en horizontal. */
+.example__route {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  list-style: none;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    left: 4px;
+    width: 2px;
+    background-color: var(--color-terracota-500);
+  }
 }
 
-.preview__family-child {
-  fill: none;
-  stroke: var(--color-neutral-300);
-  stroke-width: 2;
-  stroke-dasharray: 4 4;
-}
-
-.preview__family-label {
-  font-family: var(--font-family-ui);
-  font-size: 11px;
+.example__city {
+  position: relative;
+  font-size: var(--text-sm);
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  fill: var(--color-neutral-500);
+  color: var(--color-neutral-900);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0.3rem;
+    left: -16px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-terracota-500);
+    box-shadow: 0 0 0 3px var(--color-neutral-50);
+  }
 }
 
-.preview__family-time {
+.example__hint {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-neutral-600);
+}
+
+.example__services {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Hora y bus en la primera línea, el viaje en la suya: así todas las filas se
+   leen igual, aunque el nombre del viaje sea largo y el panel angosto. */
+.example__service {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+}
+
+.example__time {
   font-family: var(--font-family-data);
-  font-size: 11px;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-terracota-700);
+  grid-row: 1;
+}
+
+.example__trip {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  font-size: var(--text-sm);
   font-weight: 700;
-  fill: var(--color-neutral-700);
-  dominant-baseline: middle;
+  color: var(--color-neutral-900);
+}
+
+.example__bus {
+  grid-row: 1;
+  grid-column: 2;
+  justify-self: end;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-neutral-500);
 }
 
 .preview__path {
