@@ -60,26 +60,34 @@ const EXAMPLE = {
         </dl>
 
         <div class="preview__sample">
-          <div class="preview__sample-head">
-            <h3 class="preview__subtitle">Así nace un servicio</h3>
-            <label class="preview__departure">
-              <span>Sale a las</span>
-              <select [value]="departure()" (change)="departure.set($any($event.target).value)" aria-label="Hora de salida de ejemplo">
-                @for (time of departures; track time) {
-                  <option [value]="time" [selected]="time === departure()">{{ time }}</option>
-                }
-              </select>
-            </label>
-          </div>
-          <ol class="preview__times">
-            @for (row of sampleRows(); track row.cityId) {
-              <li class="preview__time" [class.preview__time--end]="row.isEdge">
-                <span class="preview__clock">{{ row.time }}@if (row.nextDay) {<sup>+{{ row.nextDay }}</sup>}</span>
-                <span class="preview__city">{{ row.city }}</span>
-              </li>
-            }
-          </ol>
-          <p class="preview__note">La hora de salida la elige cada servicio; las demás horas salen de los tiempos de esta ruta.</p>
+          <h3 class="preview__subtitle">Así nace un servicio</h3>
+          @if (hasTimes()) {
+            <div class="preview__sample-head">
+              <label class="preview__departure">
+                <span>Sale a las</span>
+                <select [value]="departure()" (change)="departure.set($any($event.target).value)" aria-label="Hora de salida de ejemplo">
+                  @for (time of departures; track time) {
+                    <option [value]="time" [selected]="time === departure()">{{ time }}</option>
+                  }
+                </select>
+              </label>
+            </div>
+            <ol class="preview__times">
+              @for (row of sampleRows(); track row.cityId) {
+                <li class="preview__time" [class.preview__time--end]="row.isEdge">
+                  <span class="preview__clock">{{ row.time }}@if (row.nextDay) {<sup>+{{ row.nextDay }}</sup>}</span>
+                  <span class="preview__city">{{ row.city }}</span>
+                </li>
+              }
+            </ol>
+            <p class="preview__note">La hora de salida la elige cada servicio; las demás horas salen de los tiempos de esta ruta.</p>
+          } @else {
+            <p class="preview__note">
+              Esta ruta <strong>no tiene hora de salida</strong>: la pone cada servicio al crearse.
+              Carga los tiempos de viaje en <strong>Paradas y tiempos</strong> y aquí verás a qué hora
+              llegaría a cada ciudad un servicio que sale a las 06:00.
+            </p>
+          }
         </div>
 
         <div class="preview__services">
@@ -144,6 +152,14 @@ export class InheritancePreviewComponent {
   protected readonly departure = signal(SAMPLE_DEPARTURES[0]);
 
   protected readonly hasRoute = computed(() => this.line().cities.length >= 2);
+
+  /**
+   * ¿Ya hay tiempos de viaje cargados? Sin ellos, simular horas mostraría la
+   * misma hora en todas las ciudades (13:00, 13:00, 13:00), que se lee como si
+   * la ruta maestra fijara la hora de salida o como si el viaje fuera
+   * instantáneo. Mientras falten, se explica en palabras.
+   */
+  protected readonly hasTimes = computed(() => this.totals().minutes > 0);
 
   protected readonly graphStops = computed<StopNode[]>(() =>
     this.line().cities.map((city, index, all) => ({
