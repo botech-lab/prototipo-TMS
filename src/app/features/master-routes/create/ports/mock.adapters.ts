@@ -3,6 +3,7 @@ import { ParametricCatalogsService } from '../../../parametric/services/parametr
 import { VehiclesService } from '../../../fleet/services/vehicles.service';
 import { SeatLayoutStore } from '../../../seat-designer/services/seat-layout.store';
 import { RoutesService } from '../../../../services/routes.service';
+import { VEHICLE_SEAT_CODES_MOCK } from '../data/vehicle-seats.mock';
 import { MasterRoute } from '../../../../models/route.model';
 import type { CatalogsPort, FleetPort, MasterRoutesPort } from './wizard-ports';
 
@@ -44,7 +45,9 @@ export class MockFleetAdapter implements FleetPort {
 
   seatCodesOf(vehicleId: string): readonly string[] {
     const layout = this.layouts.present(vehicleId);
-    if (!layout) return [];
+    // Sin plano dibujado, los asientos de prueba de ese bus; si tampoco hay,
+    // el asistente cae a los del tipo de vehículo.
+    if (!layout) return VEHICLE_SEAT_CODES_MOCK[vehicleId] ?? [];
     const codes = new Set<string>();
     for (const deck of layout.decks) {
       for (const row of deck.cells) {

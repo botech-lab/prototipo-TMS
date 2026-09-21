@@ -135,12 +135,29 @@ export type PriceGrid = Readonly<Record<string, Readonly<Record<string, number |
 
 export interface DraftFareCard {
   readonly id: string;
+  /**
+   * Tarifa a la que pertenece. Una tarifa ("Feriados", "Tercera edad") tiene
+   * una tarjeta por tipo de bus, todas con el mismo `tariffId`: en pantalla se
+   * ve una sola tabla de precios y Aleta recibe sus tarjetas de siempre.
+   */
+  readonly tariffId: string;
+  /** Nombre que le puso quien crea la ruta ("Feriados · Bus Cama"). */
   readonly name: string;
   readonly vehicleTypeId: string;
   readonly usageTypeId: string;
+  /**
+   * Categoría del catálogo de Aleta (`idCategoriaTarifa`). El nombre visible lo
+   * pone la persona; esto es solo para que la API reciba algo válido.
+   */
   readonly categoryId: string;
   /** Tipos de asiento que se venden con esta tarjeta (columnas de la matriz). */
   readonly seatTypeIds: readonly string[];
+  /**
+   * Boleto fijo: un solo precio por asiento, el mismo para cualquier viaje.
+   * Es de la TARIFA, no de la ruta: "Feriados" puede cobrar parejo mientras
+   * "Normal" cobra por distancia. Todas las tarjetas de una tarifa lo comparten.
+   */
+  readonly fixedTicket: boolean;
   /** Precio base, igual toda la semana. */
   readonly prices: PriceGrid;
   /** Si no es null, cada día tiene su propia matriz (Aleta: matriz Lunes…Domingo). */
@@ -200,8 +217,6 @@ export interface DraftConfiguration {
    * "Regular" en cada tarjeta y configuración.
    */
   readonly usageTypeId: string | null;
-  /** Boleto fijo: un solo precio por asiento para cualquier viaje (se copia a todos los viajes). */
-  readonly fixedTicket: boolean;
   readonly active: boolean;
   readonly omissions: readonly DraftOmission[];
 }

@@ -30,7 +30,7 @@ import { departmentColor } from '../../../../../components/route-graph-svg/route
       </div>
     }
 
-    <p class="how-to">
+    <p class="how-to guide-text">
       <app-wizard-icon name="clock" class="how-to__icon" />
       <span>Sin horas de reloj: pon <strong>cuánto tarda</strong> desde la parada anterior y <strong>cuánto espera</strong> en cada una.</span>
     </p>

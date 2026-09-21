@@ -89,3 +89,16 @@ html, body {
     scroll-behavior: auto !important;
   }
 }
+
+/**
+ * MODO GUÍA: con la guía apagada desaparecen las explicaciones del asistente.
+ * Va en la hoja global porque los textos viven dentro de componentes hijos y
+ * los estilos de un componente no los alcanzan.
+ * Nunca esconde avisos, errores ni el botón ⓘ.
+ */
+.wizard.wizard--no-guide .guide-text,
+.wizard.wizard--no-guide .guide-text.guide-text {
+  /* Doble clase: los estilos del componente (display: grid en las secciones)
+     se inyectan después y empatarían en especificidad. */
+  display: none;
+}

@@ -1,0 +1,72 @@
+@use 'mixins' as *;
+@use '../../wizard-kit' as *;
+@use './step-common' as *;
+
+:host {
+  display: block;
+}
+
+.fill {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-block);
+  background-color: var(--color-sky-50);
+  color: var(--color-sky-800);
+}
+
+.fill__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--color-secondary-700);
+}
+
+.fill__methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.fill__what {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-sky-800);
+}
+
+.fill__seat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.fill__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.fill__price {
+  width: 6rem;
+}
+
+.fill__pending {
+  font-weight: 600;
+}
+
+.fill__warn {
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-warning-600);
+}
+
+/* El ✓ del método elegido: sin tamaño propio salía enorme. */
+.chip__icon {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+}

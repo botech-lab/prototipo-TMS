@@ -243,6 +243,9 @@ export function tarifaDetallesBody(draft: RouteDraft, card: DraftFareCard, idTar
 export function configuracionesBody(draft: RouteDraft, idRutaMaestra: string, idHorario: string, idMapaRuta: string) {
   return Engine.busTypes(draft).map(type => {
     const cards = draft.configuration.channelCards[type.id];
+    // El boleto fijo es de la tarifa; a la configuración va el de la primera
+    // (la que Aleta usa como predeterminada para ese tipo de bus).
+    const principal = draft.fareCards.find(card => card.vehicleTypeId === type.id);
     return {
       idRutaMaestra,
       idTipoVehiculo: type.id,
@@ -255,7 +258,7 @@ export function configuracionesBody(draft: RouteDraft, idRutaMaestra: string, id
       idTarjetaPredeterminada: cards?.defaultCardId ?? null, // confirmar
       idTarjetaAgente: cards?.agentCardId ?? null, // confirmar
       idTarjetaWeb: cards?.webCardId ?? null, // confirmar
-      boletoFijo: draft.configuration.fixedTicket, // confirmar
+      boletoFijo: principal?.fixedTicket ?? false, // confirmar
       activo: draft.configuration.active
     };
   });

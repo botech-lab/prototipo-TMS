@@ -16,7 +16,8 @@ export type WizardIconName =
   | 'inherit'
   | 'chevron'
   | 'pin'
-  | 'return';
+  | 'return'
+  | 'pencil';
 
 /** Íconos de línea del asistente (trazo 1.8, mismo set que el menú). Decorativos: aria-hidden. */
 @Component({
@@ -41,6 +42,7 @@ export type WizardIconName =
         @case ('save') { <path d="M5 4h11l3 3v12a1 1 0 01-1 1H6a1 1 0 01-1-1V4z" /><path d="M8 4v5h7V4M8 20v-6h8v6" /> }
         @case ('inherit') { <circle cx="6" cy="6" r="2.2" /><circle cx="18" cy="18" r="2.2" /><circle cx="18" cy="8" r="2.2" /><path d="M6 8.2v5.3a4.5 4.5 0 004.5 4.5h5.3M8.2 6h7.6" /> }
         @case ('pin') { <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z" /><circle cx="12" cy="10" r="2.3" /> }
+        @case ('pencil') { <path d="M4 20h4L19 9a2.1 2.1 0 00-3-3L5 17v3z" /><path d="M15 6l3 3" /> }
         @case ('return') { <path d="M9 14l-5-5 5-5" /><path d="M4 9h10.5a5.5 5.5 0 010 11H11" /> }
       }
     </svg>

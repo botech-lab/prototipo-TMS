@@ -17,6 +17,10 @@ interface ChannelGroup {
  * Paso 4 · Días y venta (Aleta: "Horarios y canales").
  * En Aleta el "horario" no lleva horas: son los días de operación y las reglas
  * de venta. Las horas de salida las pone cada servicio.
+ *
+ * TODO VIENE ENCENDIDO. Reglas y canales nacen habilitados y el administrador
+ * APAGA lo que esta ruta no permite. Una ruta normal se pasa de largo sin tocar
+ * nada; la excepción cuesta un clic, que es donde debe estar el trabajo.
  */
 @Component({
   selector: 'app-step-operation',
@@ -44,14 +48,14 @@ interface ChannelGroup {
         <button type="button" class="link-btn" (click)="setDays(workdays)">Lunes a viernes</button>
         <button type="button" class="link-btn" (click)="setDays(weekend)">Fines de semana</button>
       </div>
-      <label class="toggle-row">
-        <input type="checkbox" class="switch" [checked]="s.alternateDays" (change)="patch({ alternateDays: $any($event.target).checked })" />
-        <span><strong>Días alternos</strong><small>Día por medio, en vez de días fijos.</small></span>
-      </label>
     </section>
 
     <section class="step-block" aria-labelledby="rules-title">
-      <h3 id="rules-title" class="step-block__title">Reglas de venta</h3>
+      <div class="title-row">
+        <h3 id="rules-title" class="step-block__title">Reglas de venta</h3>
+        <app-help-tip label="Reglas de venta" text="Qué se puede hacer al vender un pasaje de esta ruta. Vienen todas habilitadas: apaga solo lo que esta ruta no permita." />
+      </div>
+      <p class="step-block__help guide-text">Vienen habilitadas. Apaga lo que esta ruta no permita.</p>
       <div class="rules">
         <div class="rule">
           <label class="toggle-row">
@@ -62,14 +66,17 @@ interface ChannelGroup {
             <label class="rule__extra">
               <span>Hasta</span>
               <input class="number-input" type="number" min="1" [value]="s.reservationDaysAhead ?? ''" (input)="patch({ reservationDaysAhead: num($any($event.target).value) })" aria-label="Días de anticipación para reservar" [attr.aria-invalid]="!s.reservationDaysAhead" />
-              <span>días antes del viaje</span>
+              <span>días antes</span>
             </label>
+            @if (!s.reservationDaysAhead) {
+              <p class="field-error">Indica con cuántos días de anticipación se puede reservar.</p>
+            }
           }
         </div>
         <div class="rule">
           <label class="toggle-row">
             <input type="checkbox" class="switch" [checked]="s.allowCancellation" (change)="patch({ allowCancellation: $any($event.target).checked })" />
-            <span><strong>Se puede cancelar</strong><small>El pasajero puede anular su pasaje según la política de la empresa.</small></span>
+            <span><strong>Se puede anular</strong><small>El pasajero puede anular su pasaje según la política de la empresa.</small></span>
           </label>
         </div>
         <div class="rule">
@@ -96,9 +103,15 @@ interface ChannelGroup {
     <section class="step-block" aria-labelledby="channels-title">
       <div class="title-row">
         <h3 id="channels-title" class="step-block__title">¿Por dónde se venden los pasajes?</h3>
-        <app-help-tip label="Canales de venta" text="Cada servicio de esta ruta solo se vende por estos canales. Si tienes más de una lista de precios, en el paso 5 (Buses y tarifas) eliges cuál usa cada canal." />
+        <app-help-tip label="Canales de venta" text="Cada servicio de esta ruta solo se vende por estos canales. Vienen todos marcados: quita los que esta ruta no use. Si tienes más de una lista de precios, en el paso 5 (Buses y tarifas) eliges cuál usa cada canal." />
       </div>
-      <p class="step-block__help">{{ s.channelIds.length }} {{ s.channelIds.length === 1 ? 'canal habilitado' : 'canales habilitados' }}.</p>
+      <p class="step-block__help">
+        {{ s.channelIds.length }} de {{ totalChannels() }} {{ totalChannels() === 1 ? 'canal habilitado' : 'canales habilitados' }}.
+      </p>
+      <p class="step-block__help guide-text">Vienen todos marcados. Quita los que esta ruta no use.</p>
+      @if (!s.channelIds.length) {
+        <p class="needs"><app-wizard-icon name="alert" /> Sin canales no se puede vender ni un pasaje de esta ruta.</p>
+      }
       @for (group of channelGroups(); track group.key) {
         <div class="channel-group">
           <div class="channel-group__head">
@@ -121,6 +134,7 @@ interface ChannelGroup {
 })
 export class StepOperationComponent {
   protected readonly store = inject(RouteDraftStore);
+
   protected readonly weekdays = WEEKDAYS;
   protected readonly all = Engine.ALL_DAYS;
   protected readonly workdays: readonly Weekday[] = ['LUN', 'MAR', 'MIE', 'JUE', 'VIE'];
@@ -131,20 +145,17 @@ export class StepOperationComponent {
     return days.length ? Engine.daysLabel(days) : 'ningún día (elige al menos uno)';
   });
 
+  protected readonly totalChannels = computed(() => this.store.activeChannels().length);
+
   /** Agrupa los canales del catálogo según cómo operan (isAgent / isApi). */
   protected readonly channelGroups = computed<ChannelGroup[]>(() => {
     const channels = this.store.activeChannels();
     return [
-      { key: 'people', title: 'Con vendedor', help: 'Boletería, agentes y teléfono', channels: channels.filter(c => c.isAgent) },
+      { key: 'people', title: 'Con vendedor', help: 'Oficina, agentes y teléfono', channels: channels.filter(c => c.isAgent) },
       { key: 'self', title: 'El cliente compra solo', help: 'Portal web y app', channels: channels.filter(c => !c.isAgent && !c.isApi) },
       { key: 'api', title: 'Integraciones', help: 'Agencias en línea y sistemas externos', channels: channels.filter(c => c.isApi) }
     ].filter(group => group.channels.length);
   });
-
-  protected num(value: string): number | null {
-    const parsed = Number(value);
-    return value !== '' && Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed) : null;
-  }
 
   protected patch(change: Partial<DraftSchedule>): void {
     this.store.update(draft => ({ ...draft, schedule: { ...draft.schedule, ...change } }));
@@ -163,5 +174,11 @@ export class StepOperationComponent {
   protected toggleChannel(id: string): void {
     const ids = this.store.draft()!.schedule.channelIds;
     this.patch({ channelIds: ids.includes(id) ? ids.filter(item => item !== id) : [...ids, id] });
+  }
+
+  /** Campo numérico vacío = sin valor, no cero. */
+  protected num(value: string): number | null {
+    const parsed = Number(value);
+    return value.trim() && Number.isFinite(parsed) && parsed > 0 ? parsed : null;
   }
 }

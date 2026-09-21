@@ -26,6 +26,8 @@ function sampleDraft(): RouteDraft {
 function withCard(draft: RouteDraft, prices: Record<string, number>): RouteDraft {
   const card: DraftFareCard = {
     id: 'card-1',
+    tariffId: 'trf-normal',
+    fixedTicket: false,
     name: 'Tarifa Normal',
     vehicleTypeId: 'vt-bus-semicama',
     usageTypeId: 'rut-comercial',
@@ -133,7 +135,7 @@ describe('RouteDraftEngine', () => {
     const draft = sampleDraft();
     const [a, b, c] = draft.tramos.map(t => t.key);
     const priced = withCard(draft, { [b]: 40 });
-    const fixed = Engine.applyFixedTicket({ ...priced, configuration: { ...priced.configuration, fixedTicket: true } });
+    const fixed = Engine.applyFixedTicket(priced, 'trf-normal');
     const grid = fixed.fareCards[0].prices;
     expect([a, b, c].map(key => Engine.priceOf(grid, key, 'seat-sem'))).toEqual([40, 40, 40]);
     expect(Engine.fixedPriceOf(fixed, grid, 'seat-sem')).toBe(40);
@@ -224,5 +226,47 @@ describe('RouteDraftEngine', () => {
     expect(route.originDepartment).toBe('LA PAZ');
     expect(route.stops.map(s => s.name)).toEqual(['La Paz', 'El Alto', 'Oruro']);
     expect(route.status).toBe('BORRADOR');
+  });
+
+  // --- Precios cruzados ------------------------------------------------------
+
+  it('avisa cuando un viaje corto cuesta igual o más que uno largo', () => {
+    const draft = sampleDraft();
+    const [corto, largo, medio] = draft.tramos;
+    // La Paz → El Alto son 15 km y sale más caro que los 230 km a Oruro.
+    const cruzado = withCard(draft, { [corto.key]: 50, [largo.key]: 40, [medio.key]: 45 });
+    const issues = Engine.priceIssues(cruzado);
+    expect(issues.length).toBe(1);
+    expect(issues[0].shortLabel).toBe('La Paz → El Alto');
+    expect(issues[0].shortPrice).toBe(50);
+    // Señala el primer par que se cruza: El Alto → Oruro son 215 km a 45 Bs.
+    expect(issues[0].longKm).toBeGreaterThan(issues[0].shortKm);
+    expect(issues[0].longPrice).toBeLessThan(issues[0].shortPrice);
+  });
+
+  it('no avisa cuando el precio sube con los kilómetros', () => {
+    const draft = sampleDraft();
+    const [corto, largo, medio] = draft.tramos;
+    const ok = withCard(draft, { [corto.key]: 10, [largo.key]: 100, [medio.key]: 90 });
+    expect(Engine.priceIssues(ok)).toEqual([]);
+  });
+
+  it('no avisa con boleto fijo: cobrar lo mismo en todos los viajes es a propósito', () => {
+    const draft = sampleDraft();
+    const [corto, largo, medio] = draft.tramos;
+    const plano = withCard(draft, { [corto.key]: 50, [largo.key]: 50, [medio.key]: 50 });
+    expect(Engine.priceIssues(plano).length).toBe(1);
+    const fijo = { ...plano, fareCards: plano.fareCards.map(card => ({ ...card, fixedTicket: true })) };
+    expect(Engine.priceIssues(fijo)).toEqual([]);
+  });
+
+  it('el aviso de precios cruzados no bloquea la activación', () => {
+    const draft = sampleDraft();
+    const [corto, largo, medio] = draft.tramos;
+    const cruzado = withCard(draft, { [corto.key]: 50, [largo.key]: 40, [medio.key]: 45 });
+    const found = Engine.checks(cruzado).filter(item => item.id.startsWith('price-order-'));
+    expect(found.length).toBe(1);
+    expect(found[0].level).toBe('warn');
+    expect(Engine.blockingChecks(cruzado).some(item => item.id.startsWith('price-order-'))).toBeFalse();
   });
 });

@@ -78,12 +78,14 @@ export function defaultSchedule(channelIds: readonly string[]): DraftSchedule {
     description: '',
     days: [...ALL_DAYS],
     alternateDays: false,
+    // Todo habilitado de entrada: el administrador APAGA lo que no quiere,
+    // en vez de tener que acordarse de encender lo normal.
     reservations: true,
     reservationDaysAhead: 30,
     allowCancellation: true,
-    allowDiscount: false,
-    showDiscountToCustomer: false,
-    phoneLock: false,
+    allowDiscount: true,
+    showDiscountToCustomer: true,
+    phoneLock: true,
     channelIds: [...channelIds]
   };
 }
@@ -94,7 +96,6 @@ export function defaultConfiguration(): DraftConfiguration {
     description: '',
     channelCards: {},
     usageTypeId: null,
-    fixedTicket: false,
     active: true,
     omissions: []
   };
@@ -423,13 +424,15 @@ export function suggestByDistance(
   draft: RouteDraft,
   grid: PriceGrid,
   seatTypeId: string,
-  fullPrice: number
+  fullPrice: number,
+  /** false: respeta lo ya escrito; true (por defecto): rehace toda la columna. */
+  overwrite = true
 ): PriceGrid {
   const full = totals(draft).km;
   if (!full || fullPrice <= 0) return grid;
   let next = grid;
   for (const tramo of enabledTramos(draft)) {
-    if (priceOf(next, tramo.key, seatTypeId) != null) continue;
+    if (!overwrite && priceOf(next, tramo.key, seatTypeId) != null) continue;
     const km = tramoKm(draft, tramo);
     const raw = (fullPrice * km) / full;
     const rounded = Math.max(5, Math.round(raw / 5) * 5);
@@ -439,6 +442,102 @@ export function suggestByDistance(
 }
 
 /** Ajuste masivo de Aleta: incrementar o decrementar por porcentaje o monto fijo. */
+/**
+ * Copia una columna de precios a otra clase de asiento, con un porcentaje de
+ * diferencia. Sirve para lo que se hace siempre: la cama cuesta un 50 % más
+ * que la semicama. Redondea a 5 Bs y solo escribe donde la base tiene precio.
+ */
+export function withClassFromBase(
+  grid: PriceGrid,
+  baseSeatId: string,
+  targetSeatId: string,
+  percent: number
+): PriceGrid {
+  let next = grid;
+  for (const [key, row] of Object.entries(grid)) {
+    const base = row[baseSeatId];
+    if (base == null) continue;
+    const value = Math.round((base * (1 + percent / 100)) / 5) * 5;
+    next = withPrice(next, key, targetSeatId, value);
+  }
+  return next;
+}
+
+/**
+ * Copia todos los precios de una lista aplicando un porcentaje. Es como se
+ * arma el precio de estudiante o de niño: el normal con un descuento.
+ */
+export function scaleGrid(grid: PriceGrid, percent: number): PriceGrid {
+  let next: PriceGrid = {};
+  for (const [key, row] of Object.entries(grid)) {
+    for (const [seat, value] of Object.entries(row)) {
+      next = withPrice(next, key, seat, value == null ? null : Math.round((value * (1 + percent / 100)) / 5) * 5);
+    }
+  }
+  return next;
+}
+
+/** Un mismo precio para todos los viajes de esa clase. */
+export function flatGrid(draft: RouteDraft, grid: PriceGrid, seatTypeId: string, price: number): PriceGrid {
+  if (price <= 0) return grid;
+  return enabledTramos(draft).reduce((next, tramo) => withPrice(next, tramo.key, seatTypeId, price), grid);
+}
+
+/**
+ * Precio base + tanto por kilómetro: `base + km × porKm`, redondeado a 5 Bs.
+ * Se parece más a la realidad que el reparto proporcional, porque el tramo
+ * corto también paga el costo fijo de subir al bus.
+ */
+export function perKmGrid(
+  draft: RouteDraft,
+  grid: PriceGrid,
+  seatTypeId: string,
+  base: number,
+  perKm: number
+): PriceGrid {
+  let next = grid;
+  for (const tramo of enabledTramos(draft)) {
+    const km = tramoKm(draft, tramo);
+    const value = Math.max(5, Math.round((base + km * perKm) / 5) * 5);
+    next = withPrice(next, tramo.key, seatTypeId, value);
+  }
+  return next;
+}
+
+/**
+ * Suma de tramos seguidos: se cargan solo los saltos de ciudad a ciudad
+ * (La Paz → Oruro, Oruro → Challapata…) y los viajes largos salen de sumarlos.
+ * Es como cobran muchas empresas, y evita que el viaje largo salga más barato
+ * que la suma de sus partes.
+ */
+export function sumLegsGrid(draft: RouteDraft, grid: PriceGrid, seatTypeId: string): PriceGrid {
+  const names = mainPath(draft).cities.map(city => city.name);
+  let next = grid;
+  for (let from = 0; from < names.length - 1; from++) {
+    for (let to = from + 2; to < names.length; to++) {
+      let total = 0;
+      let completo = true;
+      for (let step = from; step < to; step++) {
+        const leg = priceOf(next, tramoKey(names[step], names[step + 1]), seatTypeId);
+        if (leg == null) {
+          completo = false;
+          break;
+        }
+        total += leg;
+      }
+      if (completo) next = withPrice(next, tramoKey(names[from], names[to]), seatTypeId, total);
+    }
+  }
+  return next;
+}
+
+/** Viajes entre ciudades seguidas: los únicos que hay que llenar al sumar tramos. */
+export function legTramos(draft: RouteDraft): DraftTramo[] {
+  const names = mainPath(draft).cities.map(city => city.name);
+  const legs = new Set(names.slice(0, -1).map((name, index) => tramoKey(name, names[index + 1])));
+  return enabledTramos(draft).filter(tramo => legs.has(tramo.key));
+}
+
 export function adjustGrid(
   grid: PriceGrid,
   direction: 'UP' | 'DOWN',
@@ -456,7 +555,8 @@ export function adjustGrid(
         continue;
       }
       const changed = mode === 'PERCENT' ? price * (1 + (sign * value) / 100) : price + sign * value;
-      next[key][seat] = Math.max(0, Math.round(changed * 100) / 100);
+      // A múltiplos de 5 Bs: nadie cobra 115,50 en ventanilla.
+      next[key][seat] = Math.max(0, Math.round(changed / 5) * 5);
     }
   }
   return next;
@@ -477,7 +577,7 @@ export function withFixedPrice(draft: RouteDraft, grid: PriceGrid, seatTypeId: s
 }
 
 /** Al activar el boleto fijo, cada asiento toma un solo precio (el del viaje completo si existe) en todos los viajes. */
-export function applyFixedTicket(draft: RouteDraft): RouteDraft {
+export function applyFixedTicket(draft: RouteDraft, tariffId: string): RouteDraft {
   const from = origin(draft)?.name;
   const to = destination(draft)?.name;
   const fullKey = from && to ? tramoKey(from, to) : '';
@@ -488,7 +588,7 @@ export function applyFixedTicket(draft: RouteDraft): RouteDraft {
     }, grid);
   return {
     ...draft,
-    fareCards: draft.fareCards.map(card => ({
+    fareCards: draft.fareCards.map(card => card.tariffId !== tariffId ? card : ({
       ...card,
       prices: fix(card, card.prices),
       pricesByDay: card.pricesByDay
@@ -554,6 +654,95 @@ export function withoutCardInChannels(configuration: DraftConfiguration, cardId:
     ])
   );
   return { ...configuration, channelCards };
+}
+
+/**
+ * Un viaje más corto que cuesta igual o más que uno más largo, en la misma
+ * tarifa y la misma clase.
+ *
+ * Es la señal de que un llenado masivo dejó la tabla a medias: se repartió una
+ * clase por kilómetros y las demás se quedaron con los números de antes. Nadie
+ * lo nota, porque la tabla sigue diciendo "completa" y los precios se ven
+ * prolijos. El pasajero sí lo nota en ventanilla.
+ */
+export interface PriceIssue {
+  readonly tariffId: string;
+  readonly tariffName: string;
+  readonly seatTypeId: string;
+  readonly shortLabel: string;
+  readonly shortKm: number;
+  readonly shortPrice: number;
+  readonly longLabel: string;
+  readonly longKm: number;
+  readonly longPrice: number;
+}
+
+/** "Feriados · Bus Cama" → "Feriados". */
+function cardTariffName(card: DraftFareCard): string {
+  return card.name.split(' · ')[0]?.trim() || 'Normal';
+}
+
+/** Las cuadrículas que hay que revisar: la común, o una por día si están separadas. */
+function gridsOf(card: DraftFareCard): PriceGrid[] {
+  return card.pricesByDay ? Object.values(card.pricesByDay) : [card.prices];
+}
+
+/**
+ * Devuelve como mucho un aviso por tarifa y clase: el par más llamativo
+ * (el viaje corto más caro contra el largo más barato).
+ */
+export function priceIssues(draft: RouteDraft): PriceIssue[] {
+  const tramos = enabledTramos(draft)
+    .map(tramo => ({ tramo, km: tramoKm(draft, tramo) }))
+    .filter(item => item.km > 0)
+    .sort((a, b) => a.km - b.km);
+  if (tramos.length < 2) return [];
+
+  const issues: PriceIssue[] = [];
+  const seen = new Set<string>();
+
+  for (const card of draft.fareCards) {
+    // El boleto fijo cobra lo mismo en todos los viajes a propósito.
+    if (card.fixedTicket) continue;
+    for (const seatTypeId of card.seatTypeIds) {
+      const marca = `${card.tariffId}|${seatTypeId}`;
+      if (seen.has(marca)) continue;
+
+      for (const grid of gridsOf(card)) {
+        const puntos = tramos
+          .map(item => ({ ...item, price: priceOf(grid, item.tramo.key, seatTypeId) }))
+          .filter((item): item is typeof item & { price: number } => item.price !== null && item.price > 0);
+        if (puntos.length < 2) continue;
+
+        // El corto más caro contra el largo más barato que venga después.
+        let peorCorto = puntos[0];
+        let issue: PriceIssue | null = null;
+        for (const largo of puntos.slice(1)) {
+          if (largo.km > peorCorto.km && largo.price <= peorCorto.price) {
+            issue = {
+              tariffId: card.tariffId,
+              tariffName: cardTariffName(card),
+              seatTypeId,
+              shortLabel: tramoLabel(draft, peorCorto.tramo),
+              shortKm: peorCorto.km,
+              shortPrice: peorCorto.price,
+              longLabel: tramoLabel(draft, largo.tramo),
+              longKm: largo.km,
+              longPrice: largo.price
+            };
+            break;
+          }
+          if (largo.price > peorCorto.price) peorCorto = largo;
+        }
+        if (issue) {
+          issues.push(issue);
+          seen.add(marca);
+          break;
+        }
+      }
+    }
+  }
+  return issues;
 }
 
 // ============================================================================
@@ -698,6 +887,20 @@ export function checks(draft: RouteDraft): DraftCheck[] {
     } else {
       result.push(check(`card-${card.id}`, 'tarifas', 'ok', `${card.name}: todos los tramos con precio`));
     }
+  }
+
+  // Tener precio no es tener el precio bien: un viaje corto más caro que uno
+  // largo pasaba la revisión en verde.
+  for (const issue of priceIssues(draft)) {
+    result.push(
+      check(
+        `price-order-${issue.tariffId}-${issue.seatTypeId}`,
+        'tarifas',
+        'warn',
+        `Precios cruzados en ${issue.tariffName}`,
+        `${issue.shortLabel} (${issue.shortKm} km) cuesta ${issue.shortPrice} Bs. y ${issue.longLabel} (${issue.longKm} km) cuesta ${issue.longPrice} Bs. Revisa esa clase antes de activar.`
+      )
+    );
   }
 
   // Tarifa por canal: cada canal usa una tarjeta del mismo tipo de bus.

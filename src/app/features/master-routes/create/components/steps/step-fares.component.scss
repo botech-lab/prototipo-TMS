@@ -20,7 +20,40 @@
   @include hide-scrollbar;
 }
 
+/* Pestaña + su × para quitarla. */
+.cards-bar__item {
+  position: relative;
+  display: flex;
+  flex: none;
+}
+
+.cards-bar__remove {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-neutral-500);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  @include focus-ring;
+
+  &:hover {
+    background-color: var(--color-error-50, var(--color-warning-100));
+    color: var(--color-error-600);
+  }
+}
+
 .cards-bar__tab {
+  /* Espacio para el lápiz y la × de la esquina. */
+  padding-right: 4rem;
   display: grid;
   gap: 2px;
   flex: none;
@@ -204,7 +237,9 @@
 
 /* Matriz: tablero de precios. Primera columna fija al desplazar en horizontal. */
 .matrix-wrap {
-  overflow-x: auto;
+  /* Scroll propio: así el encabezado de clases se queda fijo al bajar. */
+  max-height: min(70vh, 34rem);
+  overflow: auto;
   border-radius: var(--radius-block);
   box-shadow: inset 0 0 0 1px var(--card-border);
   @include focus-ring;
@@ -217,7 +252,7 @@
 
   th,
   td {
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-2);
     border-bottom: 1px solid var(--board-rule);
     text-align: left;
     vertical-align: middle;
@@ -225,8 +260,38 @@
 
   thead th {
     @include board-label;
-    background-color: var(--board-head);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    /* Opaco: al quedarse fijo, las filas pasan por debajo y se transparentaban. */
+    background-color: var(--color-neutral-0);
+    background-image: linear-gradient(var(--board-head), var(--board-head));
+    vertical-align: bottom;
+  }
+
+  /* Las clases se parten en dos renglones antes que empujar la tabla de lado:
+     "Semicama individual" completo pesa más que toda una columna. */
+  thead th.num {
+    /* Las clases se reparten el ancho por igual, pocas o muchas. */
+    min-width: 5.25rem;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  /* La columna del viaje toma lo justo: el "1%" hace que se encoja al texto. */
+  thead th:first-child,
+  tbody th {
+    width: 1%;
+  }
+
+  thead th:first-child {
     white-space: nowrap;
+  }
+
+  /* La esquina: viaje + clases, las dos fijas a la vez. */
+  thead th:first-child {
+    left: 0;
+    z-index: 3;
   }
 
   tbody tr:last-child th,
@@ -238,17 +303,37 @@
     position: sticky;
     left: 0;
     z-index: 1;
-    min-width: 11rem;
+    min-width: 9.5rem;
     background-color: var(--color-neutral-0);
   }
 
+  /* El precio va centrado en su columna: con pocas clases, pegarlo a un borde
+     deja un hueco enorme; centrado se lee como una columna, no como un error. */
   .num {
-    text-align: right;
+    text-align: center;
   }
+}
+
+/* "DESDE LA PAZ": separa los viajes por ciudad de salida, como en el paso 3.
+   Se queda pegado debajo del encabezado: si la fila solo dice "→ Potosí",
+   la ciudad de salida tiene que estar siempre a la vista. */
+.matrix__group th {
+  position: sticky;
+  left: 0;
+  top: 2.4rem;
+  z-index: 1;
+  padding-top: var(--space-3);
+  background-color: var(--color-neutral-50);
+  @include board-label;
+  color: var(--color-neutral-600);
 }
 
 .matrix__row--missing th {
   box-shadow: inset 3px 0 0 var(--color-signal-amber);
+}
+
+.matrix__arrow {
+  color: var(--color-neutral-400);
 }
 
 .matrix__tramo {
@@ -265,8 +350,13 @@
 }
 
 .matrix__input {
-  width: 6.5rem;
+  /* Nunca menos que un precio de 4 dígitos, nunca tan ancha que se vea vacía. */
+  width: 100%;
+  min-width: 4.25rem;
+  max-width: 6rem;
   height: 2.5rem;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .adjust {
@@ -315,4 +405,339 @@
 
 .fixed__field .number-input {
   width: 100%;
+}
+
+/* Llenado rápido: dos pasos numerados, uno debajo del otro. */
+.helper__step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-2) var(--space-3);
+  align-items: start;
+  margin-top: var(--space-3);
+}
+
+.helper__num {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-secondary-700);
+  color: var(--color-neutral-0);
+  font-size: var(--text-xs);
+  font-weight: 800;
+}
+
+.helper__row--wrap {
+  flex-wrap: wrap;
+}
+
+.helper__pct {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+  font-size: var(--text-xs);
+  font-weight: 700;
+
+  .number-input {
+    width: 3.5rem;
+  }
+}
+
+.helper__warn {
+  grid-column: 2;
+  margin: 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-warning-600);
+}
+
+/* Elegir para qué pasajero se agregan precios. */
+.add-panel__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+/* Qué acaba de pasar y cómo volver atrás. */
+.undo-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  background-color: var(--color-sky-50);
+  color: var(--color-sky-800);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.undo-bar__icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-secondary-700);
+}
+
+/* El nombre de la tarifa es texto, no un número: va alineado a la izquierda. */
+.add-panel__name {
+  width: 100%;
+  text-align: left;
+}
+
+/* "Más opciones de precios": lo que solo pide quien ya sabe qué busca. */
+.advanced {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--board-rule);
+}
+
+.advanced__body {
+  display: grid;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+}
+
+/* Disclosure de opciones avanzadas: título arriba, resumen debajo y más chico. */
+.advanced__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-family: var(--font-family-ui);
+  cursor: pointer;
+  @include focus-ring;
+}
+
+.advanced__icon {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-neutral-500);
+  transition: transform var(--dur-base) var(--ease-out);
+
+  &--open {
+    transform: rotate(90deg);
+  }
+}
+
+.advanced__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.advanced__title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.advanced__summary {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-neutral-500);
+}
+
+/* Lápiz de renombrar: junto a la × de la pestaña activa. */
+.cards-bar__rename {
+  position: absolute;
+  top: var(--space-2);
+  right: calc(var(--space-2) + 1.6rem);
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+  @include focus-ring;
+
+  :where(app-wizard-icon) {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  &:hover {
+    background-color: var(--color-sky-50);
+    color: var(--color-secondary-700);
+  }
+}
+
+.add-panel__error {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-error-600);
+}
+
+/* Para lectores de pantalla: "→ Potosí" necesita decir desde dónde. */
+.visually-hidden {
+  @include sr-only;
+}
+
+/* Bloques de clases: cuando no entran todas, siguen abajo en vez de a la derecha. */
+.matrix-block + .matrix-block {
+  margin-top: var(--space-5);
+}
+
+.matrix-block__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.matrix-block__badge {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-neutral-200);
+  color: var(--color-neutral-700);
+  font-size: var(--text-xs);
+  font-weight: 800;
+
+  /* Verde en cuanto ese bloque queda sin casillas vacías. */
+  &--done {
+    background-color: var(--color-success-600, #2e7d54);
+    color: var(--color-neutral-0);
+  }
+}
+
+.matrix-block__names {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-neutral-900);
+}
+
+.matrix-block__state {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-warning-600);
+
+  &--done {
+    color: var(--color-success-600, #2e7d54);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   AVISOS DE PRECIO Y CELDAS SUGERIDAS
+   Ninguna herramienta calcula costos: reparte o copia un precio que decidió la
+   persona. La tabla tiene que dejar ver de dónde salió cada número.
+--------------------------------------------------------------------------- */
+.price-alert,
+.price-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-block);
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+
+  .guide-text {
+    display: block;
+    margin-top: var(--space-1);
+    font-size: var(--text-xs);
+    opacity: 0.85;
+  }
+}
+
+.price-alert {
+  background-color: var(--color-warning-100);
+  color: var(--color-warning-600);
+  font-weight: 600;
+}
+
+.price-note {
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-700);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+}
+
+.price-alert__icon,
+.price-note__icon {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 1px;
+}
+
+.suggested-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-block);
+  background-color: var(--color-neutral-50);
+}
+
+.suggested-bar__text {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+}
+
+/* La celda sugerida se lee distinto sin gritar. El subrayado punteado va en un
+   degradado y no en un borde: el campo se dibuja con box-shadow (border: 0), y
+   un borde de verdad movería la tabla entera un pixel. Con raya y color, no
+   solo color: hay gente que no distingue el tono. */
+.matrix__input--suggested {
+  background-color: var(--color-warning-100);
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-warning-600) 0 4px,
+    transparent 4px 8px
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  background-position: bottom;
+  box-shadow: inset 0 0 0 1px var(--color-warning-600);
+  color: var(--color-warning-600);
+}
+
+.price-alert__title {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.price-alert__line {
+  margin: 0;
+  font-weight: 500;
+
+  strong {
+    font-weight: 800;
+  }
+}
+
+.price-alert__help {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
 }

@@ -28,6 +28,8 @@ function sampleDraft(): RouteDraft {
 
 const CARD: DraftFareCard = {
   id: 'card-1',
+  tariffId: 'trf-normal',
+  fixedTicket: false,
   name: 'Tarifa Normal',
   vehicleTypeId: 'vt-bus-semicama',
   usageTypeId: 'rut-regular',

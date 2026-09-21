@@ -1,4 +1,5 @@
 @use 'mixins' as *;
+@use '../../wizard-kit' as *;
 @use 'step-common';
 
 .bus-group {
@@ -105,4 +106,132 @@
   &--off {
     color: var(--color-neutral-500);
   }
+}
+
+/* Una fila por clase de bus: primero se elige la clase, después el detalle. */
+.class-row {
+  border: 0.5px solid var(--card-border);
+  border-radius: var(--radius-block);
+  padding: var(--space-3);
+
+  & + & {
+    margin-top: var(--space-2);
+  }
+
+  &--on {
+    box-shadow: inset 0 0 0 1.5px var(--color-terracota-500);
+    background-color: var(--color-terracota-50);
+  }
+}
+
+.class-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.class-row__pick {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-family: var(--font-family-ui);
+  cursor: pointer;
+  @include focus-ring;
+}
+
+.class-row__mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px var(--color-neutral-300);
+  color: var(--color-neutral-0);
+
+  .class-row--on & {
+    background-color: var(--color-terracota-500);
+    box-shadow: none;
+  }
+
+  :where(app-wizard-icon) {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+}
+
+/* Media selección: ni vacío ni completo. */
+.class-row__partial {
+  width: 0.6rem;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-neutral-0);
+}
+
+.class-row__text {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.class-row__name {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-neutral-900);
+}
+
+.class-row__count {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-neutral-600);
+}
+
+.class-row__toggle {
+  flex: none;
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-neutral-0);
+  box-shadow: inset 0 0 0 1px var(--board-rule);
+  font-family: var(--font-family-ui);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-secondary-700);
+  cursor: pointer;
+  @include focus-ring;
+}
+
+.class-row__body {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--board-rule);
+}
+
+.class-row__search {
+  @include wz-input;
+  width: 100%;
+}
+
+.bus-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bus-list__empty {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-neutral-600);
 }

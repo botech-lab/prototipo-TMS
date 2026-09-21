@@ -33,7 +33,8 @@ describe('INTEGRITY GUARDIAN: Store de Catálogo', () => {
       { name: 'departamentos', rows: DEPARTMENTS_MOCK, expected: 11 },
       { name: 'personas', rows: PEOPLE_MOCK, expected: 6 },
       { name: 'tipos de carga', rows: CARGO_TYPES_MOCK, expected: 8 },
-      { name: 'tipos de vehículo', rows: VEHICLE_TYPES_MOCK, expected: 7 },
+      // 7 de aletadev + 1 ★ Nuevo: "Bus Mixto", dos pisos con una clase por piso.
+      { name: 'tipos de vehículo', rows: VEHICLE_TYPES_MOCK, expected: 8 },
       { name: 'tipos de documento', rows: DOCUMENT_TYPES_MOCK, expected: 8 },
       { name: 'tipos de incidencia', rows: INCIDENT_TYPES_MOCK, expected: 9 },
       { name: 'tipos de licencia', rows: LICENSE_TYPES_MOCK, expected: 6 },
@@ -43,7 +44,9 @@ describe('INTEGRITY GUARDIAN: Store de Catálogo', () => {
       { name: 'tipos de uso de ruta', rows: ROUTE_USAGE_TYPES_MOCK, expected: 8 },
       // 9 de aletadev + 2 ★ Nuevo (Niño, Tercera edad) que pide el asistente de rutas maestras.
       { name: 'categorías de tarifa', rows: FARE_CATEGORY_TYPES_MOCK, expected: 11 },
-      { name: 'tipos de asiento', rows: SEAT_TYPES_MOCK, expected: 7 },
+      // 7 de aletadev + 5 ★ Nuevo: cama individual, semicama individual, súper VIP,
+      // súper cama y leito (para probar la tabla de precios con muchas clases).
+      { name: 'tipos de asiento', rows: SEAT_TYPES_MOCK, expected: 12 },
       { name: 'canales de venta', rows: SALES_CHANNELS_MOCK, expected: 12 }
     ];
 

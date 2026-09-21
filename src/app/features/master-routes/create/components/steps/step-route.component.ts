@@ -65,7 +65,9 @@ import { departmentColor } from '../../../../../components/route-graph-svg/route
       </section>
     }
 
-    <section class="step-block" aria-labelledby="route-mid" [class.step-block--muted]="mainCities().length < 2">
+    <section class="step-block" aria-labelledby="route-mid"
+      [class.step-block--muted]="mainCities().length < 2"
+      [class.guide-text]="mainCities().length < 2">
       <div class="title-row">
         <h3 id="route-mid" class="step-block__title">{{ d.paths.length > 1 ? 'Tramos de la ruta' : 'Ciudades intermedias' }}</h3>
         @if (d.paths.length > 1) { <app-new-badge detail="Una ruta con varios caminos (tramos) entre el mismo origen y destino; en Aleta cada uno sería un mapa con sus propias etapas." /> }

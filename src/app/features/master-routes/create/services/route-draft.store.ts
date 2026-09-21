@@ -3,7 +3,7 @@ import { SeatType } from '../../../parametric/models/parametric.model';
 import { Vehicle } from '../../../fleet/models/vehicle.model';
 import { CATALOGS_PORT, FLEET_PORT, MASTER_ROUTES_PORT } from '../ports/wizard-ports';
 import { ROUTE_GRAPH_RULES } from '../../../../core/constants/route-graph-rules';
-import { CityOption, DraftBus, DraftCheck, DraftCity, DraftStatus, RouteDraft } from '../models/route-draft.model';
+import { CityOption, DraftBus, DraftCheck, DraftCity, DraftFareCard, DraftStatus, RouteDraft, Weekday } from '../models/route-draft.model';
 import { MasterRoute } from '../../../../models/route.model';
 import * as Engine from './route-draft-engine';
 import { VEHICLE_SEAT_TYPES_MOCK } from '../data/vehicle-seats.mock';
@@ -200,6 +200,8 @@ export class RouteDraftStore {
       };
       return { ...draft, buses: has ? draft.buses.filter(item => item.vehicleId !== bus.vehicleId) : [...draft.buses, bus] };
     });
+    // Las clases de asiento cambiaron: se rearman las listas de precios.
+    this.syncFareCards();
   }
 
   /** Tipos de asiento (ids del catálogo) presentes en el plano guardado del bus. */
@@ -207,6 +209,201 @@ export class RouteDraftStore {
     const codes = new Set(this.fleet.seatCodesOf(vehicle.id));
     if (!codes.size) return [];
     return this.seatTypes().filter(seat => codes.has(seat.code)).map(seat => seat.id);
+  }
+
+
+  // ==========================================================================
+  // PRECIOS POR CLASE DE ASIENTO
+  // ==========================================================================
+  // Quien pone precios piensa "La Paz → Oruro en semicama cuesta 60", no
+  // "la lista del Bus Mixto". Por dentro Aleta necesita una tarjeta por TIPO
+  // DE BUS (`rm-tarjetas-tarifa`), así que las tarjetas se arman solas: una por
+  // tipo de bus, y el precio de una clase se escribe en todas las que llevan
+  // ese asiento. Así el mismo asiento no puede terminar con dos precios según
+  // qué bus le toque al pasajero.
+
+  /** Clases de asiento que se venden en la ruta: las de los buses elegidos, sin repetir. */
+  readonly routeSeatTypes = computed<SeatType[]>(() => {
+    const draft = this.draft();
+    if (!draft) return [];
+    const ids = new Set(Engine.busTypes(draft).flatMap(type => this.seatTypesFor(type.id).map(seat => seat.id)));
+    return this.seatTypes().filter(seat => ids.has(seat.id));
+  });
+
+  /** Las tarifas de la ruta, en el orden en que se crearon. */
+  readonly tariffs = computed<{ id: string; name: string }[]>(() => {
+    const out: { id: string; name: string }[] = [];
+    for (const card of this.draft()?.fareCards ?? []) {
+      if (out.some(item => item.id === card.tariffId)) continue;
+      out.push({ id: card.tariffId, name: tariffName(card) });
+    }
+    return out;
+  });
+
+  /**
+   * Deja una lista de precios por tipo de bus para esa tarifa, con los asientos
+   * que ese tipo tiene. Quita las de tipos que ya no están en la ruta.
+   */
+  syncFareCards(tariff?: { id: string; name: string; categoryId?: string }): void {
+    const draft = this.draft();
+    if (!draft) return;
+    const types = Engine.busTypes(draft);
+    if (!types.length) return;
+
+    const existing = this.tariffs();
+    const objetivo = tariff
+      ? [tariff]
+      : existing.length
+        ? existing.map(item => ({ id: item.id, name: item.name, categoryId: undefined }))
+        : [{ id: 'trf-normal', name: 'Normal', categoryId: undefined }];
+
+    this.update(current => {
+      let cards = current.fareCards.filter(card => types.some(type => type.id === card.vehicleTypeId));
+      for (const item of objetivo) {
+        const categoryId = item.categoryId
+          ?? cards.find(card => card.tariffId === item.id)?.categoryId
+          ?? this.categoryFor(item.name);
+        for (const type of types) {
+          const seatTypeIds = this.seatTypesFor(type.id).map(seat => seat.id);
+          if (!seatTypeIds.length) continue;
+          const found = cards.find(card => card.tariffId === item.id && card.vehicleTypeId === type.id);
+          if (found) {
+            // Los asientos siguen a los buses: si cambia la flota, cambian solos.
+            cards = cards.map(card => (card.id === found.id ? { ...card, seatTypeIds, name: `${item.name} · ${type.name}` } : card));
+            continue;
+          }
+          cards = [...cards, {
+            id: Engine.localId('card'),
+            tariffId: item.id,
+            name: `${item.name} · ${type.name}`,
+            vehicleTypeId: type.id,
+            usageTypeId: current.configuration.usageTypeId ?? this.defaultUsage()?.id ?? '',
+            categoryId,
+            seatTypeIds,
+            // El boleto fijo es de la tarifa: una tarjeta nueva copia el de sus hermanas.
+            fixedTicket: cards.find(card => card.tariffId === item.id)?.fixedTicket ?? false,
+            prices: {},
+            pricesByDay: null
+          }];
+        }
+      }
+      return { ...current, fareCards: cards };
+    });
+  }
+
+  /**
+   * Categoría del catálogo que le corresponde a una tarifa por su nombre. Si no
+   * se parece a ninguna (p. ej. "Feriados"), va como Normal: en Aleta la
+   * categoría es obligatoria y el nombre propio viaja aparte.
+   */
+  private categoryFor(name: string): string {
+    const wanted = name.trim().toLowerCase();
+    const match = this.fareCategories().find(item => item.name.toLowerCase() === wanted);
+    return match?.id ?? this.fareCategories().find(item => item.name === 'Normal')?.id ?? this.fareCategories()[0]?.id ?? '';
+  }
+
+  /** Listas de precios de una tarifa (una por tipo de bus). */
+  cardsOfTariff(tariffId: string): DraftFareCard[] {
+    return this.draft()?.fareCards.filter(card => card.tariffId === tariffId) ?? [];
+  }
+
+  /** Precio de una clase de asiento; todas las listas que la llevan tienen el mismo. */
+  classPrice(tariffId: string, tramoKey: string, seatId: string, day: Weekday | null): number | null {
+    for (const card of this.cardsOfTariff(tariffId)) {
+      if (!card.seatTypeIds.includes(seatId)) continue;
+      const grid = day && card.pricesByDay ? card.pricesByDay[day] : card.prices;
+      const value = Engine.priceOf(grid, tramoKey, seatId);
+      if (value !== null) return value;
+    }
+    return null;
+  }
+
+  // ---- Celdas sugeridas ----------------------------------------------------
+  /**
+   * Precios que puso una herramienta de llenado y todavía nadie miró.
+   *
+   * Ninguna herramienta calcula costos: reparten o copian un precio que la
+   * persona decidió. El número sale redondo y con cara de calculado, así que
+   * conviene que se vea de dónde viene hasta que alguien lo dé por bueno.
+   *
+   * Vive fuera del borrador a propósito: es cómo se llegó al precio, no el
+   * precio, y no se manda a Aleta. Se pierde al recargar la página.
+   */
+  private readonly suggestedCells = signal<ReadonlySet<string>>(new Set());
+
+  readonly suggestedCount = computed(() => this.suggestedCells().size);
+
+  private cellKey(tariffId: string, tramoKey: string, seatId: string, day: Weekday | null): string {
+    return `${tariffId}|${day ?? ''}|${tramoKey}|${seatId}`;
+  }
+
+  isSuggested(tariffId: string, tramoKey: string, seatId: string, day: Weekday | null): boolean {
+    return this.suggestedCells().has(this.cellKey(tariffId, tramoKey, seatId, day));
+  }
+
+  /** Marca como sugeridas las celdas que acaba de escribir una herramienta. */
+  markSuggested(cells: readonly { tariffId: string; tramoKey: string; seatId: string; day: Weekday | null }[]): void {
+    if (!cells.length) return;
+    const next = new Set(this.suggestedCells());
+    for (const cell of cells) next.add(this.cellKey(cell.tariffId, cell.tramoKey, cell.seatId, cell.day));
+    this.suggestedCells.set(next);
+  }
+
+  /** "Los doy por buenos": deja de marcarlos. Sin tarifa, limpia todo. */
+  confirmSuggested(tariffId?: string): void {
+    if (!tariffId) {
+      this.suggestedCells.set(new Set());
+      return;
+    }
+    const next = new Set([...this.suggestedCells()].filter(key => !key.startsWith(`${tariffId}|`)));
+    this.suggestedCells.set(next);
+  }
+
+  /** Escribe el precio de una clase en todas las listas de esa tarifa que la llevan. */
+  setClassPrice(tariffId: string, tramoKey: string, seatId: string, day: Weekday | null, value: number | null): void {
+    if (!this.cardsOfTariff(tariffId).length) this.syncFareCards();
+    // Escribirlo a mano es mirarlo: deja de ser una sugerencia.
+    const key = this.cellKey(tariffId, tramoKey, seatId, day);
+    if (this.suggestedCells().has(key)) {
+      const next = new Set(this.suggestedCells());
+      next.delete(key);
+      this.suggestedCells.set(next);
+    }
+    this.update(draft => ({
+      ...draft,
+      fareCards: draft.fareCards.map(card => {
+        if (card.tariffId !== tariffId || !card.seatTypeIds.includes(seatId)) return card;
+        if (day && card.pricesByDay) {
+          return { ...card, pricesByDay: { ...card.pricesByDay, [day]: Engine.withPrice(card.pricesByDay[day], tramoKey, seatId, value) } };
+        }
+        return { ...card, prices: Engine.withPrice(card.prices, tramoKey, seatId, value) };
+      })
+    }));
+  }
+
+  /** Cambia todas las listas de una tarifa de una sola vez. */
+  updateTariff(tariffId: string, change: (card: DraftFareCard) => DraftFareCard): void {
+    this.update(draft => ({
+      ...draft,
+      fareCards: draft.fareCards.map(card => (card.tariffId === tariffId ? change(card) : card))
+    }));
+  }
+
+  renameTariff(tariffId: string, name: string): void {
+    this.update(draft => ({
+      ...draft,
+      fareCards: draft.fareCards.map(card =>
+        card.tariffId === tariffId ? { ...card, name: `${name} · ${this.typeName(card.vehicleTypeId)}` } : card
+      )
+    }));
+  }
+
+  private typeName(vehicleTypeId: string): string {
+    return this.vehicleTypes().find(type => type.id === vehicleTypeId)?.name ?? '';
+  }
+
+  removeTariff(tariffId: string): void {
+    this.update(draft => ({ ...draft, fareCards: draft.fareCards.filter(card => card.tariffId !== tariffId) }));
   }
 
   hasSavedDraft(id: string): boolean {
@@ -238,13 +435,14 @@ export class RouteDraftStore {
   /** Empieza un borrador nuevo; `originName` preselecciona el origen ("+ Nueva ruta desde Oruro"). */
   start(originName?: string | null): RouteDraft {
     const code = this.routes.nextCode();
-    const defaultChannels = this.activeChannels()
-      .filter(channel => ['WEB', 'APP', 'AGE', 'COUNTER'].includes(channel.code))
-      .map(channel => channel.id);
+    // Todos los canales activos vienen marcados: el administrador desmarca los
+    // que esta ruta no usa, en vez de tener que armar la lista desde cero.
+    const defaultChannels = this.activeChannels().map(channel => channel.id);
     let draft = Engine.emptyDraft(`rm-${code.toLowerCase()}`, code, defaultChannels);
     draft = { ...draft, configuration: { ...draft.configuration, usageTypeId: this.defaultUsage()?.id ?? null } };
     const option = originName ? this.findCity(originName) : undefined;
     if (option) draft = Engine.withCities(draft, [Engine.createCity(option)]);
+    this.confirmSuggested();
     this.draft.set(draft);
     this.activePathId.set(Engine.mainPath(draft).id);
     return draft;
@@ -254,6 +452,7 @@ export class RouteDraftStore {
   resume(id: string): boolean {
     const found = this.saved().get(id);
     if (!found) return false;
+    this.confirmSuggested();
     this.draft.set(found);
     this.activePathId.set(Engine.mainPath(found).id);
     return true;
@@ -283,7 +482,7 @@ export class RouteDraftStore {
       .map(name => (name ? this.findCity(name) : undefined))
       .filter((option): option is CityOption => !!option);
     const status = route.status === 'ACTIVO' ? 'ACTIVO' : 'BORRADOR';
-    const channels = this.activeChannels().filter(channel => ['WEB', 'APP', 'AGE', 'COUNTER'].includes(channel.code)).map(c => c.id);
+    const channels = this.activeChannels().map(channel => channel.id);
     let draft = Engine.emptyDraft(route.id, route.code, channels);
     draft = { ...draft, status, configuration: { ...draft.configuration, usageTypeId: this.defaultUsage()?.id ?? null } };
     draft = Engine.withCities(draft, options.map(option => Engine.createCity(option)));
@@ -395,4 +594,10 @@ export class RouteDraftStore {
     this.routes.upsert(Engine.toMasterRoute(draft));
     this.saved.update(map => new Map(map).set(draft.id, draft));
   }
+}
+
+/** "Feriados · Bus Cama" → "Feriados". */
+function tariffName(card: DraftFareCard): string {
+  const parte = card.name.split(' · ')[0]?.trim();
+  return parte || 'Normal';
 }

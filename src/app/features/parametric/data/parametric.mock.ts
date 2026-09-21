@@ -95,7 +95,9 @@ export const VEHICLE_TYPES_MOCK: readonly VehicleTypeEntry[] = [
   { id: 'vt-bus-ejecutivo', name: 'Bus Ejecutivo', description: 'Bus ejecutivo de lujo con servicios premium', maxWeightKg: 4500, maxVolumeM3: 15, requiredLicense: 'C', status: 'ACTIVO' },
   { id: 'vt-bus-normal', name: 'Bus Normal', description: 'Bus estándar con asientos regulares', maxWeightKg: 5000, maxVolumeM3: 20, requiredLicense: 'C', status: 'ACTIVO' },
   { id: 'vt-minibus', name: 'Minibús', description: 'Minibús para rutas cortas y transferencias', maxWeightKg: 2000, maxVolumeM3: 8, requiredLicense: 'B', status: 'ACTIVO' },
-  { id: 'vt-van', name: 'Van / Combi', description: 'Van de pasajeros para rutas rurales', maxWeightKg: 1200, maxVolumeM3: 5, requiredLicense: 'B', status: 'ACTIVO' }
+  { id: 'vt-van', name: 'Van / Combi', description: 'Van de pasajeros para rutas rurales', maxWeightKg: 1200, maxVolumeM3: 5, requiredLicense: 'B', status: 'ACTIVO' },
+  // ★ Nuevo: el bus de dos pisos con una clase por piso, muy común en Bolivia.
+  { id: 'vt-bus-mixto', name: 'Bus Mixto', description: 'Dos pisos con clases distintas: cama arriba, semicama abajo', maxWeightKg: 5000, maxVolumeM3: 20, requiredLicense: 'C', status: 'ACTIVO' }
 ];
 
 /** `GET /parametric/tipo-documentos` */
@@ -202,7 +204,14 @@ export const SEAT_TYPES_MOCK: readonly SeatType[] = [
   { id: 'seat-sem', code: 'SEM', name: 'Semicama', description: 'Asiento semicama reclinable 140°', status: 'ACTIVO' },
   { id: 'seat-cam', code: 'CAM', name: 'Cama', description: 'Asiento cama totalmente reclinable 180°', status: 'ACTIVO' },
   { id: 'seat-vip', code: 'VIP', name: 'VIP Suite', description: 'Suite individual doble con cama ancha', status: 'ACTIVO' },
-  { id: 'seat-amb', code: 'AMB', name: 'Ambulatorio', description: 'Asiento sin reserva de número', status: 'ACTIVO' }
+  { id: 'seat-amb', code: 'AMB', name: 'Ambulatorio', description: 'Asiento sin reserva de número', status: 'ACTIVO' },
+  // ★ Nuevo (no existen en aletadev): asientos individuales y súper VIP.
+  // Un bus puede tener fila de dos y fila de uno; el individual se cobra más.
+  { id: 'seat-cam-ind', code: 'CAMI', name: 'Cama individual', description: 'Asiento cama solo, sin vecino', status: 'ACTIVO' },
+  { id: 'seat-sem-ind', code: 'SEMI', name: 'Semicama individual', description: 'Asiento semicama solo, sin vecino', status: 'ACTIVO' },
+  { id: 'seat-svip', code: 'SVIP', name: 'Súper VIP', description: 'Cabina individual con cama plana 180° y servicio a bordo', status: 'ACTIVO' },
+  { id: 'seat-scam', code: 'SCAM', name: 'Súper Cama', description: 'Cama 180° con más espacio entre filas', status: 'ACTIVO' },
+  { id: 'seat-leito', code: 'LEITO', name: 'Leito', description: 'Butaca ancha reclinable 160°, dos por fila', status: 'ACTIVO' }
 ];
 
 /** `GET /parametric/canales-venta` */
@@ -217,6 +226,6 @@ export const SALES_CHANNELS_MOCK: readonly SalesChannel[] = [
   { id: 'chn-age', code: 'AGE', name: 'Agente Presencial', commissionPercent: 5, isAgent: true, isApi: false, status: 'ACTIVO' },
   { id: 'chn-ota', code: 'OTA', name: 'Agencia OTA', commissionPercent: 8, isAgent: false, isApi: true, status: 'ACTIVO' },
   { id: 'chn-tel', code: 'TEL', name: 'Telefónico', commissionPercent: 3, isAgent: true, isApi: false, status: 'ACTIVO' },
-  { id: 'chn-counter', code: 'COUNTER', name: 'Mostrador Terminal', commissionPercent: 0, isAgent: true, isApi: false, status: 'ACTIVO' },
+  { id: 'chn-counter', code: 'COUNTER', name: 'Oficina', commissionPercent: 0, isAgent: true, isApi: false, status: 'ACTIVO' },
   { id: 'chn-kiosco', code: 'KIOSCO', name: 'Kiosco Autoservicio', commissionPercent: 2, isAgent: false, isApi: true, status: 'ACTIVO' }
 ];

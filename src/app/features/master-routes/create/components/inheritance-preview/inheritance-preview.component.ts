@@ -43,7 +43,7 @@ const EXAMPLE = {
     <section class="preview" aria-labelledby="preview-title">
       <header class="preview__head">
         <h2 id="preview-title" class="preview__title">Lo que heredan los servicios <app-new-badge detail="Vista previa de la ruta y de los servicios que nacerán de ella." /></h2>
-        <p class="preview__lead">Esta ruta se define una sola vez. Cada servicio que se cree después nace de ella.</p>
+        <p class="preview__lead guide-text">Esta ruta se define una sola vez. Cada servicio que se cree después nace de ella.</p>
       </header>
 
       @if (hasRoute()) {
@@ -86,9 +86,9 @@ const EXAMPLE = {
                 </li>
               }
             </ol>
-            <p class="preview__note">La hora de salida la elige cada servicio; las demás horas salen de los tiempos de esta ruta.</p>
+            <p class="preview__note guide-text">La hora de salida la elige cada servicio; las demás horas salen de los tiempos de esta ruta.</p>
           } @else {
-            <p class="preview__note">
+            <p class="preview__note guide-text">
               Esta ruta <strong>no tiene hora de salida</strong>: la pone cada servicio al crearse.
               Carga los tiempos de viaje en <strong>Paradas y tiempos</strong> y aquí verás a qué hora
               llegaría a cada ciudad un servicio que sale a las 06:00.
@@ -111,21 +111,21 @@ const EXAMPLE = {
               }
             </ul>
           } @else {
-            <p class="preview__note">Habilita tramos en el paso 3 para poder crear servicios.</p>
+            <p class="preview__note guide-text">Habilita tramos en el paso 3 para poder crear servicios.</p>
           }
         </div>
       } @else {
         <div class="preview__empty">
-          <p class="preview__example-lead">Un ejemplo, mientras eliges las ciudades:</p>
+          <p class="preview__example-lead guide-text">Un ejemplo, mientras eliges las ciudades:</p>
 
-          <div class="example">
+          <div class="example guide-text">
             <p class="example__label">La ruta maestra se arma una vez</p>
             <ol class="example__route">
               @for (city of EXAMPLE.cities; track city) {
                 <li class="example__city">{{ city }}</li>
               }
             </ol>
-            <p class="example__hint">El recorrido, las paradas, los días y los precios.</p>
+            <p class="example__hint guide-text">El recorrido, las paradas, los días y los precios.</p>
 
             <p class="example__label example__label--services">Después se crean los servicios, uno por salida</p>
             <ul class="example__services">
@@ -137,10 +137,10 @@ const EXAMPLE = {
                 </li>
               }
             </ul>
-            <p class="example__hint">Cada servicio solo pone su hora de salida y su bus: lo demás lo hereda.</p>
+            <p class="example__hint guide-text">Cada servicio solo pone su hora de salida y su bus: lo demás lo hereda.</p>
           </div>
 
-          <p class="preview__note">Elige el origen y el destino y aquí verás tu ruta, con las horas de un servicio de verdad.</p>
+          <p class="preview__note guide-text">Elige el origen y el destino y aquí verás tu ruta, con las horas de un servicio de verdad.</p>
         </div>
       }
     </section>

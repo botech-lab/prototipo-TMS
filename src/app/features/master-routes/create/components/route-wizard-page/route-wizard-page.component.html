@@ -1,5 +1,5 @@
 @if (draft(); as d) {
-  <div class="wizard" data-testid="route-wizard">
+  <div class="wizard" data-testid="route-wizard" [class.wizard--no-guide]="!guide.on()">
 
     <!-- CABECERA: identidad de la ruta que se está creando -->
     <header class="wizard__head">
@@ -59,6 +59,17 @@
             </li>
           }
         </ol>
+
+        <button
+          type="button"
+          class="wizard__guide"
+          role="switch"
+          [attr.aria-checked]="guide.on()"
+          (click)="toggleGuide()"
+          title="Muestra u oculta las explicaciones. Los avisos y el botón ⓘ no se esconden.">
+          <span class="wizard__guide-switch" aria-hidden="true"></span>
+          <span class="wizard__guide-text">{{ guide.on() ? 'Guía activada' : 'Guía apagada' }}</span>
+        </button>
       </nav>
 
       <!-- PASO ACTUAL -->
@@ -67,8 +78,12 @@
           <h2 id="stage-title" class="stage__title" #stageHeading tabindex="-1">
             <span class="stage__number">{{ index() + 1 }}</span>{{ step().title }}
           </h2>
-          <p class="stage__question">{{ step().question }}</p>
-          @if (inheritsDismissed()) {
+          @if (guide.on()) {
+            <p class="stage__question">{{ step().question }}</p>
+          }
+          @if (!guide.on()) {
+            <!-- Con la guía apagada no se muestra el recuadro ni su atajo. -->
+          } @else if (inheritsDismissed()) {
             <button type="button" class="stage__inherits-mini" (click)="store.setInheritsDismissed(stepKey(), false)">
               <app-wizard-icon name="inherit" class="stage__inherits-icon" /> ¿Qué heredan los servicios de este paso?
             </button>

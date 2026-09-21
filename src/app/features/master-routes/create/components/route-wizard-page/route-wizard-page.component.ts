@@ -14,6 +14,7 @@ import { ToastService } from '../../../../../components/toast/toast.service';
 import { WizardStepKey } from '../../models/route-draft.model';
 import { WIZARD_STEPS, WizardStep } from '../../models/wizard-steps';
 import { RouteDraftStore } from '../../services/route-draft.store';
+import { GuideModeService } from '../../services/guide-mode.service';
 import * as Engine from '../../services/route-draft-engine';
 import { InheritancePreviewComponent } from '../inheritance-preview/inheritance-preview.component';
 import { WizardIconComponent } from '../wizard-icon.component';
@@ -53,6 +54,7 @@ import { StepReviewComponent } from '../steps/step-review.component';
 })
 export class RouteWizardPageComponent {
   protected readonly store = inject(RouteDraftStore);
+  protected readonly guide = inject(GuideModeService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly toast = inject(ToastService);
@@ -152,6 +154,15 @@ export class RouteWizardPageComponent {
       heading?.focus({ preventScroll: true });
       heading?.scrollIntoView({ block: 'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }, { injector: this.injector });
+  }
+
+  /** Apaga o enciende las explicaciones de toda la pantalla. */
+  protected toggleGuide(): void {
+    const apagando = this.guide.on();
+    this.guide.toggle();
+    if (apagando) {
+      this.toast.show('Guía apagada. La vuelves a encender con el mismo botón.', { actionLabel: 'Deshacer', onAction: () => this.guide.set(true) });
+    }
   }
 
   protected saveDraft(): void {
